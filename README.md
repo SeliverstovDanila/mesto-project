@@ -11,7 +11,7 @@
 5. Grid Layout
 
 **Здесь будет проект о путешествии по России.**
-[GitHub Pages]()
+[GitHub Pages](https://seliverstovdanila.github.io/mesto-project/)
 
 **Figma**
 
