@@ -1,0 +1,20 @@
+.popup__filed-container{
+    max-width: 358px;
+    width: 100%;
+    position: relative;
+    margin: 0 36px 30px 36px;
+}
+
+.popup__filed-container:nth-of-type(2) {
+    margin: 0 auto 43px auto;
+}
+
+@media screen and (max-width: 767px){
+    .popup__filed-container {
+        max-width: 238px;
+        margin: 0 22px 30px 22px;
+    }
+    .popup__filed-container:nth-of-type(2) {
+        margin: 0 22px 45px 22px;
+    }
+}

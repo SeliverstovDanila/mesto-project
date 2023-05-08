@@ -1,0 +1,21 @@
+.profile__editbutton {
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+    background-image: url('./../../../images/profile/editbutton.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #000;
+    box-sizing: border-box;
+    padding: 0;
+    border: 1px solid #FFF;
+    grid-column: -2;
+    grid-row: 1;
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+}
+
+.profile__editbutton:hover{
+    opacity: 0.6;
+    cursor: pointer;
+}

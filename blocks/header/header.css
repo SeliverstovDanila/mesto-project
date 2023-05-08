@@ -1,0 +1,22 @@
+/*Пилотный вариант использования width: calc()*/
+.header {
+    width: calc(100% - 400px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 45px auto 40px auto;
+}
+
+@media screen and (max-width: 1023px) {
+    .header {
+        width: 100%;  
+        margin: 28px auto 42px auto;   
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .header {
+        justify-content: flex-start;
+    }
+}
