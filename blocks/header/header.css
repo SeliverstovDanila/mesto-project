@@ -1,16 +1,23 @@
 /*Пилотный вариант использования width: calc()*/
 .header {
-    width: calc(100% - 400px);
+    max-width: 880px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     margin: 45px auto 40px auto;
+    border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+}
+
+@media screen and (max-width: 1279px) {
+    .header {
+        width: calc(100% - 400px);
+    }
 }
 
 @media screen and (max-width: 1023px) {
     .header {
-        width: 100%;  
+        width: 100%; 
         margin: 28px auto 42px auto;   
     }
 }

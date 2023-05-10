@@ -11,83 +11,80 @@
 <body class="page">
     <header class="header">
         <img class="header__logo" src="./images/header__logo.svg" alt="Mesto">
-        <div class="header__line"></div>
     </header>
-    <section class="profile">
-        <div class="profile__avatar"></div>
-        <div class="profile__info">
-            <h1 class="profile__title">Traveler Cat</h1>
-            <p class="profile__subtitle">Guess where I am?</p>
-            <button class="profile__editbutton" type="button"></button>
-        </div>
-        <button class="profile__addbutton" type="button"></button>
-    </section>
-    <section class="elements">
-        <ul class="element">
-            <li class="element__cards">
-                <img class="element__photo" src="images/__elements/Happybirthday.jpg" alt="День рождения">
-                <div class="element__item">
-                    <h2 class="element__title">День рождения</h2>
-                    <button class="element__like element__like_active"></button>
-                </div>
-            </li>
-            <li class="element__cards">
-                <img class="element__photo" src="images/__elements/happy.jpg" alt="В горах">
-                <div class="element__item">
-                    <h2 class="element__title">В горах...?</h2>
-                    <button class="element__like element__like_active"></button>
-                </div>
-            </li>
-            <li class="element__cards">
-                <img class="element__photo" src="images/__elements/catswims.jpg" alt="В поисках рыбы">
-                <div class="element__item">
-                    <h2 class="element__title">В поисках рыбы</h2>
-                    <button class="element__like element__like_active"></button>
-                </div>
-            </li>
-            <li class="element__cards">
-                <img class="element__photo" src="images/__elements/City.jpg" alt="Мафия">
-                <div class="element__item">
-                    <h2 class="element__title">Мафия в деле</h2>
-                    <button class="element__like element__like_active"></button>
-                </div>
-            </li>
-            <li class="element__cards">
-                <img class="element__photo" src="images/__elements/Purity.jpg" alt="Чистота">
-                <div class="element__item">
-                    <h2 class="element__title">Чистота-залог здоровья</h2>
-                    <button class="element__like element__like_active"></button>
-                </div>
-            </li>
-            <li class="element__cards">
-                <img class="element__photo" src="images/__elements/scratching.jpg" alt="Отпуск">
-                <div class="element__item">
-                    <h2 class="element__title">Угадай где я?</h2>
-                    <button class="element__like element__like_active"></button>
-                </div>
-            </li>
-        </ul>
-    </section>
+    <main>
+        <section class="profile">
+            <div class="profile__avatar"></div>
+            <div class="profile__info">
+                <h1 class="profile__title">Traveler Cat</h1>
+                <p class="profile__subtitle">Guess where I am?</p>
+                <button class="profile__editbutton" type="button" aria-label="Редактировать профиль"></button>
+            </div>
+            <button class="profile__addbutton" type="button" aria-label="Добавить фото"></button>
+        </section>
+        <section class="elements">
+            <ul class="element">
+                <li class="element__cards">
+                    <img class="element__photo" src="images/__elements/Happybirthday.jpg" alt="День рождения">
+                    <div class="element__item">
+                        <h2 class="element__title">День рождения</h2>
+                        <button class="element__like element__like_active" type="button" aria-label="Лайк"></button>
+                    </div>
+                </li>
+                <li class="element__cards">
+                    <img class="element__photo" src="images/__elements/happy.jpg" alt="В горах">
+                    <div class="element__item">
+                        <h2 class="element__title">В горах...?</h2>
+                        <button class="element__like element__like_active" type="button" aria-label="Лайк"></button>
+                    </div>
+                </li>
+                <li class="element__cards">
+                    <img class="element__photo" src="images/__elements/catswims.jpg" alt="В поисках рыбы">
+                    <div class="element__item">
+                        <h2 class="element__title">В поисках рыбы</h2>
+                        <button class="element__like element__like_active" type="button" aria-label="Лайк"></button>
+                    </div>
+                </li>
+                <li class="element__cards">
+                    <img class="element__photo" src="images/__elements/City.jpg" alt="Мафия">
+                    <div class="element__item">
+                        <h2 class="element__title">Мафия в деле</h2>
+                        <button class="element__like element__like_active" type="button" aria-label="Лайк"></button>
+                    </div>
+                </li>
+                <li class="element__cards">
+                    <img class="element__photo" src="images/__elements/Purity.jpg" alt="Чистота">
+                    <div class="element__item">
+                        <h2 class="element__title">Чистота-залог здоровья</h2>
+                        <button class="element__like element__like_active" type="button" aria-label="Лайк"></button>
+                    </div>
+                </li>
+                <li class="element__cards">
+                    <img class="element__photo" src="images/__elements/scratching.jpg" alt="Отпуск">
+                    <div class="element__item">
+                        <h2 class="element__title">Угадай где я?</h2>
+                        <button class="element__like element__like_active" type="button" aria-label="Лайк"></button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
     <footer class="footer">
         <p class="footer__copyright">&#169; 2020 Mesto Russia</p>
     </footer>
-    <section class="popup popup__opened">
-        <div class="popup__form-container">
-            <button class="popup__button-close"></button>
+    <div class="popup popup_closed">
+        <div class="popup__container">
+            <button class="popup__button-close" type="button" aria-label="Закрыть форму"></button>
             <h2 class="popup__title">Редактировать профиль</h2>
-            <div class="popup__filed-container">
+            <form class="popup__form-container">
                 <input type="text" name="usersname" placeholder="Ваше имя" value="Traveler Cat"
-                    class="popup__name-users">
-                <div class="popup__line"></div>
-            </div>
-            <div class="popup__filed-container">
+                    class="popup__users popup__users_name">
                 <input type="text" name="usersinfo" placeholder="Расскажите о себе" value="Guess where I am?"
-                    class="popup__info-users">
-                <div class="popup__line"></div>
-            </div>
-            <button class="popup__button-sumbit">Сохранить</button>
+                    class="popup__users popup__users_info">
+                <button class="popup__button-sumbit" type="button">Сохранить</button>
+            </form>
         </div>
-    </section>
+    </div>
 </body>
 
 </html>

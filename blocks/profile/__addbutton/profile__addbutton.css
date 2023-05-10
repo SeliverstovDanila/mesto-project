@@ -2,10 +2,9 @@
     min-width: 9.375rem;
     min-height: 3.125rem;
     box-sizing: border-box;
-    background-image: url('./../../../images/profile/__addbutton.svg');
+    background: url('./../../../images/profile/__addbutton.svg');
     background-position: center;
     background-repeat: no-repeat;
-    background-color: #000;
     border-radius: 2px;
     padding: 0;
     border: 2px solid #FFF;

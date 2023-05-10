@@ -1,10 +1,9 @@
 .profile__editbutton {
     min-width: 1.5rem;
     min-height: 1.5rem;
-    background-image: url('./../../../images/profile/editbutton.svg');
+    background: url('./../../../images/profile/editbutton.svg');
     background-position: center;
     background-repeat: no-repeat;
-    background-color: #000;
     box-sizing: border-box;
     padding: 0;
     border: 1px solid #FFF;

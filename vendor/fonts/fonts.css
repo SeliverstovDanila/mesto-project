@@ -9,8 +9,8 @@
 @font-face {
     font-family: "Inter";
     src: local('Inter-Bold');
-    src: url(../fonts/Inter/Inter-Bold.woff2) format('woff2');
-    src: url(../fonts/Inter/Inter-Bold.woff) format('woff');
+    src: url(../fonts/Inter/Inter-Medium.woff2) format('woff2');
+    src: url(../fonts/Inter/Inter-Medium.woff) format('woff');
     font-weight: 700;
 }
 

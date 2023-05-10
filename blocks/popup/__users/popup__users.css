@@ -1,0 +1,16 @@
+.popup__users {
+    border: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    color: #000000;
+    margin: 0 36px 30px 36px;
+    padding: 0 0 13px 0;
+    width: 100%;
+    max-width: 358px;
+}
+
+@media screen and (max-width: 767px) {
+    .popup__users {
+        max-width: 238px;
+        margin: 0 22px 30px 22px;
+    }
+}
