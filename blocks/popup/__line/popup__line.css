@@ -1,4 +1,4 @@
-.popup__users {
+.popup__line {
     border: 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     color: #000000;
@@ -6,10 +6,14 @@
     padding: 0 0 13px 0;
     width: 100%;
     max-width: 358px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
 }
 
 @media screen and (max-width: 767px) {
-    .popup__users {
+    .popup__line {
         max-width: 238px;
         margin: 0 22px 30px 22px;
     }

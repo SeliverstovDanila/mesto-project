@@ -1,5 +1,5 @@
 .profile__editbutton {
-    min-width: 1.5rem;
+    max-width: 1.5rem;
     min-height: 1.5rem;
     background: url('./../../../images/profile/editbutton.svg');
     background-position: center;
@@ -14,7 +14,14 @@
     flex-direction: column;
 }
 
-.profile__editbutton:hover{
+.profile__editbutton:hover {
     opacity: 0.6;
     cursor: pointer;
+}
+
+@media screen and (max-width: 1023px) {
+    .profile__editbutton {
+        max-width: 18px;
+        min-height: 18px;
+    }
 }

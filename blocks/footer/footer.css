@@ -1,18 +1,17 @@
 .footer {
-    /* width: calc(100% - 318px); */
-    max-width: 318px;
-    margin: 67px auto 60px 200px;
+    max-width: 880px;
+    margin: 67px auto 60px auto;
 }
 
 @media screen and (max-width: 1279px) {
     .footer {
-        width: calc(100% - 318px);
+        max-width: 600px;
     }
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 767px) {
     .footer {
-        width: calc(100% - (19px + 19px));
+        max-width: 282px;
         margin: 48px auto 36px auto;
     }
 }
