@@ -54,8 +54,9 @@ const jobInput = document.querySelector('#profile__info');
 
 function handleFormSubmit(evt) {
   evt.preventDefault();
-  nameInput.value = profileTitle.textContent;
-  jobInput.value = profileSubtitle.textContent;
+  profileTitle.textContent = nameInput.value;
+  profileSubtitle.textContent = jobInput.value;
+  
 }
 
 buttonEdit.addEventListener('click', openModal);
