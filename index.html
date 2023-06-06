@@ -30,7 +30,7 @@
     <footer class="footer">
         <p class="footer__copyright">&#169; 2020 Mesto Russia</p>
     </footer>
-    <div class="popup"> <!-- popup_open -->
+    <div class="popup" id="modal-profile"> <!-- popup_open -->
         <div class="popup__container">
             <button class="popup__button-close" type="button" aria-label="Закрыть форму"></button>
             <h2 class="popup__title">Редактировать профиль</h2>
@@ -43,22 +43,22 @@
             </form>
         </div>
     </div>
-    <div class="popup" id="popup_card">
+    <div class="popup" id="modal-card">
         <div class="popup__container">
-            <button class="popup__button-close" type="button" aria-label="Закрыть форму"></button>
+            <button class="popup__button-close" type="button" aria-label="Закрыть форму" id="close-modal"></button>
             <h2 class="popup__title">Новое место</h2>
             <form class="popup__form-container">
                 <input type="text" name="usersname" placeholder="Название" value="Что это?"
-                    class="popup__line popup__line_user_name">
+                    class="popup__line popup__line_user_name" id="card__addname">
                 <input type="url" name="usersinfo" placeholder="Ссылка на картинку"
-                    value="https://unsplash.com/photos/75715CVEJhI" class="popup__line popup__line_user_info">
-                <button class="popup__button-sumbit" type="button">Создать</button>
+                    value="https://unsplash.com/photos/75715CVEJhI" class="popup__line popup__line_user_info" id="card__url">
+                <button class="popup__button-sumbit" type="submit" id="button-create">Создать</button>
             </form>
         </div>
     </div>
-    <div class="popup popup_background">
+    <div class="popup popup_background" id="photo-zoom">
         <div class="popup__zoom">
-            <button class="popup__button-close" type="button" aria-label="Закрыть форму"></button>
+            <button class="popup__button-close" type="button" aria-label="Закрыть форму" id="close-zoom"></button>
             <img class="popup__image"
                 src="https://images.unsplash.com/photo-1598188306155-25e400eb5078?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
                 alt="Зима">
@@ -71,7 +71,7 @@
             <div class="element__item">
                 <h2 class="element__title">Что это?</h2>
                 <button class="element__like" type="button" aria-label="Лайк"></button>
-                <button class="element__delite" type="button" aria-label="Удалить"></button>
+                <button class="element__delite" type="button" aria-label="Удалить" id="remove"></button>
             </div>
         </li>
     </template>
