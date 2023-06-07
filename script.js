@@ -121,11 +121,11 @@ function handleAddModal() {
 
 function handleAddClose() {
   closeModal(modalAdd);
-  inputForm.reset();
+  inputForm.reset(); //tyt
 }
 
-function handleAdd(evt) {
-  evt.preventDefault();
+function handleAdd(e) {
+  e.preventDefault();
 
   const cardDefault = {
       link: newPhotoLink.value,
@@ -177,6 +177,6 @@ modalForm.addEventListener('submit', handleProfile);
 // Модальное окно - сохранить карточку
 profileModalAdd.addEventListener('click', handleAddModal);
 addClose.addEventListener('click', handleAddClose);
-addForm.addEventListener('submit', handleAdd);
+inputForm.addEventListener('submit', handleAdd);
 // Закрыть увеличение фото
 closeZoom.addEventListener('click', closeModalZoom);
