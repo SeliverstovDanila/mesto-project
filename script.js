@@ -58,7 +58,7 @@ const closeZoom = document.querySelector('#close-zoom');
 const zoomImage = modalZoom.querySelector('.popup__image');
 const zoomHeading = modalZoom.querySelector('.popup__heading');
 
-function Default(){
+function textDefault(){
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
 }
@@ -83,22 +83,22 @@ function addCard(userText) {
 }
 
 function createCards(create) {
-  const add = document.createDocumentFragment();
+  const addContent = document.createDocumentFragment();
 
   create.forEach(el => {
       const newCard = addCard(el);
-      add.append(newCard);
+      addContent.append(newCard);
   })
-  return add
+  return addContent
 }
 
-function like(e) {
+function likeContent(e) {
   e.classList.toggle('element__like_active');
 }
 // Редактировать профиль
 function openModalProfile() {
   openModal(modalProfile);
-  Default()
+  textDefault()
 }
 
 function closeModalProfile() {
@@ -121,7 +121,7 @@ function handleAddModal() {
 
 function handleAddClose() {
   closeModal(modalAdd);
-  inputForm.reset(); //tyt
+  inputForm.reset();
 }
 
 function handleAdd(e) {
@@ -150,17 +150,17 @@ function removeCard(evt) {
 }
 
 function activeLike(evt) {
-  const toogle = evt.target;
-  like(toogle);
+  const toogleLike = evt.target;
+  likeContent(toogleLike);
 }
 // Увеличить фото
 function openZoom(evt) {
   const deliteCard = evt.target.closest('.element__cards');
-  const image = deliteCard.querySelector('.element__photo');
+  const modalImage = deliteCard.querySelector('.element__photo');
   const zoomImageName = deliteCard.querySelector('.element__title');
   openModal(modalZoom);
-  zoomImage.src = image.src;
-  zoomImage.alt = image.alt;
+  zoomImage.src = modalImage.src;
+  zoomImage.alt = modalImage.alt;
   zoomHeading.textContent = zoomImageName.textContent;
 }
 
