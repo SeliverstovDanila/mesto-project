@@ -12,5 +12,5 @@
 5. Grid Layout
 6. JavaScript ECMAScript 5.
 
-**Здесь будет проект о путешествии по России.**
+**Здесь будет проект о путешествии кота по России.**
 [GitHub Pages](https://seliverstovdanila.github.io/mesto-project/)
