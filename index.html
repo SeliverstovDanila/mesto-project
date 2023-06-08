@@ -32,12 +32,13 @@
     </footer>
     <div class="popup" id="modal-profile"> <!-- popup_open -->
         <div class="popup__container">
-            <button class="popup__button-close" type="button" aria-label="Закрыть форму" id="close-profile"></button>
+            <button class="popup__button-close popup__button-close_profile" type="button"
+                aria-label="Закрыть форму"></button>
             <h2 class="popup__title">Редактировать профиль</h2>
             <form class="popup__form-container">
-                <input type="text" name="usersname" placeholder="Ваше имя" value="Traveler Cat"
-                    class="popup__line popup__line_user_name" id="profile__name">
-                <input type="text" name="usersinfo" placeholder="Расскажите о себе" value="Guess where I am?"
+                <input type="text" name="usersname" placeholder="Ваше имя" class="popup__line popup__line_user_name"
+                    id="profile__name">
+                <input type="text" name="usersinfo" placeholder="Расскажите о себе"
                     class="popup__line popup__line_user_info" id="profile__info">
                 <button class="popup__button-sumbit" type="submit">Сохранить</button>
             </form>
@@ -45,25 +46,26 @@
     </div>
     <div class="popup" id="modal-card">
         <div class="popup__container">
-            <button class="popup__button-close" type="button" aria-label="Закрыть форму" id="close-modal"></button>
+            <button class="popup__button-close popup__button-close_addform" type="button" aria-label="Закрыть форму"
+                id="close-modal"></button>
             <h2 class="popup__title">Новое место</h2>
             <form class="popup__form-container" id="add-form">
-                <input type="text" name="usersname" placeholder="Название" value="Что это?"
-                    class="popup__line popup__line_user_name" id="card__addname">
+                <input type="text" name="usersname" placeholder="Название" class="popup__line popup__line_user_name"
+                    id="card__addname">
                 <input type="url" name="usersinfo" placeholder="Ссылка на картинку"
-                    value="https://unsplash.com/photos/75715CVEJhI" class="popup__line popup__line_user_info"
-                    id="card__url">
-                <button class="popup__button-sumbit" type="submit" id="button-create">Создать</button>
+                    class="popup__line popup__line_user_info" id="card__url">
+                <button class="popup__button-sumbit popup__button-sumbit_card" type="submit">Создать</button>
             </form>
         </div>
     </div>
     <div class="popup popup_background" id="photo-zoom">
         <div class="popup__zoom">
-            <button class="popup__button-close" type="button" aria-label="Закрыть форму" id="close-zoom"></button>
+            <button class="popup__button-close popup__button-close_zoomform" type="button"
+                aria-label="Закрыть форму"></button>
             <img class="popup__image"
                 src="https://images.unsplash.com/photo-1598188306155-25e400eb5078?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
                 alt="Зима">
-            <h3 class="popup__heading">Что это?</h3>
+            <h3 class="popup__image-name">Что это?</h3>
         </div>
     </div>
     <template id="elements">
@@ -76,7 +78,8 @@
             </div>
         </li>
     </template>
-    <script src="script.js"></script>
+    <script src="cards.js"></script>
+    <script src="index.js"></script>
 </body>
 
 </html>
