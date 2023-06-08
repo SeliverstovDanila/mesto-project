@@ -22,7 +22,7 @@ const buttonCloseFormAddNewCard = modalAddFormNewCards.querySelector('.popup__bu
 
 //Увеличить фото
 const popupZoom = document.querySelector('#photo-zoom');
-const buttonCloseFormPhotoZoom = document.querySelector('.popup__button-close_zoomform');
+const buttonCloseFormPhotoZoom = popupZoom.querySelector('.popup__button-close_zoomform');
 const popupFullImage = popupZoom.querySelector('.popup__image');
 const popupZoomImageHeading = popupZoom.querySelector('.popup__image-name');
 
