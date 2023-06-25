@@ -8,6 +8,8 @@ const profileClose = modalProfile.querySelector('.popup__button-close_profile');
 const profileContainer = document.querySelector('.profile__info');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
+//Валидация окна "Редактировать профиль"
+
 // Создать карточку
 const container = document.querySelector('.element');
 const template = document.querySelector('#elements').content;
@@ -26,7 +28,7 @@ const buttonCloseFormPhotoZoom = popupZoom.querySelector('.popup__button-close_z
 const popupFullImage = popupZoom.querySelector('.popup__image');
 const popupZoomImageHeading = popupZoom.querySelector('.popup__image-name');
 
-function textDefault(){
+function textDefault() {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileSubtitle.textContent;
 }
@@ -54,8 +56,8 @@ function createCards(create) {
   const addContent = document.createDocumentFragment();
 
   create.forEach(el => {
-      const newCard = addCard(el);
-      addContent.append(newCard);
+    const newCard = addCard(el);
+    addContent.append(newCard);
   })
   return addContent
 }
@@ -73,7 +75,33 @@ function closeModalProfile() {
   closeModal(modalProfile);
   modalFormProfile.reset()
 }
+//Валидация окна "Редактировать профиль"
+ const inputFormProfile = modalProfile.querySelector('.popup__line');
+ const inputTextErrorFormProfile = modalProfile.querySelector(`.${inputFormProfile.id}-error`);
 
+ const displayError = (input, errorMessage) => {
+  input.classList.add('popup__line_type-error');
+  inputTextErrorFormProfile.textContent = errorMessage;
+  inputTextErrorFormProfile.classList.add('popup__line_text-error_active');
+ };
+
+ const hideError = (input) => {
+  input.classList.remove('popup__line_type-error');
+  inputTextErrorFormProfile.classList.remove('popup__line_text-error_active');
+  inputTextErrorFormProfile.textContent = ''
+ };
+
+ const checkValidityProfileForm = () => {
+  if(!inputFormProfile.validity.valid) {
+    displayError(inputFormProfile, inputFormProfile.validationMessage);
+  } else {
+    hideError(inputFormProfile);
+  }
+ };
+
+ inputFormProfile.addEventListener('input', checkValidityProfileForm); 
+
+// -------------------------------------------------------
 function handleProfile(e) {
   e.preventDefault();
 
@@ -96,9 +124,9 @@ function handleAdd(e) {
   e.preventDefault();
 
   const cardDefault = {
-      link: newPhotoLink.value,
-      name: newCardName.value,
-      alt: newCardName.value
+    link: newPhotoLink.value,
+    name: newCardName.value,
+    alt: newCardName.value
   }
 
   const formCard = addCard(cardDefault);
@@ -148,3 +176,38 @@ buttonCloseFormAddNewCard.addEventListener('click', handleAddClose);
 formAddNewCard.addEventListener('submit', handleAdd);
 // Закрыть увеличение фото
 buttonCloseFormPhotoZoom.addEventListener('click', closeModalZoom);
+
+// Закрытие модального окна при клике на оверлей
+modalProfile.addEventListener('mousedown', (evt) => {
+  if (evt.currentTarget === evt.target) {
+    closeModalProfile(modalProfile)
+  }
+});
+
+modalAddFormNewCards.addEventListener('mousedown', (evt) => {
+  if (evt.currentTarget === evt.target) {
+    handleAddClose(modalAddFormNewCards)
+  }
+});
+
+popupZoom.addEventListener('mousedown', (evt) => {
+  if (evt.currentTarget === evt.target) {
+    closeModalZoom(popupZoom)
+  }
+});
+
+// Закрытие модального окна на кнопку esc
+document.addEventListener('keydown', (evt) => {
+  const addOpenClassProfileForm = document.querySelector('#modal-profile.popup_open');
+  const addOpenClassNewCardForm = document.querySelector('#modal-card.popup_open');
+  const addOpenClassZoomPhoto = document.querySelector('#photo-zoom.popup_open');
+  if (evt.key === 'Escape' && addOpenClassProfileForm !== null) {
+    closeModalProfile()
+  }
+  if (evt.key === 'Escape' && addOpenClassNewCardForm !== null) {
+    handleAddClose()
+  }
+  if (evt.key === 'Escape' && addOpenClassZoomPhoto !== null) {
+    closeModalZoom()
+  }
+});
