@@ -77,29 +77,61 @@ function closeModalProfile() {
 }
 //Валидация окна "Редактировать профиль"
  const inputFormProfile = modalProfile.querySelector('.popup__line');
- const inputTextErrorFormProfile = modalProfile.querySelector(`.${inputFormProfile.id}-error`);
+ const inputTextErrorFormProfile = modalProfile.querySelector('.popup__line_text-error');   //`.${inputFormProfile.id}-error`
 
- const displayError = (input, errorMessage) => {
-  input.classList.add('popup__line_type-error');
+ const displayError = (formElement, inputElement, errorMessage) => {
+  const inputTextErrorFormProfile = formElement.querySelector('.popup__line_text-error');
+  inputElement.classList.add('popup__line_type-error');
   inputTextErrorFormProfile.textContent = errorMessage;
   inputTextErrorFormProfile.classList.add('popup__line_text-error_active');
  };
 
- const hideError = (input) => {
-  input.classList.remove('popup__line_type-error');
+ const hideError = (formElement, inputElement) => {
+  const inputTextErrorFormProfile = formElement.querySelector('.popup__line_text-error');
+  inputElement.classList.remove('popup__line_type-error');
   inputTextErrorFormProfile.classList.remove('popup__line_text-error_active');
   inputTextErrorFormProfile.textContent = ''
  };
 
- const checkValidityProfileForm = () => {
-  if(!inputFormProfile.validity.valid) {
-    displayError(inputFormProfile, inputFormProfile.validationMessage);
+ const checkValidityProfileForm = (formElement, inputElement) => {
+  if(!inputElement.validity.valid) {
+    displayError(formElement, inputElement, inputElement.validationMessage);
   } else {
-    hideError(inputFormProfile);
+    hideError(formElement, inputElement);
   }
  };
 
- inputFormProfile.addEventListener('input', checkValidityProfileForm); 
+ const setEventListeners = (formElement) => {
+  // Находим все поля внутри формы,
+  // сделаем из них массив методом Array.from
+  const inputList = Array.from(formElement.querySelectorAll('.popup__line'));
+
+  // Обойдём все элементы полученной коллекции
+  inputList.forEach((inputElement) => {
+    // каждому полю добавим обработчик события input
+    inputElement.addEventListener('input', () => {
+      // Внутри колбэка вызовем isValid,
+      // передав ей форму и проверяемый элемент
+      checkValidityProfileForm(formElement, inputElement)
+    });
+  });
+}; 
+
+const enableValidation = () => {
+  // Найдём все формы с указанным классом в DOM,
+  // сделаем из них массив методом Array.from
+  const formList = Array.from(document.querySelectorAll('.popup__form-container'));
+
+  // Переберём полученную коллекцию
+  formList.forEach((formElement) => {
+    // Для каждой формы вызовем функцию setEventListeners,
+    // передав ей элемент формы
+    setEventListeners(formElement);
+  });
+};
+
+// Вызовем функцию
+enableValidation(); 
 
 // -------------------------------------------------------
 function handleProfile(e) {
