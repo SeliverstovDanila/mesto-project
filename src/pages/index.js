@@ -1,5 +1,4 @@
 import '../pages/index.css';
-import {initialCards} from "./cards.js";
 
 //Редактировать профиль
 const buttonEdit = document.querySelector('.profile__editbutton');
