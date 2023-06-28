@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesto Russia</title>
-    <link href="pages/index.css" rel="stylesheet">
 </head>
 
 <body class="page">
     <header class="header">
-        <img class="header__logo" src="./images/header__logo.svg" alt="Mesto">
+        <img src="<%=require('images/header__logo.svg')%>" alt="Mesto" class="header__logo">
     </header>
     <main class="menu">
         <section class="profile">
@@ -28,7 +27,7 @@
         </section>
     </main>
     <footer class="footer">
-        <p class="footer__copyright">&#169; 2020 Mesto Russia</p>
+        <p class="footer__copyright">&#169; 2023 Mesto Russia</p>
     </footer>
     <div class="popup" id="modal-profile"> <!-- popup_open -->
         <div class="popup__container">
@@ -75,14 +74,14 @@
             <button class="popup__button-close popup__button-close_zoomform" type="button"
                 aria-label="Закрыть форму"></button>
             <img class="popup__image"
-                src="https://images.unsplash.com/photo-1598188306155-25e400eb5078?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"
+                src="<%=require('https://images.unsplash.com/photo-1598188306155-25e400eb5078?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80')%>"
                 alt="Зима">
             <h3 class="popup__image-name">Что это?</h3>
         </div>
     </div>
     <template id="elements">
         <li class="element__cards">
-            <img class="element__photo" src="images/__elements/Happybirthday.jpg" alt="День рождения">
+            <img class="element__photo" src="<%=require('images/__elements/Happybirthday.jpg')%>" alt="День рождения">
             <div class="element__item">
                 <h2 class="element__title">Что это?</h2>
                 <button class="element__like" type="button" aria-label="Лайк"></button>
@@ -90,8 +89,8 @@
             </div>
         </li>
     </template>
-    <script src="cards.js"></script>
-    <script src="index.js"></script>
+    <script src="./pages/cards.js"></script>
+    <script src="./pages/index.js"></script>
 </body>
 
 </html>
