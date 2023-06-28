@@ -1,5 +1,3 @@
-import '../pages/index.css';
-
 //Редактировать профиль
 const buttonEdit = document.querySelector('.profile__editbutton');
 const modalProfile = document.querySelector('#modal-profile');
@@ -78,62 +76,57 @@ function closeModalProfile() {
   modalFormProfile.reset()
 }
 //Валидация окна "Редактировать профиль"
- const inputFormProfile = modalProfile.querySelector('.popup__line');
- const inputTextErrorFormProfile = modalProfile.querySelector('.popup__line_text-error');   //`.${inputFormProfile.id}-error`
+const showInputError = (modalFormProfile, inputElement, errorMessage) => {
+  const errorElement = modalFormProfile.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add('form__line_type-error');
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add('form__line_text-error_active');
+};
 
- const displayError = (formElement, inputElement, errorMessage) => {
-  const inputTextErrorFormProfile = formElement.querySelector('.popup__line_text-error');
-  inputElement.classList.add('popup__line_type-error');
-  inputTextErrorFormProfile.textContent = errorMessage;
-  inputTextErrorFormProfile.classList.add('popup__line_text-error_active');
- };
+const hideInputError = (modalFormProfile, inputElement) => {
+  const errorElement = modalFormProfile.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.remove('form__line_type-error');
+  errorElement.classList.remove('form__line_text-error_active');
+  errorElement.textContent = '';
+};
 
- const hideError = (formElement, inputElement) => {
-  const inputTextErrorFormProfile = formElement.querySelector('.popup__line_text-error');
-  inputElement.classList.remove('popup__line_type-error');
-  inputTextErrorFormProfile.classList.remove('popup__line_text-error_active');
-  inputTextErrorFormProfile.textContent = ''
- };
-
- const checkValidityProfileForm = (formElement, inputElement) => {
-  if(!inputElement.validity.valid) {
-    displayError(formElement, inputElement, inputElement.validationMessage);
+const checkInputValidity = (modalFormProfile, inputElement) => {
+  if (!inputElement.validity.valid) {
+    showInputError(modalFormProfile, inputElement, inputElement.validationMessage);
   } else {
-    hideError(formElement, inputElement);
+    hideInputError(modalFormProfile, inputElement);
   }
- };
+};
 
- const setEventListeners = (formElement) => {
-  // Находим все поля внутри формы,
-  // сделаем из них массив методом Array.from
-  const inputList = Array.from(formElement.querySelectorAll('.popup__line'));
-
-  // Обойдём все элементы полученной коллекции
+const setEventListeners = (modalFormProfile) => {
+  const inputList = Array.from(modalFormProfile.querySelectorAll('.form__line'));
   inputList.forEach((inputElement) => {
-    // каждому полю добавим обработчик события input
-    inputElement.addEventListener('input', () => {
-      // Внутри колбэка вызовем isValid,
-      // передав ей форму и проверяемый элемент
-      checkValidityProfileForm(formElement, inputElement)
+    inputElement.addEventListener('input', function () {
+      checkInputValidity(modalFormProfile, inputElement);
     });
-  });
-}; 
-
-const enableValidation = () => {
-  // Найдём все формы с указанным классом в DOM,
-  // сделаем из них массив методом Array.from
-  const formList = Array.from(document.querySelectorAll('.popup__form-container'));
-
-  // Переберём полученную коллекцию
-  formList.forEach((formElement) => {
-    // Для каждой формы вызовем функцию setEventListeners,
-    // передав ей элемент формы
-    setEventListeners(formElement);
   });
 };
 
-// Вызовем функцию
-enableValidation(); 
+const enableValidation = () => {
+  const formList = Array.from(document.querySelectorAll('.popup__form-container'));
+  formList.forEach((modalFormProfile) => {
+    modalFormProfile.addEventListener('submit', function (evt) {
+      evt.preventDefault();
+    });
+        const fieldsetList = Array.from(modalFormProfile.querySelectorAll('.form'));
+    fieldsetList.forEach((fieldSet) => {
+  setEventListeners(fieldSet);
+})
+  });
+};
+
+enableValidation();
+
+const hasInvalidInput = (inputList) => {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  })
+}; 
 
 // -------------------------------------------------------
 function handleProfile(e) {

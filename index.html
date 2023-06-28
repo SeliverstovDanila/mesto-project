@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mesto Russia</title>
+    <link href="pages/index.css" rel="stylesheet">
 </head>
 
 <body class="page">
     <header class="header">
-        <img src="images/header__logo.svg" alt="Mesto" class="header__logo">
+        <img class="header__logo" src="./images/header__logo.svg" alt="Mesto">
     </header>
     <main class="menu">
         <section class="profile">
@@ -27,7 +28,7 @@
         </section>
     </main>
     <footer class="footer">
-        <p class="footer__copyright">&#169; 2023 Mesto Russia</p>
+        <p class="footer__copyright">&#169; 2020 Mesto Russia</p>
     </footer>
     <div class="popup" id="modal-profile"> <!-- popup_open -->
         <div class="popup__container">
@@ -35,16 +36,18 @@
                 aria-label="Закрыть форму"></button>
             <h2 class="popup__title">Редактировать профиль</h2>
             <form class="popup__form-container" novalidate>
-                <label class="popup__label">
-                    <input type="text" name="usersname" placeholder="Ваше имя" class="popup__line" id="profile__name"
-                        minlength="2" maxlength="40" required>
-                    <span class="popup__line_text-error">Вы пропустили это поле</span>
-                </label>
-                <label class="popup__label">
-                    <input type="text" name="usersinfo" placeholder="Расскажите о себе" class="popup__line"
-                        id="profile__info" minlength="2" maxlength="200" required>
-                    <span class="popup__line_text-error">Добавьте информацию о себе</span>
-                </label>
+                <fieldset class="form">
+                    <label class="form__label">
+                        <input type="text" name="usersname" placeholder="Ваше имя" class="form__line" id="profile__name"
+                            minlength="2" maxlength="40" required>
+                        <span class="form__line_text-error profile__name-error">Вы пропустили это поле</span>
+                    </label>
+                    <label class="form__label">
+                        <input type="text" name="usersinfo" placeholder="Расскажите о себе" class="form__line"
+                            id="profile__info" minlength="2" maxlength="200" required>
+                        <span class="form__line_text-error profile__info-error">Добавьте информацию о себе</span>
+                    </label>
+                </fieldset>
                 <button class="popup__button-sumbit" type="submit">Сохранить</button>
             </form>
         </div>
@@ -54,17 +57,20 @@
             <button class="popup__button-close popup__button-close_addform" type="button" aria-label="Закрыть форму"
                 id="close-modal"></button>
             <h2 class="popup__title">Новое место</h2>
-            <form class="popup__form-container" id="add-form">
-                <label class="popup__label">
-                    <input type="text" name="usersname" placeholder="Название" class="popup__line popup__line_user_name"
-                        id="card__addname">
-                    <span class="popup__line_text-error">Добавьте название для фото</span>
-                </label>
-                <label class="popup__label">
-                    <input type="url" name="usersinfo" placeholder="Ссылка на картинку"
-                        class="popup__line popup__line_user_info" id="card__url">
-                    <span class="popup__line_text-error">Введите адрес сайта</span>
-                </label>
+            <form class="popup__form-container" id="add-form" novalidate>
+                <fieldset class="form">
+                    <label class="form__label">
+                        <input type="text" name="usersname" placeholder="Название"
+                            class="form__line popup__line_user_name" id="card__addname" minlength="2" maxlength="40"
+                            required>
+                        <span class="form__line_text-error card__addname-error">Добавьте название для фото</span>
+                    </label>
+                    <label class="form__label">
+                        <input type="url" name="usersinfo" placeholder="Ссылка на картинку"
+                            class="form__line popup__line_user_info" id="card__url" required>
+                        <span class="form__line_text-error card__url-error">Введите адрес сайта</span>
+                    </label>
+                </fieldset>
                 <button class="popup__button-sumbit popup__button-sumbit_card" type="submit">Создать</button>
             </form>
         </div>
@@ -89,8 +95,8 @@
             </div>
         </li>
     </template>
-    <script src="./pages/cards.js"></script>
-    <script src="./pages/index.js"></script>
+    <script src="cards.js"></script>
+    <script src="index.js"></script>
 </body>
 
 </html>
