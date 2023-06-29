@@ -41,6 +41,7 @@
 @import url(../blocks/form/__line/_text-error/form__line_text-error.css);
 @import url(../blocks/form/__line/_text-error/_active/form__line_text-error_active.css);
 @import url(../blocks/popup/__button-sumbit/popup__button-sumbit.css);
+@import url(../blocks/popup/__button-sumbit/_disabled/popup__button-sumbit_disabled.css);
 @import url(../blocks/popup/_background/popup_background.css);
 @import url(../blocks/popup/__zoom/popup__zoom.css);
 @import url(../blocks/popup/__image/popup__image.css);

@@ -76,58 +76,70 @@ function closeModalProfile() {
   modalFormProfile.reset()
 }
 //Валидация окна "Редактировать профиль"
-const showInputError = (modalFormProfile, inputElement, errorMessage) => {
-  const errorElement = modalFormProfile.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add('form__line_type-error');
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add('form__line_text-error_active');
+const displayInputError = (modalFormProfile, errorInputLineElement, errorMessage) => {
+  const addErrorText = modalFormProfile.querySelector(`.${errorInputLineElement.id}-error`);
+  errorInputLineElement.classList.add('form__line_type-error');
+  addErrorText.textContent = errorMessage;
+  addErrorText.classList.add('form__line_text-error_active');
 };
 
-const hideInputError = (modalFormProfile, inputElement) => {
-  const errorElement = modalFormProfile.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove('form__line_type-error');
-  errorElement.classList.remove('form__line_text-error_active');
-  errorElement.textContent = '';
+const hideInputError = (modalFormProfile, errorInputLineElement) => {
+  const addErrorText = modalFormProfile.querySelector(`.${errorInputLineElement.id}-error`);
+  errorInputLineElement.classList.remove('form__line_type-error');
+  addErrorText.classList.remove('form__line_text-error_active');
+  addErrorText.textContent = '';
 };
 
-const checkInputValidity = (modalFormProfile, inputElement) => {
-  if (!inputElement.validity.valid) {
-    showInputError(modalFormProfile, inputElement, inputElement.validationMessage);
+const checkValidity = (modalFormProfile, errorInputLineElement) => {
+  if (!errorInputLineElement.validity.valid) {
+    displayInputError(modalFormProfile, errorInputLineElement, errorInputLineElement.validationMessage);
   } else {
-    hideInputError(modalFormProfile, inputElement);
+    hideInputError(modalFormProfile, errorInputLineElement);
   }
 };
 
 const setEventListeners = (modalFormProfile) => {
   const inputList = Array.from(modalFormProfile.querySelectorAll('.form__line'));
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', function () {
-      checkInputValidity(modalFormProfile, inputElement);
+  const buttonElement = document.querySelector('.popup__button-sumbit');
+  toggleButtonState(inputList, buttonElement);
+  inputList.forEach((errorInputLineElement) => {
+    errorInputLineElement.addEventListener('input', function () {
+      checkValidity(modalFormProfile, errorInputLineElement);
+      toggleButtonState(inputList, buttonElement);
     });
   });
 };
 
-const enableValidation = () => {
+const turnOnValidation = () => {
   const formList = Array.from(document.querySelectorAll('.popup__form-container'));
   formList.forEach((modalFormProfile) => {
     modalFormProfile.addEventListener('submit', function (evt) {
       evt.preventDefault();
     });
-        const fieldsetList = Array.from(modalFormProfile.querySelectorAll('.form'));
-    fieldsetList.forEach((fieldSet) => {
+        const fieldsetModalFormList = Array.from(modalFormProfile.querySelectorAll('.form'));
+        fieldsetModalFormList.forEach((fieldSet) => {
   setEventListeners(fieldSet);
 })
   });
 };
 
-enableValidation();
+turnOnValidation();
 
 const hasInvalidInput = (inputList) => {
-  return inputList.some((inputElement) => {
-    return !inputElement.validity.valid;
+  return inputList.some((errorInputLineElement) => {
+    return !errorInputLineElement.validity.valid;
   })
 }; 
 
+const toggleButtonState = (inputList, buttonElement) => {
+  if (hasInvalidInput(inputList)) {
+        buttonElement.disabled = true;
+    buttonElement.classList.add('popup__button-sumbit_disabled');
+  } else {
+        buttonElement.disabled = false;
+    buttonElement.classList.remove('popup__button-sumbit_disabled');
+  }
+};
 // -------------------------------------------------------
 function handleProfile(e) {
   e.preventDefault();
