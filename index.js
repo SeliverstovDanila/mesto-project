@@ -9,7 +9,7 @@ const profileContainer = document.querySelector('.profile__info');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 //Валидация окна "Редактировать профиль"
-
+const modalWindow = document.querySelector('.popup__container');
 // Создать карточку
 const container = document.querySelector('.element');
 const template = document.querySelector('#elements').content;
@@ -91,6 +91,11 @@ const hideInputError = (modalFormProfile, errorInputLineElement) => {
 };
 
 const checkValidity = (modalFormProfile, errorInputLineElement) => {
+  if (errorInputLineElement.validity.patternMismatch) {
+    errorInputLineElement.setCustomValidity("Разрешены только латинские буквы.");
+  } else {
+    errorInputLineElement.setCustomValidity("");
+  }
   if (!errorInputLineElement.validity.valid) {
     displayInputError(modalFormProfile, errorInputLineElement, errorInputLineElement.validationMessage);
   } else {
@@ -100,46 +105,46 @@ const checkValidity = (modalFormProfile, errorInputLineElement) => {
 
 const setEventListeners = (modalFormProfile) => {
   const inputList = Array.from(modalFormProfile.querySelectorAll('.form__line'));
-  const buttonElement = document.querySelector('.popup__button-sumbit');
-  toggleButtonState(inputList, buttonElement);
+  const formButtonSubmit = modalFormProfile.querySelector('.popup__button-sumbit');
+  toggleButtonState(inputList, formButtonSubmit);
   inputList.forEach((errorInputLineElement) => {
     errorInputLineElement.addEventListener('input', function () {
       checkValidity(modalFormProfile, errorInputLineElement);
-      toggleButtonState(inputList, buttonElement);
+      toggleButtonState(inputList, formButtonSubmit);
     });
   });
 };
-
+console.log(modalFormProfile)
 const turnOnValidation = () => {
   const formList = Array.from(document.querySelectorAll('.popup__form-container'));
   formList.forEach((modalFormProfile) => {
     modalFormProfile.addEventListener('submit', function (evt) {
       evt.preventDefault();
     });
-        const fieldsetModalFormList = Array.from(modalFormProfile.querySelectorAll('.form'));
-        fieldsetModalFormList.forEach((fieldSet) => {
-  setEventListeners(fieldSet);
-})
+    const fieldsetModalFormList = Array.from(modalFormProfile.querySelectorAll('.form'));
+    fieldsetModalFormList.forEach((fieldSet) => {
+      setEventListeners(fieldSet);
+    })
   });
 };
-
-turnOnValidation();
 
 const hasInvalidInput = (inputList) => {
   return inputList.some((errorInputLineElement) => {
     return !errorInputLineElement.validity.valid;
   })
-}; 
+};
 
-const toggleButtonState = (inputList, buttonElement) => {
+const toggleButtonState = (inputList, formButtonSubmit) => {
   if (hasInvalidInput(inputList)) {
-        buttonElement.disabled = true;
-    buttonElement.classList.add('popup__button-sumbit_disabled');
+    formButtonSubmit.disabled = true;
+    formButtonSubmit.classList.add('popup__button-sumbit_disabled');
   } else {
-        buttonElement.disabled = false;
-    buttonElement.classList.remove('popup__button-sumbit_disabled');
+    formButtonSubmit.disabled = false;
+    formButtonSubmit.classList.remove('popup__button-sumbit_disabled');
   }
 };
+
+turnOnValidation();
 // -------------------------------------------------------
 function handleProfile(e) {
   e.preventDefault();
