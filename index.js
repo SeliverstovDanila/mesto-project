@@ -1,6 +1,8 @@
+
+
 //Редактировать профиль
 const buttonEdit = document.querySelector('.profile__editbutton');
-const modalProfile = document.querySelector('#modal-profile');
+const modalProfile = document.querySelector('.popup');
 const modalFormProfile = modalProfile.querySelector('.popup__form-container');
 const nameInput = modalProfile.querySelector('#profile__name');
 const jobInput = modalProfile.querySelector('#profile__info');
@@ -9,7 +11,7 @@ const profileContainer = document.querySelector('.profile__info');
 const profileTitle = document.querySelector('.profile__title');
 const profileSubtitle = document.querySelector('.profile__subtitle');
 //Валидация окна "Редактировать профиль"
-const modalWindow = document.querySelector('.popup__container');
+
 // Создать карточку
 const container = document.querySelector('.element');
 const template = document.querySelector('#elements').content;
@@ -76,75 +78,77 @@ function closeModalProfile() {
   modalFormProfile.reset()
 }
 //Валидация окна "Редактировать профиль"
-const displayInputError = (modalFormProfile, errorInputLineElement, errorMessage) => {
-  const addErrorText = modalFormProfile.querySelector(`.${errorInputLineElement.id}-error`);
-  errorInputLineElement.classList.add('form__line_type-error');
-  addErrorText.textContent = errorMessage;
-  addErrorText.classList.add('form__line_text-error_active');
-};
-
-const hideInputError = (modalFormProfile, errorInputLineElement) => {
-  const addErrorText = modalFormProfile.querySelector(`.${errorInputLineElement.id}-error`);
-  errorInputLineElement.classList.remove('form__line_type-error');
-  addErrorText.classList.remove('form__line_text-error_active');
-  addErrorText.textContent = '';
-};
-
-const checkValidity = (modalFormProfile, errorInputLineElement) => {
-  if (errorInputLineElement.validity.patternMismatch) {
-    errorInputLineElement.setCustomValidity("Разрешены только латинские буквы.");
-  } else {
-    errorInputLineElement.setCustomValidity("");
-  }
-  if (!errorInputLineElement.validity.valid) {
-    displayInputError(modalFormProfile, errorInputLineElement, errorInputLineElement.validationMessage);
-  } else {
-    hideInputError(modalFormProfile, errorInputLineElement);
-  }
-};
-
-const setEventListeners = (modalFormProfile) => {
-  const inputList = Array.from(modalFormProfile.querySelectorAll('.form__line'));
-  const formButtonSubmit = modalFormProfile.querySelector('.popup__button-sumbit');
-  toggleButtonState(inputList, formButtonSubmit);
-  inputList.forEach((errorInputLineElement) => {
-    errorInputLineElement.addEventListener('input', function () {
-      checkValidity(modalFormProfile, errorInputLineElement);
+(function () {
+    const displayInputError = (modalFormProfile, errorInputLineElement, errorMessage) => {
+      const addErrorText = modalFormProfile.querySelector(`.${errorInputLineElement.id}-error`);
+      errorInputLineElement.classList.add('form__line_type-error');
+      addErrorText.textContent = errorMessage;
+      addErrorText.classList.add('form__line_text-error_active');
+    };
+    
+    const hideInputError = (modalFormProfile, errorInputLineElement) => {
+      const addErrorText = modalFormProfile.querySelector(`.${errorInputLineElement.id}-error`);
+      errorInputLineElement.classList.remove('form__line_type-error');
+      addErrorText.classList.remove('form__line_text-error_active');
+      addErrorText.textContent = '';
+    };
+    
+    const checkValidity = (modalFormProfile, errorInputLineElement) => {
+      if (errorInputLineElement.validity.patternMismatch) {
+        errorInputLineElement.setCustomValidity("Разрешены только латинские буквы.");
+      } else {
+        errorInputLineElement.setCustomValidity("");
+      }
+      if (!errorInputLineElement.validity.valid) {
+        displayInputError(modalFormProfile, errorInputLineElement, errorInputLineElement.validationMessage);
+      } else {
+        hideInputError(modalFormProfile, errorInputLineElement);
+      }
+    };
+    
+    const setEventListeners = (modalFormProfile) => {
+      const inputList = Array.from(modalFormProfile.querySelectorAll('.form__line'));
+      const formButtonSubmit = modalFormProfile.querySelector('.popup__button-sumbit');
       toggleButtonState(inputList, formButtonSubmit);
-    });
-  });
-};
-console.log(modalFormProfile)
-const turnOnValidation = () => {
-  const formList = Array.from(document.querySelectorAll('.popup__form-container'));
-  formList.forEach((modalFormProfile) => {
-    modalFormProfile.addEventListener('submit', function (evt) {
-      evt.preventDefault();
-    });
-    const fieldsetModalFormList = Array.from(modalFormProfile.querySelectorAll('.form'));
-    fieldsetModalFormList.forEach((fieldSet) => {
-      setEventListeners(fieldSet);
-    })
-  });
-};
-
-const hasInvalidInput = (inputList) => {
-  return inputList.some((errorInputLineElement) => {
-    return !errorInputLineElement.validity.valid;
-  })
-};
-
-const toggleButtonState = (inputList, formButtonSubmit) => {
-  if (hasInvalidInput(inputList)) {
-    formButtonSubmit.disabled = true;
-    formButtonSubmit.classList.add('popup__button-sumbit_disabled');
-  } else {
-    formButtonSubmit.disabled = false;
-    formButtonSubmit.classList.remove('popup__button-sumbit_disabled');
-  }
-};
-
-turnOnValidation();
+      inputList.forEach((errorInputLineElement) => {
+        errorInputLineElement.addEventListener('input', function () {
+          checkValidity(modalFormProfile, errorInputLineElement);
+          toggleButtonState(inputList, formButtonSubmit);
+        });
+      });
+    };
+    
+    const turnOnValidation = () => {
+      const formList = Array.from(document.querySelectorAll('.popup__form-container'));
+      formList.forEach((modalFormProfile) => {
+        modalFormProfile.addEventListener('submit', function (evt) {
+          evt.preventDefault();
+        });
+        const fieldsetModalFormList = Array.from(modalFormProfile.querySelectorAll('.form'));
+        fieldsetModalFormList.forEach((fieldSet) => {
+          setEventListeners(fieldSet);
+        })
+      });
+    };
+    
+    const hasInvalidInput = (inputList) => {
+      return inputList.some((errorInputLineElement) => {
+        return !errorInputLineElement.validity.valid;
+      })
+    };
+    
+    const toggleButtonState = (inputList, formButtonSubmit) => {
+      if (hasInvalidInput(inputList)) {
+        formButtonSubmit.setAttribute('disabled', true);
+        formButtonSubmit.classList.add('popup__button-sumbit_disabled');
+      } else {
+        formButtonSubmit.removeAttribute('disabled', true);
+        formButtonSubmit.classList.remove('popup__button-sumbit_disabled');
+      }
+    };
+    
+    turnOnValidation();
+    })();
 // -------------------------------------------------------
 function handleProfile(e) {
   e.preventDefault();
