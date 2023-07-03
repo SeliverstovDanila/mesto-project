@@ -1,3 +1,4 @@
+import '../pages/index.css'
 import {
   buttonEdit,
   modalProfile,
@@ -9,10 +10,10 @@ import {
   buttonCloseFormAddNewCard,
   popupZoom,
   buttonCloseFormPhotoZoom,
-} from './../components/utils.js'
-import {  openModalProfile, closeModalProfile, handleProfile, handleAddModal, handleAddClose, closeModalZoom } from './../components/modal.js'
-import { handleAdd } from './../components/card.js'
-import { turnOnValidation } from './../components/validate.js'
+} from '../components/utils.js'
+import {  openModalProfile, closeModalProfile, handleProfile, handleAddModal, handleAddClose, closeModalZoom } from '../components/modal.js'
+import { handleAdd } from '../components/card.js'
+import { turnOnValidation } from '../components/validate.js'
 
 turnOnValidation({
   errorInputLineElement: 'form__line_type-error',

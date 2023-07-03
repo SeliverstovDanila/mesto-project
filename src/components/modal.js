@@ -10,7 +10,7 @@ import {
     popupZoom,
     popupFullImage,
     popupZoomImageHeading,
-} from './../components/utils.js'
+} from '../components/utils.js'
 function textDefault() {
     nameInput.value = profileTitle.textContent;
     jobInput.value = profileSubtitle.textContent;

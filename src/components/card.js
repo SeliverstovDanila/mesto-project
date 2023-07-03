@@ -4,9 +4,9 @@ import {
     newCardName,
     newPhotoLink,
     initialCards
-  } from './../components/utils.js'
+  } from '../components/utils.js'
 
-  import {openZoom, handleAddClose} from './../components/modal.js'
+  import {openZoom, handleAddClose} from '../components/modal.js'
 
 function addCard(userText) {
     const newCard = template.querySelector('.element__cards').cloneNode(true);
