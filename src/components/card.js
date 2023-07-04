@@ -7,6 +7,8 @@ import {
   } from '../components/utils.js'
 
   import {openZoom, handleAddClose} from '../components/modal.js'
+  // import { enableValidation } from '../components/validate.js'
+  // import {setValidation} from '../pages/index.js'
 
 function addCard(userText) {
     const newCard = template.querySelector('.element__cards').cloneNode(true);
@@ -33,7 +35,7 @@ function addCard(userText) {
     e.classList.toggle('element__like_active');
   }
 
-  function handleAdd(e) {
+  function handleSubmitFormNewCard(e) {
     e.preventDefault();
   
     const cardDefault = {
@@ -46,6 +48,7 @@ function addCard(userText) {
     container.prepend(formCard);
   
     handleAddClose();
+    // enableValidation(setValidation);
   }
 
   function cardList() {
@@ -65,4 +68,4 @@ function addCard(userText) {
 
   cardList();
 
-  export { handleAdd }
+  export { handleSubmitFormNewCard }

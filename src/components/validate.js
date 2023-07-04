@@ -1,69 +1,86 @@
-const displayInputError = (modalFormProfile, errorInputLineElement, errorMessage) => {
-    const addErrorText = modalFormProfile.querySelector(`.${errorInputLineElement.id}-error`);
-    errorInputLineElement.classList.add('form__line_type-error');
-    addErrorText.textContent = errorMessage;
-    addErrorText.classList.add('form__line_text-error_active');
+const displayInputError = (formElement, inputElement, errorMessage, errorInputLineElement, addErrorText) => {
+    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+    inputElement.classList.add(errorInputLineElement);
+    errorElement.textContent = errorMessage;
+    errorElement.classList.add(addErrorText);
 };
 
-const hideInputError = (modalFormProfile, errorInputLineElement) => {
-    const addErrorText = modalFormProfile.querySelector(`.${errorInputLineElement.id}-error`);
-    errorInputLineElement.classList.remove('form__line_type-error');
-    addErrorText.classList.remove('form__line_text-error_active');
-    addErrorText.textContent = '';
+const hideInputError = (formElement, inputElement, errorInputLineElement, addErrorText) => {
+    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+    inputElement.classList.remove(errorInputLineElement);
+    errorElement.classList.remove(addErrorText);
+    errorElement.textContent = '';
 };
 
-const checkValidity = (modalFormProfile, errorInputLineElement) => {
-    if (errorInputLineElement.validity.patternMismatch) {
-        errorInputLineElement.setCustomValidity("Разрешены только латинские буквы.");
+const checkValidity = (formElement, inputElement, errorInputLineElement, addErrorText) => {
+    if (inputElement.validity.patternMismatch) {
+        inputElement.setCustomValidity(inputElement.dataset.errorMessage);
     } else {
-        errorInputLineElement.setCustomValidity("");
+        inputElement.setCustomValidity("");
     }
-    if (!errorInputLineElement.validity.valid) {
-        displayInputError(modalFormProfile, errorInputLineElement, errorInputLineElement.validationMessage);
+
+    if (!inputElement.validity.valid) {
+        displayInputError(formElement, inputElement, inputElement.validationMessage, errorInputLineElement, addErrorText);
     } else {
-        hideInputError(modalFormProfile, errorInputLineElement);
+        hideInputError(formElement, inputElement, errorInputLineElement, addErrorText);
     }
 };
 
-const setEventListeners = (modalFormProfile) => {
-    const inputList = Array.from(modalFormProfile.querySelectorAll('.form__line'));
-    const formButtonSubmit = modalFormProfile.querySelector('.popup__button-sumbit');
-    toggleButtonState(inputList, formButtonSubmit);
-    inputList.forEach((errorInputLineElement) => {
-        errorInputLineElement.addEventListener('input', function () {
-            checkValidity(modalFormProfile, errorInputLineElement);
-            toggleButtonState(inputList, formButtonSubmit);
+const setEventListeners = (formElement,modalForm,inputFormLine,formButtonSubmit,modalForminactiveButtonSubmit,errorInputLineElement,addErrorText) => {
+    const inputList = Array.from(formElement.querySelectorAll(inputFormLine));
+    const buttomSubmitElement = formElement.querySelector(formButtonSubmit);
+
+    formElement.addEventListener('reset', () => {
+        disableButton(buttomSubmitElement, modalForminactiveButtonSubmit);
+    });
+
+    inputList.forEach((inputElement) => {
+        toggleButtonState(inputList, buttomSubmitElement, modalForminactiveButtonSubmit);
+        inputElement.addEventListener('input', () => {
+            checkValidity(formElement, inputElement, errorInputLineElement, addErrorText)
+            toggleButtonState(inputList, buttomSubmitElement, modalForminactiveButtonSubmit);
         });
     });
 };
 
-const turnOnValidation = () => {
-    const formList = Array.from(document.querySelectorAll('.popup__form-container'));
-    formList.forEach((modalFormProfile) => {
-        modalFormProfile.addEventListener('submit', function (evt) {
-            evt.preventDefault();
-        });
-        const fieldsetModalFormList = Array.from(modalFormProfile.querySelectorAll('.form'));
-        fieldsetModalFormList.forEach((fieldSet) => {
-            setEventListeners(fieldSet);
-        })
+
+const enableValidation = (setModalElements) => {
+    const formList = Array.from(document.querySelectorAll(setModalElements.modalForm));
+
+    formList.forEach((formElement) => {
+        setEventListeners(
+            formElement,
+            setModalElements.modalForm,
+            setModalElements.inputFormLine,
+            setModalElements.formButtonSubmit,
+            setModalElements.modalForminactiveButtonSubmit,
+            setModalElements.errorInputLineElement,
+            setModalElements.addErrorText
+        );
     });
 };
 
 const hasInvalidInput = (inputList) => {
-    return inputList.some((errorInputLineElement) => {
-        return !errorInputLineElement.validity.valid;
+    return inputList.some((inputElement) => {
+        return !inputElement.validity.valid;
     })
 };
+function disableButton(buttomSubmitElement, modalForminactiveButtonSubmit) {
+    buttomSubmitElement.disabled = true;
+    buttomSubmitElement.classList.add(modalForminactiveButtonSubmit);
+}
 
-const toggleButtonState = (inputList, formButtonSubmit) => {
+function enableButton(buttomSubmitElement, modalForminactiveButtonSubmit) {
+    buttomSubmitElement.disabled = false;
+    buttomSubmitElement.classList.remove(modalForminactiveButtonSubmit);
+}
+
+const toggleButtonState = (inputList, buttomSubmitElement, modalForminactiveButtonSubmit) => {
     if (hasInvalidInput(inputList)) {
-        formButtonSubmit.setAttribute('disabled', true);
-        formButtonSubmit.classList.add('popup__button-sumbit_disabled');
+        disableButton(buttomSubmitElement, modalForminactiveButtonSubmit);
     } else {
-        formButtonSubmit.removeAttribute('disabled', true);
-        formButtonSubmit.classList.remove('popup__button-sumbit_disabled');
+        enableButton(buttomSubmitElement, modalForminactiveButtonSubmit);
     }
 };
 
-export { turnOnValidation }
+export { enableValidation, toggleButtonState, checkValidity }
