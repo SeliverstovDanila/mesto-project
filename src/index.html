@@ -14,7 +14,10 @@
     </header>
     <main class="menu">
         <section class="profile">
-            <div class="profile__avatar"></div>
+            <div class="profile__avatar">
+                <div class="profile__avatar-photo"></div>
+                <button class="profile__edit-avatar" type="button" aria-label="Обновить аватар"></button>
+            </div>
             <div class="profile__info">
                 <h1 class="profile__title">Traveler Cat</h1>
                 <p class="profile__subtitle">Guess where I am</p>
@@ -40,15 +43,13 @@
                     <label class="form__label">
                         <input type="text" name="usersname" placeholder="Ваше имя" class="form__line" id="profile__name"
                             minlength="2" maxlength="40" pattern="^[a-z A-Z а-я А-Я \-]+$"
-                            data-error-message="Поле может содержать только буквы, знаки дефиса и пробелы."
-                            required>
+                            data-error-message="Поле может содержать только буквы, знаки дефиса и пробелы." required>
                         <span class="form__line_text-error profile__name-error">Вы пропустили это поле</span>
                     </label>
                     <label class="form__label">
                         <input type="text" name="usersinfo" placeholder="Расскажите о себе" class="form__line"
                             id="profile__info" minlength="2" maxlength="200" pattern="^[a-z A-Z а-я А-Я \-]+$"
-                            data-error-message="Поле может содержать только буквы, знаки дефиса и пробелы."
-                            required>
+                            data-error-message="Поле может содержать только буквы, знаки дефиса и пробелы." required>
                         <span class="form__line_text-error profile__info-error">Добавьте информацию о себе</span>
                     </label>
                     <button class="popup__button-sumbit" type="submit">Сохранить</button>
@@ -61,14 +62,13 @@
             <button class="popup__button-close popup__button-close_addform" type="button" aria-label="Закрыть форму"
                 id="close-modal"></button>
             <h2 class="popup__title">Новое место</h2>
-            <form class="popup__form-container" id="add-form" name = "userprofile" novalidate>
+            <form class="popup__form-container" id="add-form" name="userprofile" novalidate>
                 <fieldset class="form">
                     <label class="form__label">
                         <input type="text" name="usersname" placeholder="Название"
                             class="form__line popup__line_user_name" id="card__addname" minlength="2" maxlength="40"
                             pattern="^[a-z A-Z а-я А-Я \-]+$"
-                            data-error-message="Поле может содержать только буквы, знаки дефиса и пробелы."
-                            required>
+                            data-error-message="Поле может содержать только буквы, знаки дефиса и пробелы." required>
                         <span class="form__line_text-error card__addname-error">Добавьте название для фото</span>
                     </label>
                     <label class="form__label">
@@ -89,12 +89,32 @@
             <h3 class="popup__image-name">Что это?</h3>
         </div>
     </div>
+    <div class="popup" id="modal-avatar">
+        <div class="popup__container">
+            <button class="popup__button-close popup__button-close_avatar" type="button"
+                aria-label="Закрыть форму"></button>
+            <h2 class="popup__title popup__title_margin">Обновить аватар</h2>
+            <form class="popup__form-container" id="avatar-form" name="useravatar" novalidate>
+                <fieldset class="form">
+                    <label class="form__label">
+                        <input type="url" name="usersavatar" placeholder="Ссылка на картинку"
+                            class="form__line popup__line_user_info" id="user__avatar" required>
+                        <span class="form__line_text-error user__avatar-error">Введите адрес сайта</span>
+                    </label>
+                    <button class="popup__button-sumbit popup__button-sumbit_margin" type="submit">Сохранить</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
     <template id="elements">
         <li class="element__cards">
             <img class="element__photo" src="<%=require('./images/__elements/Happybirthday.jpg')%>" alt="День рождения">
             <div class="element__item">
                 <h2 class="element__title">Что это?</h2>
-                <button class="element__like" type="button" aria-label="Лайк"></button>
+                <div class="element__like-container">
+                    <button class="element__like" type="button" aria-label="Лайк"></button>
+                    <p class="element__like-counter">0</p>
+                </div>
                 <button class="element__delite" type="button" aria-label="Удалить" id="remove"></button>
             </div>
         </li>

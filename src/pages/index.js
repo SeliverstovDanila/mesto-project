@@ -1,18 +1,28 @@
 import '../pages/index.css'
 import {
   buttonEdit,
-  modalProfile,
   modalFormProfile,
   profileClose,
-  modalAddFormNewCards,
   buttonOpenModalAddNewCard,
   formAddNewCard,
   buttonCloseFormAddNewCard,
-  popupZoom,
   buttonCloseFormPhotoZoom,
+  avatarButtonOpenModalForm,
+  avatarButtonCloseModalForm,
+  popupAvatarIdForm,
 } from '../components/utils.js'
-import { openModalProfile, closeModalProfile, handleProfile, handleAddModal, handleAddClose, closeModalZoom } from '../components/modal.js'
-import { handleSubmitFormNewCard } from '../components/card.js'
+import {
+  openModalProfile,
+  closeModalProfile,
+  handleAddClose,
+  closeModalZoom,
+  avatarModalFormOpen,
+  avatarModalFormClose,
+  handleAddModal,
+  handleSubmitAvatarUserProfile,
+  handleSubmitUserProfile
+} from '../components/modal.js'
+import { addNewItem, loadPage } from '../components/card.js'
 import { enableValidation } from '../components/validate.js'
 
 const setValidation = {
@@ -24,16 +34,21 @@ const setValidation = {
   addErrorText: 'form__line_text-error_active'
 }
 enableValidation(setValidation);
+loadPage();
 
 // Модальное окно - профиль
 buttonEdit.addEventListener('click', openModalProfile);
 profileClose.addEventListener('click', closeModalProfile);
-modalFormProfile.addEventListener('submit', handleProfile);
+modalFormProfile.addEventListener('submit', handleSubmitUserProfile);
 // Модальное окно - сохранить карточку
 buttonOpenModalAddNewCard.addEventListener('click', handleAddModal);
 buttonCloseFormAddNewCard.addEventListener('click', handleAddClose);
-formAddNewCard.addEventListener('submit', handleSubmitFormNewCard);
+formAddNewCard.addEventListener('submit', addNewItem);
 // Закрыть увеличение фото
 buttonCloseFormPhotoZoom.addEventListener('click', closeModalZoom);
+// Модальное окно - обновить аватар
+avatarButtonOpenModalForm.addEventListener('click', avatarModalFormOpen);
+avatarButtonCloseModalForm.addEventListener('click', avatarModalFormClose);
+popupAvatarIdForm.addEventListener('submit', handleSubmitAvatarUserProfile);
 
-export {setValidation}
+export { setValidation }

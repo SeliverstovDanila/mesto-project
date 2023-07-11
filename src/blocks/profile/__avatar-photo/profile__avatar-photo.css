@@ -1,0 +1,11 @@
+.profile__avatar-photo {
+    border-radius: 50%;
+    width: 7.5rem;
+    height: 7.5rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    object-fit: cover;
+    margin: 0;
+    background-image: url(https://sun9-33.userapi.com/impg/-MMOOW11ilXAC0_xukjN11BQyCY_LncTj5i7QQ/z6n3fZTR-mA.jpg?size=604x367&quality=96&sign=9b4b3edce3b54071d94fadb556d571e1&type=album);
+}
