@@ -31,19 +31,19 @@ export function loadPage() {
 // Добавить новую карточку
 export function addCard(cardsUserInfo, usersID) {
   const cardParts = template.querySelector('.element__cards').cloneNode(true);
-  const cardImage = cardParts.querySelector('.element__photo');
-  const cardTitle = cardParts.querySelector('.element__title');
-  const trashIcon = cardParts.querySelector('.element__delite');
-  const heartIcon = cardParts.querySelector('.element__like');
+  const cardPhoto = cardParts.querySelector('.element__photo');
+  const cardName = cardParts.querySelector('.element__title');
+  const deliteCardElement = cardParts.querySelector('.element__delite');
+  const likeButton = cardParts.querySelector('.element__like');
   cardParts.setAttribute('data-id', cardsUserInfo._id);
-  cardImage.src = cardsUserInfo.link;
-  cardTitle.textContent = cardsUserInfo.name;
+  cardPhoto.src = cardsUserInfo.link;
+  cardName.textContent = cardsUserInfo.name;
   likeUsersInfo(cardParts, cardsUserInfo, usersID);
   displayLike(cardParts, cardsUserInfo);
   displayDeliteElement(cardParts, cardsUserInfo, usersID);
-  trashIcon.addEventListener('click', removeCard)
-  cardImage.addEventListener('click', openZoom)
-  heartIcon.addEventListener('click', siftLike)
+  deliteCardElement.addEventListener('click', removeCard)
+  cardPhoto.addEventListener('click', openZoom)
+  likeButton.addEventListener('click', siftLike)
   return cardParts
 }
 
