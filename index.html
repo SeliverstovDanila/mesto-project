@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="./pages/index.css"> -->
+    <title>Mesto Russia</title>
+<script defer src="main.js"></script><link href="main.css" rel="stylesheet"></head>
+
+<body class="page">
+    <header class="header">
+        <img class="header__logo" src="bbe2a6eafac19c3d031c.svg" alt="Mesto">
+    </header>
+    <main class="menu">
+        <section class="profile">
+            <div class="profile__avatar">
+                <div class="profile__avatar-photo"></div>
+                <button class="profile__edit-avatar" type="button" aria-label="Обновить аватар"></button>
+            </div>
+            <div class="profile__info">
+                <h1 class="profile__title">Traveler Cat</h1>
+                <p class="profile__subtitle">Guess where I am</p>
+                <button class="profile__editbutton" type="button" aria-label="Редактировать профиль"></button>
+            </div>
+            <button class="profile__addbutton" type="button" aria-label="Добавить фото"></button>
+        </section>
+        <section class="elements">
+            <ul class="element">
+            </ul>
+        </section>
+    </main>
+    <footer class="footer">
+        <p class="footer__copyright">&#169; 2023 Mesto Russia</p>
+    </footer>
+    <div class="popup" id="modal-profile">
+        <div class="popup__container">
+            <button class="popup__button-close popup__button-close_profile" type="button"
+                aria-label="Закрыть форму"></button>
+            <h2 class="popup__title">Редактировать профиль</h2>
+            <form class="popup__form-container" id="profile-form" novalidate>
+                <fieldset class="form">
+                    <label class="form__label">
+                        <input type="text" name="usersname" placeholder="Ваше имя" class="form__line" id="profile__name"
+                            minlength="2" maxlength="40" pattern="^[a-z A-Z а-я А-Я \-]+$"
+                            data-error-message="Поле может содержать только буквы, знаки дефиса и пробелы." required>
+                        <span class="form__line_text-error profile__name-error">Вы пропустили это поле</span>
+                    </label>
+                    <label class="form__label">
+                        <input type="text" name="usersinfo" placeholder="Расскажите о себе" class="form__line"
+                            id="profile__info" minlength="2" maxlength="200" pattern="^[a-z A-Z а-я А-Я \-]+$"
+                            data-error-message="Поле может содержать только буквы, знаки дефиса и пробелы." required>
+                        <span class="form__line_text-error profile__info-error">Добавьте информацию о себе</span>
+                    </label>
+                    <button class="popup__button-sumbit" type="submit">Сохранить</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="popup" id="modal-card">
+        <div class="popup__container">
+            <button class="popup__button-close popup__button-close_addform" type="button" aria-label="Закрыть форму"
+                id="close-modal"></button>
+            <h2 class="popup__title">Новое место</h2>
+            <form class="popup__form-container" id="add-form" name="userprofile" novalidate>
+                <fieldset class="form">
+                    <label class="form__label">
+                        <input type="text" name="usersname" placeholder="Название"
+                            class="form__line popup__line_user_name" id="card__addname" minlength="2" maxlength="40"
+                            pattern="^[a-z A-Z а-я А-Я \-]+$"
+                            data-error-message="Поле может содержать только буквы, знаки дефиса и пробелы." required>
+                        <span class="form__line_text-error card__addname-error">Добавьте название для фото</span>
+                    </label>
+                    <label class="form__label">
+                        <input type="url" name="usersinfo" placeholder="Ссылка на картинку"
+                            class="form__line popup__line_user_info" id="card__url" required>
+                        <span class="form__line_text-error card__url-error">Введите адрес сайта</span>
+                    </label>
+                    <button class="popup__button-sumbit" type="submit">Сохранить</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="popup popup_background" id="photo-zoom">
+        <div class="popup__zoom">
+            <button class="popup__button-close popup__button-close_zoomform" type="button"
+                aria-label="Закрыть форму"></button>
+            <img class="popup__image" src="2a2a01ffd0e2d99b40e3.jpg" alt="Зима">
+            <h3 class="popup__image-name">Что это?</h3>
+        </div>
+    </div>
+    <div class="popup" id="modal-avatar">
+        <div class="popup__container">
+            <button class="popup__button-close popup__button-close_avatar" type="button"
+                aria-label="Закрыть форму"></button>
+            <h2 class="popup__title popup__title_margin">Обновить аватар</h2>
+            <form class="popup__form-container" id="avatar-form" name="useravatar" novalidate>
+                <fieldset class="form">
+                    <label class="form__label">
+                        <input type="url" name="usersavatar" placeholder="Ссылка на картинку"
+                            class="form__line popup__line_user_info" id="user__avatar" required>
+                        <span class="form__line_text-error user__avatar-error">Введите адрес сайта</span>
+                    </label>
+                    <button class="popup__button-sumbit popup__button-sumbit_margin" type="submit">Сохранить</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <template id="elements">
+        <li class="element__cards">
+            <img class="element__photo" src="4a5db4ee3179f8e9590f.jpg" alt="День рождения">
+            <div class="element__item">
+                <h2 class="element__title">Что это?</h2>
+                <div class="element__like-container">
+                    <button class="element__like" type="button" aria-label="Лайк"></button>
+                    <p class="element__like-counter">0</p>
+                </div>
+                <button class="element__delite" type="button" aria-label="Удалить" id="remove"></button>
+            </div>
+        </li>
+    </template>
+    <!-- <script type="module" src="./pages/index.js"></script> -->
+</body>
+
+</html>
