@@ -22,7 +22,7 @@ import {
   handleSubmitAvatarUserProfile,
   handleSubmitUserProfile
 } from '../components/modal.js'
-import { addNewItem, loadPage } from '../components/card.js'
+import { addNewItem } from '../components/card.js'
 import { enableValidation } from '../components/validate.js'
 
 const setValidation = {
@@ -33,8 +33,8 @@ const setValidation = {
   errorInputLineElement: 'form__line_type-error',
   addErrorText: 'form__line_text-error_active'
 }
+
 enableValidation(setValidation);
-loadPage();
 
 // Модальное окно - профиль
 buttonEdit.addEventListener('click', openModalProfile);

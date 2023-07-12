@@ -5,7 +5,7 @@ import {
     jobInput,
     profileTitle,
     profileSubtitle,
-    modalAddFormNewCards,
+    modalAddFormNewCard,
     formAddNewCard,
     popupZoom,
     popupFullImage,
@@ -19,10 +19,10 @@ import {
 } from '../components/utils.js'
 import { refreshAvatar, sendUserInfo } from '../components/api.js'
 
-function refreshProfileUserInfo(getUserdata) {
-    profileTitle.textContent = getUserdata.name;
-    profileSubtitle.textContent = getUserdata.about;
-    avatarNewPhoto.style.backgroundImage = `url("${getUserdata.avatar}")`;
+function refreshProfileUserInfo(userData) {
+    profileTitle.textContent = userData.name;
+    profileSubtitle.textContent = userData.about;
+    avatarNewPhoto.style.backgroundImage = `url("${userData.avatar}")`;
 }
 
 function textDefault() {
@@ -30,22 +30,22 @@ function textDefault() {
     jobInput.value = profileSubtitle.textContent;
 }
 // Функции открыть-закрыть
-function openModal(open) {
-    open.classList.add('popup_open');
+function openModal(popup) {
+    popup.classList.add('popup_open');
     document.addEventListener('keydown', escapeButtonClose);
-    open.addEventListener('click', overlayClickModalClose);
+    popup.addEventListener('click', overlayClickModalClose);
 }
 
-function closeModal(close) {
-    close.classList.remove('popup_open');
+function closeModal(popup) {
+    popup.classList.remove('popup_open');
     document.removeEventListener('keydown', escapeButtonClose);
-    close.removeEventListener('click', overlayClickModalClose);
+    popup.removeEventListener('click', overlayClickModalClose);
 }
 
 function escapeButtonClose(evt) {
     if (evt.key === 'Escape') {
-        const close = document.querySelector('.popup_open');
-        closeModal(close);
+        const popupOpenElement = document.querySelector('.popup_open');
+        closeModal(popupOpenElement);
     }
 }
 
@@ -73,11 +73,11 @@ function handleProfile(e) {
 }
 // Открыть-закрыть модальное окно "Добавить карточку"
 function handleAddModal() {
-    openModal(modalAddFormNewCards);
+    openModal(modalAddFormNewCard);
 }
 
 function handleAddClose() {
-    closeModal(modalAddFormNewCards);
+    closeModal(modalAddFormNewCard);
     formAddNewCard.reset();
 }
 // Открыть-закрыть модальное окно "Увеличить фото"
@@ -124,7 +124,7 @@ function handleSubmitAvatarUserProfile(evt) {
 function handleSubmitUserProfile(evt) {
     evt.preventDefault();
     buttonSubmitUserProfile.textContent = 'Сохранение...';
-    sendUserInfo()
+    sendUserInfo(nameInput.value, jobInput.value)
         .then(data => {
             profileTitle.textContent = (data.name === '') ? profileTitle.textContent : data.name;
             profileSubtitle.textContent = (data.about === '') ? profileSubtitle.textContent : data.about;

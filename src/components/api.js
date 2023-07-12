@@ -1,5 +1,3 @@
-import { nameInput, jobInput } from '../components/utils.js'
-
 const config = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-26',
   headers: {
@@ -20,29 +18,26 @@ export const profileUserInfo = () => {
     headers: config.headers
   })
     .then(getCheckResponseData)
-    .then(data => data);
 }
 
-export const getUserCards = (addCard, fragmentUserCards) => {
+export const getUserCard = () => {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'GET',
     headers: config.headers,
   })
     .then(getCheckResponseData)
-    .then(cards => cards);
 }
 
-export const sendUserInfo = () => {
+export const sendUserInfo = (name, about) => {
   return fetch(`${config.baseUrl}/users/me`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
-      name: nameInput.value,
-      about: jobInput.value
+      name: name,
+      about: about
     })
   })
     .then(getCheckResponseData)
-    .then(data => data);
 }
 // Изменить аватар
 export function refreshAvatar(photo) {
@@ -55,13 +50,7 @@ export function refreshAvatar(photo) {
   })
     .then(getCheckResponseData)
 };
-// загрузка карточек на сервер
-export const installCards = () => {
-  return fetch(`${config.baseUrl}/cards`, {
-    headers: config.headers
-  })
-    .then(getCheckResponseData);
-};
+
 // Отправить карточку на сервер
 export const sendCard = (name, link) => {
   return fetch(`${config.baseUrl}/cards`, {
@@ -73,7 +62,6 @@ export const sendCard = (name, link) => {
     })
   })
     .then(getCheckResponseData)
-    .then(data => data);
 }
 // Отправить лайк карточки на сервер
 export const putLikeCard = (userCardsId) => {
@@ -82,19 +70,17 @@ export const putLikeCard = (userCardsId) => {
     headers: config.headers
   })
     .then(getCheckResponseData)
-    .then(data => data);
 }
 // удалить лайк
-export const deliteLikeCard = (userCardsId) => {
+export const deleteLikeCard = (userCardsId) => {
   return fetch(`${config.baseUrl}/cards/likes/${userCardsId}`, {
     method: 'DELETE',
     headers: config.headers
   })
     .then(getCheckResponseData)
-    .then(data => data);
 }
 // удалить карточку
-export const deleteCard = (userCardsId, cardParts) => {
+export const deleteCard = (userCardsId) => {
   return fetch(`${config.baseUrl}/cards/${userCardsId}`, {
     method: 'DELETE',
     headers: config.headers
