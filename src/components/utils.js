@@ -32,3 +32,11 @@ export const avatarButtonOpenModalForm = document.querySelector('.profile__avata
 export const avatarNewPhoto = document.querySelector('.profile__avatar-photo');
 export const avatarButtonCloseModalForm = popupAvatar.querySelector('.popup__button-close_avatar');
 export const avatarInputId = popupAvatar.querySelector('#user__avatar');
+import {Api} from '../components/OOPapi.js'
+export const api = new Api({
+    baseUrl: 'https://nomoreparties.co/v1/plus-cohort-26',
+    headers: {
+        authorization: 'c647b017-72a1-4b0d-aa7e-3955d3146485',
+        'Content-Type': 'application/json'
+    }
+  });

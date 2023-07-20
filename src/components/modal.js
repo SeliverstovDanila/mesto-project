@@ -16,8 +16,8 @@ import {
     buttonAvatarSubmit,
     avatarInputId,
     buttonSubmitUserProfile,
+    api
 } from '../components/utils.js'
-import { refreshAvatar, sendUserInfo } from '../components/api.js'
 
 function refreshProfileUserInfo(userData) {
     profileTitle.textContent = userData.name;
@@ -108,7 +108,7 @@ function handleSubmitAvatarUserProfile(evt) {
     evt.preventDefault();
     buttonAvatarSubmit.textContent = 'Сохранение...';
     const avatarLink = avatarInputId.value;
-    refreshAvatar(avatarLink)
+    api.refreshAvatar(avatarLink)
         .then((data) => {
             avatarNewPhoto.style.backgroundImage = `url("${data.avatar}")`;
             closeModal(popupAvatar);
@@ -124,7 +124,7 @@ function handleSubmitAvatarUserProfile(evt) {
 function handleSubmitUserProfile(evt) {
     evt.preventDefault();
     buttonSubmitUserProfile.textContent = 'Сохранение...';
-    sendUserInfo(nameInput.value, jobInput.value)
+    api.sendUserInfo(nameInput.value, jobInput.value)
         .then(data => {
             profileTitle.textContent = (data.name === '') ? profileTitle.textContent : data.name;
             profileSubtitle.textContent = (data.about === '') ? profileSubtitle.textContent : data.about;

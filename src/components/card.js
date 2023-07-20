@@ -5,17 +5,17 @@ import {
   newPhotoLink,
   buttonSubmitAddForm,
   modalAddFormNewCard,
+  api
 } from '../components/utils.js'
 
-import { deleteCard, putLikeCard, deleteLikeCard, sendCard, profileUserInfo, getUserCard } from '../components/api.js'
-
 import { openZoom, closeModal, refreshProfileUserInfo } from '../components/modal.js'
+
 
 let allUserId = null;
 
 // Загрузка страницы с карточками
-  const profileUserElement = profileUserInfo()
-  const cardUserElement = getUserCard()
+  const profileUserElement = api.profileUserInfo()
+  const cardUserElement = api.getUserCard()
   Promise.all([profileUserElement, cardUserElement])
     .then(results => {
       const [profileData, cardsData] = results;
@@ -99,13 +99,13 @@ function siftLike(evt) {
   if (evt.target.classList.contains('element__like_active')) {
     const userCardId = findUsersCard(evt);
     evt.target.classList.toggle('element__like_active');
-    return deleteLikeCard(userCardId)
+    return api.deleteLikeCard(userCardId)
       .then(data => showLike(data))
       .catch(err => console.log(err));
   } if (evt.target.classList.contains('element__like')) {
     const userCardId = findUsersCard(evt);
     evt.target.classList.toggle('element__like_active');
-    return putLikeCard(userCardId)
+    return api.putLikeCard(userCardId)
       .then(data => showLike(data))
       .catch(error => {
         console.log(error);
@@ -123,7 +123,7 @@ function displayDeliteElement(cardElement, cardsUserInfo, allUserId) {
 function removeCard(evt) {
   const userCard = evt.target.closest('.element__cards');
   const userCardId = userCard.dataset.id;
-  deleteCard(userCardId)
+  api.deleteCard(userCardId)
     .then(() => { userCard.remove(); })
     .catch(error => {
       console.log(error);
@@ -134,7 +134,7 @@ export function addNewItem(evt) {
   evt.preventDefault();
   const firstButtonText = buttonSubmitAddForm.textContent;
   buttonSubmitAddForm.textContent = 'Сохранение...';
-  sendCard(newCardName.value, newPhotoLink.value)
+  api.sendCard(newCardName.value, newPhotoLink.value)
     .then(data => {
       const newCard = addCard(data, allUserId)
       container.prepend(newCard);
