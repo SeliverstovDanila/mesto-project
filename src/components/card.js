@@ -9,9 +9,9 @@ import {
 } from '../components/utils.js'
 
 import { openZoom, closeModal, refreshProfileUserInfo } from '../components/modal.js'
+import {Card} from '../components/OOP_Card.js'
 
-
-let allUserId = null;
+export let allUserId = null;
 
 // Загрузка страницы с карточками
   const profileUserElement = api.profileUserInfo()
@@ -48,8 +48,13 @@ export function addCard(cardsUserInfo, userID) {
 
 export function addCards(cardUserElement) {
   const fragmentUserCard = document.createDocumentFragment();
-  cardUserElement.forEach(card => {
-    const cardElement = addCard(card, allUserId);
+  console.log('1',fragmentUserCard);
+  cardUserElement.forEach(cardData => {
+    // const cardElement = addCard(card, allUserId);
+    console.log('2',cardData);
+    const card = new Card(cardData, '#elements');
+    cardElement = card.createCard();
+    console.log('!!!!!',cardElement);
     container.append(cardElement);
   })
   container.append(fragmentUserCard);
