@@ -46,15 +46,12 @@ export function addCard(cardsUserInfo, userID) {
   return cardElement
 }
 
-export function addCards(cardUserElement) {
+export function addCards(cardUserElement, cardElement) {
   const fragmentUserCard = document.createDocumentFragment();
-  console.log('1',fragmentUserCard);
   cardUserElement.forEach(cardData => {
     // const cardElement = addCard(card, allUserId);
-    console.log('2',cardData);
     const card = new Card(cardData, '#elements');
     cardElement = card.createCard();
-    console.log('!!!!!',cardElement);
     container.append(cardElement);
   })
   container.append(fragmentUserCard);

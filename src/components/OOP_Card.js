@@ -1,6 +1,6 @@
 //test OOP Card.js
-// Нет слушателя событий для кнопок!!!! likeButtonElement. 
-//Может быть создать setEventListeners???
+// при обновлении страницы удаленная карточка востанавливается(сервер не видит запрос)
+// Много проблем с сервером, функции удалить и лайк не работают(сервер не видит запрос)(обр внимание на api.putLikeCard(this._data._id) итд)
 import { api } from '../components/utils.js'
 import { allUserId } from '../components/card.js'
 export class Card {
@@ -10,39 +10,31 @@ export class Card {
         this._photo = data.link;
         this._likes = `${data.likes.length}`
         this._ownerId = data.owner._id;
-
+        this._id = data.id
     }
 
     _getElement() {
-        // alert('4');
-        const cardTemplate = document.querySelector(this._selector)
+        const cardTemplateElement = document.querySelector(this._selector)
             .content
-            // .querySelector('.element__cards')
+            .querySelector('.element__cards')
             .cloneNode(true);
-        console.log('sdfdsf', cardTemplate);
 
-        this._likeButtonElement = cardTemplate.querySelector('.element__like');
-        this._trashButtonElement = cardTemplate.querySelector('.element__delite');
-        console.log('s!!!', this._likeButtonElement);
-        console.log('t!!!', this._trashButtonElement);
+        this._likeButtonElement = cardTemplateElement.querySelector('.element__like');
+        this._trashButtonElement = cardTemplateElement.querySelector('.element__delite');
 
-        return cardTemplate
+        return cardTemplateElement
     }
 
     createCard() {
-        // alert('3');
         this._element = this._getElement();
-        console.log('m!!!', this._element);
 
         const photoElement = this._element.querySelector('.element__photo');
         photoElement.src = this._photo;
         photoElement.link = this._photoTitle;
-
-        console.log('q!!!', this._element);        
+       
         this._setlikeInfo();
         this._showDeleteButton();
-        this._setEventListeners();
-        console.log('w!!!', this._element);        
+        this._setEventListeners();       
         return this._element
     }
 
@@ -91,9 +83,9 @@ export class Card {
         this._likeCounter.textContent = `${res.likes.length}`;
     }
 
-    _removeCard() {
+    _removeCard(_element) {
         this._element.remove();
-        // this._element = null;
+        this._element = null;
     }
 
     _showDeleteButton() {
