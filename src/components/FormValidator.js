@@ -1,81 +1,94 @@
-// Перенести const setValidation из index.js в utils.js ?????????
-
-export class FormValidator { // Экспортируем в index.js
-    constructor(formElement, data) {
-        this._modalForm = formElement;
-        this._inputClass = data.inputFormLine; // inputFormLine(инпут формы) из index.js (const setValidation)
-        this._arrayInput = Array.from(this._modalForm.querySelectorAll(this._inputClass));
-        this._inputErrorText = data.addErrorText; // addErrorText(текст ошибки) из index.js (const setValidation)
-        this._errorLine = data.errorInputLineElement; // errorInputLineElement(красная линия) из index.js (const setValidation)
-        this._saveButton = data.formButtonSubmit; // formButtonSubmit(кнопка сохранить) из index.js (const setValidation)
-        this._button = this._modalForm.querySelector(this._saveButton);
-        this._disableButton = data.modalForminactiveButtonSubmit; // modalForminactiveButtonSubmit(отключить кнопку) из index.js (const setValidation)
-    }
-    
-    maskInputError() {
-        this._toggleButtonState(this._button)
-        this._arrayInput.forEach((input) => {
-            this._errorElement = this._form.querySelector(`.${input.id}-error`);
-            _hideInputError(input);
-        })
+export class FormValidator {
+    constructor(validationParametrs) {
+        this._modalForm = validationParametrs.modalForm;
+        this._inputFormLine = validationParametrs.inputFormLine;
+        this._formButtonSubmit = validationParametrs.formButtonSubmit;
+        this._modalForminactiveButtonSubmit = validationParametrs.modalForminactiveButtonSubmit;
+        this._errorInputLineElement = validationParametrs.errorInputLineElement;
+        this._addErrorText = validationParametrs.addErrorText;
     }
 
-    _displayInputError(inputElement) {
-        inputElement.classList.add(this._inputErrorText);
-        this._errorElement.classList.add(this._errorLine);
-        this._errorElement.textContent = inputElement.errorMessage;
+    _displayInputError = (formElement, inputElement, errorMessage, errorInputLineElement, addErrorText) => {
+        const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+        inputElement.classList.add(errorInputLineElement);
+        errorElement.textContent = errorMessage;
+        errorElement.classList.add(addErrorText);
     };
 
-    _hideInputError(inputElement) {
-        if (!this._errorElement) return;
-        inputElement.classList.remove(this._inputErrorText);
-        this._errorElement.classList.remove(this._errorLine);
-        this._errorElement.textContent = '';
+    _hideInputError = (formElement, inputElement, errorInputLineElement, addErrorText) => {
+        const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+        inputElement.classList.remove(errorInputLineElement);
+        errorElement.classList.remove(addErrorText);
+        errorElement.textContent = '';
     };
 
-    _checkValidity (inputElement) {
+    _checkValidity = (formElement, inputElement, errorInputLineElement, addErrorText) => {
+        if (inputElement.validity.patternMismatch) {
+            inputElement.setCustomValidity(inputElement.dataset.errorMessage);
+        } else {
+            inputElement.setCustomValidity("");
+        }
+
         if (!inputElement.validity.valid) {
-            this._displayInputError(inputElement);
+            this._displayInputError(formElement, inputElement, inputElement.validationMessage, errorInputLineElement, addErrorText);
         } else {
-            this._hideInputError(inputElement);
+            this._hideInputError(formElement, inputElement, errorInputLineElement, addErrorText);
         }
     };
-// Отключение кнопки если форма не проходит валидацию
 
-    _disableButton() { // Добавить в скобки валидацию инпутов ( _validation() )?????
-        this._button.classList.add(this._disableButton);
-        this._button.setAttribute('disabled', true);
-    }
-    
-    _enableButton() {
-        this._button.classList.remove(this._disableButton);
-        this._button.removeAttribute('disabled', true);
-    }
-
-    _validation() {
-        return _arrayInput.some((input) => !input.validity.valid);
+    _hasInvalidInput = (inputList) => {
+        return inputList.some((inputElement) => {
+            return !inputElement.validity.valid;
+        })
+    };
+    _disableButton(buttomSubmitElement, modalForminactiveButtonSubmit) {
+        buttomSubmitElement.disabled = true;
+        buttomSubmitElement.classList.add(modalForminactiveButtonSubmit);
     }
 
-    _toggleButtonState() {
-        if (this._validation()) { // Добавить в скобки валидацию инпутов(выполненно)
-            this._disableButton()
+    _enableButton(buttomSubmitElement, modalForminactiveButtonSubmit) {
+        buttomSubmitElement.disabled = false;
+        buttomSubmitElement.classList.remove(modalForminactiveButtonSubmit);
+    }
+
+    _toggleButtonState = (inputList, buttomSubmitElement, modalForminactiveButtonSubmit) => {
+        if (this._hasInvalidInput(inputList)) {
+            this._disableButton(buttomSubmitElement, modalForminactiveButtonSubmit);
         } else {
-            this._enableButton()
+            this._enableButton(buttomSubmitElement, modalForminactiveButtonSubmit);
         }
     };
-//___________________________________________________________________________________________
 
-    _setEventListeners() { //Дописать
-        this._toggleButtonState()
-        // ????? Прода
-    }
+    _setEventListeners = (formElement, modalForm, inputFormLine, formButtonSubmit, modalForminactiveButtonSubmit, errorInputLineElement, addErrorText) => {
+        const inputList = Array.from(formElement.querySelectorAll(inputFormLine));
+        const buttomSubmitElement = formElement.querySelector(formButtonSubmit);
 
-    enableValidation() {
-        this._modalForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+        formElement.addEventListener('reset', () => {
+            this._disableButton(buttomSubmitElement, modalForminactiveButtonSubmit);
         });
-        this._setEventListeners();
-    }
-}
 
-console.log(FormValidator)
+        inputList.forEach((inputElement) => {
+            this._toggleButtonState(inputList, buttomSubmitElement, modalForminactiveButtonSubmit);
+            inputElement.addEventListener('input', () => {
+                this._checkValidity(formElement, inputElement, errorInputLineElement, addErrorText)
+                this._toggleButtonState(inputList, buttomSubmitElement, modalForminactiveButtonSubmit);
+            });
+        });
+    };
+
+    enableValidation = () => {
+        const formList = Array.from(document.querySelectorAll(this._modalForm));
+
+        formList.forEach((formElement) => {
+            this._setEventListeners(
+                formElement,
+                this._modalForm,
+                this._inputFormLine,
+                this._formButtonSubmit,
+                this._modalForminactiveButtonSubmit,
+                this._errorInputLineElement,
+                this._addErrorText
+            );
+        });
+    };
+}

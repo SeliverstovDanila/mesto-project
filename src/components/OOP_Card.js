@@ -1,6 +1,4 @@
 //test OOP Card.js
-// при обновлении страницы удаленная карточка востанавливается(сервер не видит запрос)
-// Много проблем с сервером, функции удалить и лайк не работают(сервер не видит запрос)(обр внимание на api.putLikeCard(this._data._id) итд)
 import { api } from '../components/utils.js'
 import { allUserId } from '../components/card.js'
 export class Card {
@@ -8,9 +6,9 @@ export class Card {
         this._selector = selector;
         this._title = data.name;
         this._photo = data.link;
-        this._likes = `${data.likes.length}`
+        this._likes = data.likes;
         this._ownerId = data.owner._id;
-        this._id = data.id
+        this._id = data._id
     }
 
     _getElement() {
@@ -29,29 +27,21 @@ export class Card {
         this._element = this._getElement();
 
         const photoElement = this._element.querySelector('.element__photo');
+        const titleElement = this._element.querySelector('.element__title');
         photoElement.src = this._photo;
         photoElement.link = this._photoTitle;
-       
+        titleElement.textContent = this._title;
+
         this._setlikeInfo();
+        this._showLikeActive();
         this._showDeleteButton();
-        this._setEventListeners();       
+        this._setEventListeners();
         return this._element
     }
 
     _setEventListeners() {
-        this._setLikeEventListeners();
-        this._setTrashButtonEventListeners()
-    }
-
-    _setLikeEventListeners() {
-        this._likeButtonElement.addEventListener('click', () => {
-            if (this._likeButtonElement.classList.contains('.element__like_active')) {
-                this._removeLike();
-            } else {
-                this._addLike()
-            }
-        })
-
+        this._setTrashButtonEventListeners();
+        this._handleLikeListener();
     }
 
     _setTrashButtonEventListeners() {
@@ -62,28 +52,44 @@ export class Card {
 
     _setlikeInfo() {
         const likesAmountElement = this._element.querySelector('.element__like-counter');
-        if (parseInt(this._likes) > 0) {
+        if (this._likes.length > 0) {
             likesAmountElement.classList.add('element__like-counter_active');
-            likesAmountElement.textContent = this._likes;
+            likesAmountElement.textContent = `${this._likes.length}`;
         } else {
             likesAmountElement.classList.remove('element__like-counter_active');
         }
     }
 
-    _addLike() {
-        this._likeButtonElement.classList.add('element__like_active');
-        api.putLikeCard(this._data._id);
+    _showLikeActive() {
+        const isLiked = this._likes.some(likeData => likeData._id = this._ownerId);
+        if (isLiked) {
+            this._likeButtonElement.classList.add('element__like_active');
+        } else {
+            this._likeButtonElement.classList.remove('element__like_active');
+        }
     }
 
-    _removeLike() {
-        this._likeButtonElement.classList.remove('element__like_active');
-        api.deleteLikeCard(this._data._id);
-    }
-    setLike(res) {
-        this._likeCounter.textContent = `${res.likes.length}`;
+    _handleLikeListener() {
+        this._likeButtonElement.addEventListener('click', () => {
+            if (this._likeButtonElement.classList.contains('element__like_active')) {
+                this._likeButtonElement.classList.toggle('element__like_active');
+                api.deleteLikeCard(this._id).then(res => {
+                    this._likes = res.likes;
+                    this._setlikeInfo();
+                });
+
+            } else {
+                this._likeButtonElement.classList.toggle('element__like_active');
+                api.putLikeCard(this._id).then(res => {
+                    this._likes = res.likes;
+                    this._setlikeInfo();
+                });
+            }
+        })
     }
 
     _removeCard(_element) {
+        api.deleteCard(this._id);
         this._element.remove();
         this._element = null;
     }

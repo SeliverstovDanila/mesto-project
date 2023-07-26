@@ -24,7 +24,8 @@ import {
   handleSubmitUserProfile
 } from '../components/modal.js'
 import { addNewItem } from '../components/card.js'
-import { enableValidation } from '../components/validate.js'
+import { FormValidator } from '../components/FormValidator.js'
+// import { enableValidation } from '../components/validate.js'
 
 import {PopupWithImage} from '../components/OOP_PopupWithImage.js'
 const setValidation = {
@@ -36,7 +37,9 @@ const setValidation = {
   addErrorText: 'form__line_text-error_active'
 }
 
-enableValidation(setValidation);
+// enableValidation(setValidation);
+const validation = new FormValidator(setValidation);
+validation.enableValidation();
 
 // Модальное окно - профиль
 buttonEdit.addEventListener('click', openModalProfile);
@@ -56,4 +59,3 @@ popupAvatarIdForm.addEventListener('submit', handleSubmitAvatarUserProfile);
 
 const zoomPhoto = new PopupWithImage(popupZoom)
 zoomPhoto.setEventListeners();
-export { setValidation }
