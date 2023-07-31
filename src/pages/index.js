@@ -66,9 +66,9 @@ avatarButtonOpenModalForm.addEventListener('click', avatarModalFormOpen);
 avatarButtonCloseModalForm.addEventListener('click', avatarModalFormClose);
 popupAvatarIdForm.addEventListener('submit', handleSubmitAvatarUserProfile);
 
-export function openPhoto(title, src) {
-  zoomPhoto.open(title, src)
-}
+// export function openPhoto(title, src) {
+//   zoomPhoto.open(title, src)
+// }
 
-const zoomPhoto = new PopupWithImage(popupZoom)
-zoomPhoto.setEventListeners();
+// const zoomPhoto = new PopupWithImage(popupZoom)
+// zoomPhoto.setEventListeners();
