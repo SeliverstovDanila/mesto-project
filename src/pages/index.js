@@ -10,7 +10,8 @@ import {
   avatarButtonOpenModalForm,
   avatarButtonCloseModalForm,
   popupAvatarIdForm,
-  popupZoom
+  popupZoom,
+  container
 } from '../components/utils.js'
 import {
   openModalProfile,
@@ -28,6 +29,15 @@ import { FormValidator } from '../components/FormValidator.js'
 // import { enableValidation } from '../components/validate.js'
 
 import {PopupWithImage} from '../components/OOP_PopupWithImage.js'
+import { Section } from '../components/Section.js'
+
+const cardItem = new Section({
+  render: (data) => {
+    const card = createCard(data);
+    cardItem.tagItem(card)
+  }
+}, container);
+
 const setValidation = {
   modalForm: '.popup__form-container',
   inputFormLine: '.form__line',
@@ -56,6 +66,9 @@ avatarButtonOpenModalForm.addEventListener('click', avatarModalFormOpen);
 avatarButtonCloseModalForm.addEventListener('click', avatarModalFormClose);
 popupAvatarIdForm.addEventListener('submit', handleSubmitAvatarUserProfile);
 
+export function openPhoto(title, src) {
+  zoomPhoto.open(title, src)
+}
 
 const zoomPhoto = new PopupWithImage(popupZoom)
 zoomPhoto.setEventListeners();

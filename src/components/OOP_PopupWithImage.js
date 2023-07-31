@@ -8,7 +8,7 @@ export class PopupWithImage extends Popup {
     }
 
     openZoom(title, src) {
-        super.openModal();
+        super.open();
         this._title.textContent = title;
         this._photo.src = src;
         this._photo.alt = title;

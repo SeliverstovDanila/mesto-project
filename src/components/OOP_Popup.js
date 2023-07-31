@@ -1,39 +1,39 @@
 export class Popup {
     constructor(popup) {
         this._popup = popup;
-        this._escapeButtonClose = this._escapeButtonClose.bind(this)
-        // this._overlayClickModalClose = this._overlayClickModalClose.bind(this)?????
+        this._handleEscClose = this._handleEscClose.bind(this)
+        // this._overlayClickModalClose = this._overlayClickModalClose.bind(this)
     }
 
-    openModal() {
+    open() {
         this._popup.classList.add('popup_open');
         document.addEventListener('keydown', escapeButtonClose);
         this._popup.addEventListener('click', overlayClickModalClose);
     }
     
-    closeModal() {
+    close() {
         this._popup.classList.remove('popup_open');
         document.removeEventListener('keydown', escapeButtonClose);
         this._popup.removeEventListener('click', overlayClickModalClose);
     }
     
-    _escapeButtonClose(evt) {
+    _handleEscClose(evt) {
         if (evt.key === 'Escape') {
             // const popupOpenElement = document.querySelector('.popup_open'); ????????
-            this.closeModal()
+            this.close()
         }
     }
     
     overlayClickModalClose(evt) {
         if (evt.target.classList.contains('popup_open')) {
-            this.closeModal()
+            this.close()
         }
     }
 
     setEventListeners() {
-        this._popup.addEventListener('click', (evt) => {
+        this._popup.addEventListener('mousedown', (evt) => {
             if (evt.target.classList.contains('popup_open') || evt.target.classList.contains('popup__button-close')) {
-                this.closeModal();
+                this.close();
             }
         })
     }

@@ -1,14 +1,16 @@
 //test OOP Card.js
 import { api } from '../components/utils.js'
 import { allUserId } from '../components/card.js'
+// import { openPhoto } from '../pages/index.js';
 export class Card {
-    constructor(data, selector) {
+    constructor(data, selector, openPhoto) {
         this._selector = selector;
         this._title = data.name;
         this._photo = data.link;
         this._likes = data.likes;
         this._ownerId = data.owner._id;
         this._id = data._id
+        this._openPhoto = openPhoto; //new
     }
 
     _getElement() {
@@ -26,22 +28,29 @@ export class Card {
     createCard() {
         this._element = this._getElement();
 
-        const photoElement = this._element.querySelector('.element__photo');
-        const titleElement = this._element.querySelector('.element__title');
-        photoElement.src = this._photo;
-        photoElement.link = this._photoTitle;
-        titleElement.textContent = this._title;
+        this._photoElement = this._element.querySelector('.element__photo'); //new было объявленно через const, стало - this._
+        this._titleElement = this._element.querySelector('.element__title'); //new
+        this._photoElement.src = this._photo;
+        this._photoElement.link = this._photoTitle;
+        this._titleElement.textContent = this._title;
 
         this._setlikeInfo();
         this._showLikeActive();
         this._showDeleteButton();
         this._setEventListeners();
+        this._openZoomPhoto(); //new
         return this._element
     }
 
     _setEventListeners() {
         this._setTrashButtonEventListeners();
         this._handleLikeListener();
+    }
+
+    _openZoomPhoto() {  //new
+        this._photoElement.addEventListener('click', () => {
+            this._openPhoto(this._photo, this._title)
+        })
     }
 
     _setTrashButtonEventListeners() {

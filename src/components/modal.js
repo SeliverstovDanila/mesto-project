@@ -81,15 +81,15 @@ function handleAddClose() {
     formAddNewCard.reset();
 }
 // Открыть-закрыть модальное окно "Увеличить фото"
-function openZoom(evt) {
-    const deliteCard = evt.target.closest('.element__cards');
-    const modalImage = deliteCard.querySelector('.element__photo');
-    const zoomImageName = deliteCard.querySelector('.element__title');
-    openModal(popupZoom);
-    popupFullImage.src = modalImage.src;
-    popupFullImage.alt = modalImage.alt;
-    popupZoomImageHeading.textContent = zoomImageName.textContent;
-}
+// function openZoom(evt) {
+//     const deliteCard = evt.target.closest('.element__cards');
+//     const modalImage = deliteCard.querySelector('.element__photo');
+//     const zoomImageName = deliteCard.querySelector('.element__title');
+//     openModal(popupZoom);
+//     popupFullImage.src = modalImage.src;
+//     popupFullImage.alt = modalImage.alt;
+//     popupZoomImageHeading.textContent = zoomImageName.textContent;
+// }
 
 function closeModalZoom() {
     closeModal(popupZoom);
@@ -146,7 +146,6 @@ export {
     closeModalProfile,
     handleProfile,
     handleAddClose,
-    openZoom,
     closeModalZoom,
     avatarModalFormOpen,
     avatarModalFormClose,
