@@ -57,7 +57,7 @@ const validation = new FormValidator(setValidation);
 validation.enableValidation();
 
 
-const popupProfile = new PopupWithForm(modalProfile, close, buttonEdit, (values) => {
+const popupProfile = new PopupWithForm(modalProfile, buttonEdit, (values) => {
   // this.saveLoading(true, 'Сохранение...');
 
   api.sendUserInfo(Object.values(values)[0], Object.values(values)[1])
@@ -65,9 +65,6 @@ const popupProfile = new PopupWithForm(modalProfile, close, buttonEdit, (values)
       profileTitle.textContent = data.name;
       profileSubtitle.textContent = data.about;
     });
-    console.log('!!!!', this)
-  this.close();
-
 })
 popupProfile.setEventListeners();
 
