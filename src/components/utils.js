@@ -40,3 +40,9 @@ export const api = new Api({
         'Content-Type': 'application/json'
     }
   });
+
+  export const profileElement = {
+    profileName: '.profile__title',
+    profileAbout: '.profile__subtitle',
+    profileAvatar: '.profile__avatar-photo'
+  }

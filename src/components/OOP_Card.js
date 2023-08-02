@@ -51,8 +51,6 @@ export class Card {
     _openZoomPhoto() {  //new
         this._photoElement.addEventListener('click', () => {
             const zoomPhoto = new PopupWithImage(popupZoom);
-            console.log('_openZoomPhoto', zoomPhoto);
-            console.log('this._photo', zoomPhoto._photo);
             zoomPhoto.openZoom(this._title, this._photo);
         })
     }
