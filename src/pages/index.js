@@ -11,7 +11,11 @@ import {
   avatarButtonCloseModalForm,
   popupAvatarIdForm,
   popupZoom,
-  container
+  container,
+  modalProfile,
+  api,
+  profileTitle,
+  profileSubtitle
 } from '../components/utils.js'
 import {
   openModalProfile,
@@ -26,9 +30,10 @@ import {
 } from '../components/modal.js'
 import { addNewItem } from '../components/card.js'
 import { FormValidator } from '../components/FormValidator.js'
+import { PopupWithForm } from '../components/PopupWithForm.js'
 // import { enableValidation } from '../components/validate.js'
 
-import {PopupWithImage} from '../components/OOP_PopupWithImage.js'
+import { PopupWithImage } from '../components/OOP_PopupWithImage.js'
 import { Section } from '../components/Section.js'
 
 const cardItem = new Section({
@@ -51,10 +56,26 @@ const setValidation = {
 const validation = new FormValidator(setValidation);
 validation.enableValidation();
 
+
+const popupProfile = new PopupWithForm(modalProfile, close, buttonEdit, (values) => {
+  // this.saveLoading(true, 'Сохранение...');
+
+  api.sendUserInfo(Object.values(values)[0], Object.values(values)[1])
+    .then( data => {
+      profileTitle.textContent = data.name;
+      profileSubtitle.textContent = data.about;
+    });
+    console.log('!!!!', this)
+  this.close();
+
+})
+popupProfile.setEventListeners();
+
+
 // Модальное окно - профиль
-buttonEdit.addEventListener('click', openModalProfile);
-profileClose.addEventListener('click', closeModalProfile);
-modalFormProfile.addEventListener('submit', handleSubmitUserProfile);
+// buttonEdit.addEventListener('click', openModalProfile);
+// profileClose.addEventListener('click', closeModalProfile);
+// modalFormProfile.addEventListener('submit', handleSubmitUserProfile);
 // Модальное окно - сохранить карточку
 buttonOpenModalAddNewCard.addEventListener('click', handleAddModal);
 buttonCloseFormAddNewCard.addEventListener('click', handleAddClose);
