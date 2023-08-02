@@ -15,7 +15,10 @@ import {
   modalProfile,
   api,
   profileTitle,
-  profileSubtitle
+  profileSubtitle,
+  modalAddFormNewCard,
+  popupAvatar,
+  avatarNewPhoto 
 } from '../components/utils.js'
 import {
   openModalProfile,
@@ -58,15 +61,39 @@ validation.enableValidation();
 
 
 const popupProfile = new PopupWithForm(modalProfile, buttonEdit, (values) => {
-  // this.saveLoading(true, 'Сохранение...');
-
   api.sendUserInfo(Object.values(values)[0], Object.values(values)[1])
     .then( data => {
       profileTitle.textContent = data.name;
       profileSubtitle.textContent = data.about;
+    }).finally(() => {
+      popupProfile.saveLoading(false);
     });
 })
 popupProfile.setEventListeners();
+
+
+const popupCardAdd = new PopupWithForm(modalAddFormNewCard, buttonOpenModalAddNewCard, (values) => {
+  api.sendCard(Object.values(values)[0], Object.values(values)[1])
+    .then( data => {
+      console.log('here', data.name, data.link)
+      // add card creation code...
+      
+    }).finally(() => {
+      popupCardAdd.saveLoading(false);
+    });
+})
+popupCardAdd.setEventListeners();
+
+
+const popupAvatarEdit = new PopupWithForm(popupAvatar, avatarButtonOpenModalForm, (values) => {
+  api.refreshAvatar(Object.values(values)[0])
+    .then( data => {
+      avatarNewPhoto.style.backgroundImage = `url("${data.avatar}")`;
+    }).finally(() => {
+      popupAvatarEdit.saveLoading(false);
+    });
+})
+popupAvatarEdit.setEventListeners();
 
 
 // Модальное окно - профиль
@@ -74,15 +101,15 @@ popupProfile.setEventListeners();
 // profileClose.addEventListener('click', closeModalProfile);
 // modalFormProfile.addEventListener('submit', handleSubmitUserProfile);
 // Модальное окно - сохранить карточку
-buttonOpenModalAddNewCard.addEventListener('click', handleAddModal);
-buttonCloseFormAddNewCard.addEventListener('click', handleAddClose);
-formAddNewCard.addEventListener('submit', addNewItem);
+// buttonOpenModalAddNewCard.addEventListener('click', handleAddModal);
+// buttonCloseFormAddNewCard.addEventListener('click', handleAddClose);
+// formAddNewCard.addEventListener('submit', addNewItem);
 // Закрыть увеличение фото
 buttonCloseFormPhotoZoom.addEventListener('click', closeModalZoom);
 // Модальное окно - обновить аватар
-avatarButtonOpenModalForm.addEventListener('click', avatarModalFormOpen);
-avatarButtonCloseModalForm.addEventListener('click', avatarModalFormClose);
-popupAvatarIdForm.addEventListener('submit', handleSubmitAvatarUserProfile);
+// avatarButtonOpenModalForm.addEventListener('click', avatarModalFormOpen);
+// avatarButtonCloseModalForm.addEventListener('click', avatarModalFormClose);
+// popupAvatarIdForm.addEventListener('submit', handleSubmitAvatarUserProfile);
 
 // export function openPhoto(title, src) {
 //   zoomPhoto.open(title, src)
