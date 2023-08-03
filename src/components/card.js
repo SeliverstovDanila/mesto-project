@@ -55,7 +55,6 @@ export class Card {
             cross.addEventListener('click', zoomPhoto.close.bind(zoomPhoto))
         })
 
-
     }
 
     _setTrashButtonEventListeners() {

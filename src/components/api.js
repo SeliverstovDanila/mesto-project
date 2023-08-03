@@ -77,6 +77,7 @@ export class Api {
       .then(this._getCheckResponseData)
   }
 
+  
   deleteCard = (userCardsId) => {
     return fetch(`${this._baseUrl}/cards/${userCardsId}`, {
       method: 'DELETE',

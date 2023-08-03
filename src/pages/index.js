@@ -29,6 +29,7 @@ const cardItem = new Section({
 
 const profileUserElement = api.profileUserInfo()
 const cardUserElement = api.getUserCard()
+
 Promise.all([profileUserElement, cardUserElement])
   .then(results => {
     const [profileData, cardsData] = results;

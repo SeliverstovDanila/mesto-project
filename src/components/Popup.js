@@ -38,7 +38,6 @@ export class Popup {
         crossButton.addEventListener('mousedown', () => {
             this.close()
         })
-
         this._popup.addEventListener('submit', () => {
             this.close()
         })

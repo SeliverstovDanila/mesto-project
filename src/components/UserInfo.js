@@ -7,6 +7,7 @@ export class UserInfo {
         this._avatar = document.querySelector(profileElement.profileAvatar);
     }
 
+    
     profileUserInfo() {
         return {
             id: this._id,
