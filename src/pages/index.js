@@ -18,7 +18,7 @@ import {
   profileSubtitle,
   modalAddFormNewCard,
   popupAvatar,
-  avatarNewPhoto 
+  avatarNewPhoto,
 } from '../components/utils.js'
 import {
   openModalProfile,
@@ -38,6 +38,7 @@ import { PopupWithForm } from '../components/PopupWithForm.js'
 
 import { PopupWithImage } from '../components/OOP_PopupWithImage.js'
 import { Section } from '../components/Section.js'
+import { Card } from '../components/OOP_Card.js'
 
 const cardItem = new Section({
   render: (data) => {
@@ -62,7 +63,7 @@ validation.enableValidation();
 
 const popupProfile = new PopupWithForm(modalProfile, buttonEdit, (values) => {
   api.sendUserInfo(Object.values(values)[0], Object.values(values)[1])
-    .then( data => {
+    .then(data => {
       profileTitle.textContent = data.name;
       profileSubtitle.textContent = data.about;
     }).finally(() => {
@@ -74,10 +75,10 @@ popupProfile.setEventListeners();
 
 const popupCardAdd = new PopupWithForm(modalAddFormNewCard, buttonOpenModalAddNewCard, (values) => {
   api.sendCard(Object.values(values)[0], Object.values(values)[1])
-    .then( data => {
-      console.log('here', data.name, data.link)
-      // add card creation code...
-      
+    .then(data => {
+      const card = new Card(data, '#elements');
+      const cardElement = card.createCard();
+      container.prepend(cardElement);
     }).finally(() => {
       popupCardAdd.saveLoading(false);
     });
@@ -87,7 +88,7 @@ popupCardAdd.setEventListeners();
 
 const popupAvatarEdit = new PopupWithForm(popupAvatar, avatarButtonOpenModalForm, (values) => {
   api.refreshAvatar(Object.values(values)[0])
-    .then( data => {
+    .then(data => {
       avatarNewPhoto.style.backgroundImage = `url("${data.avatar}")`;
     }).finally(() => {
       popupAvatarEdit.saveLoading(false);
