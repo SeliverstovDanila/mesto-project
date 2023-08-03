@@ -16,5 +16,5 @@
 [GitHub Pages](https://seliverstovdanila.github.io/mesto-project/)
 
 Работа выполенна студентами курса [Веб-разработчик плюс](https://practicum.yandex.ru/):
-[Николай Солоп](https://github.com/NikolaySolop)
-[Селиверстов Данила](https://github.com/SeliverstovDanila)
+[Николай Солоп](https://github.com/NikolaySolop). nikolay-solop@yandex.ru
+[Селиверстов Данила](https://github.com/SeliverstovDanila). Catsvill99@yandex.ru
