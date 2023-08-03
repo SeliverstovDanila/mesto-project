@@ -1,8 +1,9 @@
 //test OOP Card.js
 import { api, popupZoom } from '../components/utils.js'
-import { allUserId } from '../components/card.js'
+// import { allUserId } from '../pages/index.js'
 import { PopupWithImage } from '../components/OOP_PopupWithImage.js'
 // import { openPhoto } from '../pages/index.js';
+let allUserId = null;
 export class Card {
     constructor(data, selector, openPhoto) {
         this._selector = selector;

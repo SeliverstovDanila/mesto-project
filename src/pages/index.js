@@ -1,16 +1,8 @@
 import '../pages/index.css'
 import {
   buttonEdit,
-  modalFormProfile,
-  profileClose,
   buttonOpenModalAddNewCard,
-  formAddNewCard,
-  buttonCloseFormAddNewCard,
-  buttonCloseFormPhotoZoom,
   avatarButtonOpenModalForm,
-  avatarButtonCloseModalForm,
-  popupAvatarIdForm,
-  popupZoom,
   container,
   modalProfile,
   api,
@@ -20,32 +12,45 @@ import {
   popupAvatar,
   avatarNewPhoto,
 } from '../components/utils.js'
-import {
-  openModalProfile,
-  closeModalProfile,
-  handleAddClose,
-  closeModalZoom,
-  avatarModalFormOpen,
-  avatarModalFormClose,
-  handleAddModal,
-  handleSubmitAvatarUserProfile,
-  handleSubmitUserProfile
-} from '../components/modal.js'
-import { addNewItem } from '../components/card.js'
 import { FormValidator } from '../components/FormValidator.js'
 import { PopupWithForm } from '../components/PopupWithForm.js'
-// import { enableValidation } from '../components/validate.js'
-
-import { PopupWithImage } from '../components/OOP_PopupWithImage.js'
 import { Section } from '../components/Section.js'
 import { Card } from '../components/OOP_Card.js'
+import { UserInfo } from '../components/UserInfo.js'
+
+let allUserId = null;
 
 const cardItem = new Section({
   render: (data) => {
-    const card = createCard(data);
-    cardItem.tagItem(card)
+    const newCard = addCards(data);
+    cardItem.tagItem(newCard)
   }
 }, container);
+
+const profileUserElement = api.profileUserInfo()
+const cardUserElement = api.getUserCard()
+Promise.all([profileUserElement, cardUserElement])
+  .then(results => {
+    const [profileData, cardsData] = results;
+    allUserId = profileData._id;
+    const user = new UserInfo()
+    user.setUserInfo(profileData);
+    addCards(cardsData);
+  })
+  .catch(error => {
+    console.log(error);
+  })
+
+function addCards(cardUserElement, cardElement) {
+  const fragmentUserCard = document.createDocumentFragment();
+  cardUserElement.forEach(cardData => {
+    // const cardElement = addCard(card, allUserId);
+    const card = new Card(cardData, '#elements');
+    cardElement = card.createCard();
+    container.append(cardElement);
+  })
+  container.append(fragmentUserCard);
+}
 
 const setValidation = {
   modalForm: '.popup__form-container',
@@ -95,26 +100,3 @@ const popupAvatarEdit = new PopupWithForm(popupAvatar, avatarButtonOpenModalForm
     });
 })
 popupAvatarEdit.setEventListeners();
-
-
-// Модальное окно - профиль
-// buttonEdit.addEventListener('click', openModalProfile);
-// profileClose.addEventListener('click', closeModalProfile);
-// modalFormProfile.addEventListener('submit', handleSubmitUserProfile);
-// Модальное окно - сохранить карточку
-// buttonOpenModalAddNewCard.addEventListener('click', handleAddModal);
-// buttonCloseFormAddNewCard.addEventListener('click', handleAddClose);
-// formAddNewCard.addEventListener('submit', addNewItem);
-// Закрыть увеличение фото
-// buttonCloseFormPhotoZoom.addEventListener('click', closeModalZoom);
-// Модальное окно - обновить аватар
-// avatarButtonOpenModalForm.addEventListener('click', avatarModalFormOpen);
-// avatarButtonCloseModalForm.addEventListener('click', avatarModalFormClose);
-// popupAvatarIdForm.addEventListener('submit', handleSubmitAvatarUserProfile);
-
-// export function openPhoto(title, src) {
-//   zoomPhoto.open(title, src)
-// }
-
-// const zoomPhoto = new PopupWithImage(popupZoom)
-// zoomPhoto.setEventListeners();
