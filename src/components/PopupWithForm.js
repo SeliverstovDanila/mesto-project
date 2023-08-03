@@ -15,11 +15,11 @@ export class PopupWithForm extends Popup {
         this._popupForm.reset()
     }
 
-    saveLoading(isLoading, defaultText) { //Нужно использовать эту функцию при обращение к серверу
+    saveLoading(isLoading) { //Нужно использовать эту функцию при обращение к серверу
         if(isLoading) {
-            this._saveButton.textContent = defaultText;
+            this._saveButton.textContent = "Сохранение...";
         } else {
-            this._saveButton.textContent = this._saveTextButton
+            this._saveButton.textContent = "Сохранить"
         }
     }
 
@@ -34,6 +34,7 @@ export class PopupWithForm extends Popup {
     setEventListeners() {
         super.setEventListeners(); //из родительского popup
         this._popupForm.addEventListener('submit', (evt) => {
+            this.saveLoading(true);
             evt.preventDefault();
             this._submitForm(this._getInputValues()); // исполняет функцию сохранения, взяв данные, которые ввели в инпуты формы
         })

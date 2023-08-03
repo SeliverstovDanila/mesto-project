@@ -1,7 +1,7 @@
 //test OOP Card.js
 import { api, popupZoom } from '../components/utils.js'
 import { allUserId } from '../components/card.js'
-import {PopupWithImage} from '../components/OOP_PopupWithImage.js'
+import { PopupWithImage } from '../components/OOP_PopupWithImage.js'
 // import { openPhoto } from '../pages/index.js';
 export class Card {
     constructor(data, selector, openPhoto) {
@@ -52,7 +52,11 @@ export class Card {
         this._photoElement.addEventListener('click', () => {
             const zoomPhoto = new PopupWithImage(popupZoom);
             zoomPhoto.openZoom(this._title, this._photo);
+            const cross = document.querySelector('.popup__zoom .popup__button-close');
+            cross.addEventListener('click', zoomPhoto.close.bind(zoomPhoto))
         })
+
+
     }
 
     _setTrashButtonEventListeners() {

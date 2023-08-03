@@ -106,7 +106,7 @@ popupAvatarEdit.setEventListeners();
 // buttonCloseFormAddNewCard.addEventListener('click', handleAddClose);
 // formAddNewCard.addEventListener('submit', addNewItem);
 // Закрыть увеличение фото
-buttonCloseFormPhotoZoom.addEventListener('click', closeModalZoom);
+// buttonCloseFormPhotoZoom.addEventListener('click', closeModalZoom);
 // Модальное окно - обновить аватар
 // avatarButtonOpenModalForm.addEventListener('click', avatarModalFormOpen);
 // avatarButtonCloseModalForm.addEventListener('click', avatarModalFormClose);
