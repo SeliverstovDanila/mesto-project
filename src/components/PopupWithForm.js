@@ -1,22 +1,22 @@
-import { Popup } from "./OOP_Popup.js";
+import { Popup } from "./Popup.js";
 
 export class PopupWithForm extends Popup {
     constructor(popup, editButton, submitForm) {
-        super(popup, editButton); // Переносим родительскую функцию popup в конструктор PopupWithForm
-        this._popupForm = this._popup.querySelector('.popup__form-container') // Форма модального окна
-        this._popupInput = this._popup.querySelectorAll('.form__line') // Инпуты модального окна
-        this._saveButton = this._popup.querySelector('.popup__button-sumbit') // Кнопка сохранить
+        super(popup, editButton);
+        this._popupForm = this._popup.querySelector('.popup__form-container')
+        this._popupInput = this._popup.querySelectorAll('.form__line')
+        this._saveButton = this._popup.querySelector('.popup__button-sumbit')
         this._saveTextButton = this._saveButton.textContent;
         this._submitForm = submitForm;
     }
 
-    close(){
+    close() {
         super.close();
         this._popupForm.reset()
     }
 
-    saveLoading(isLoading) { //Нужно использовать эту функцию при обращение к серверу
-        if(isLoading) {
+    saveLoading(isLoading) {
+        if (isLoading) {
             this._saveButton.textContent = "Сохранение...";
         } else {
             this._saveButton.textContent = "Сохранить"
@@ -32,11 +32,11 @@ export class PopupWithForm extends Popup {
     }
 
     setEventListeners() {
-        super.setEventListeners(); //из родительского popup
+        super.setEventListeners();
         this._popupForm.addEventListener('submit', (evt) => {
             this.saveLoading(true);
             evt.preventDefault();
-            this._submitForm(this._getInputValues()); // исполняет функцию сохранения, взяв данные, которые ввели в инпуты формы
+            this._submitForm(this._getInputValues());
         })
     }
 }

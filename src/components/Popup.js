@@ -11,20 +11,19 @@ export class Popup {
         document.addEventListener('keydown', this._handleEscClose);
         this._popup.addEventListener('click', this._overlayClickModalClose);
     }
-    
+
     close() {
         this._popup.classList.remove('popup_open');
         document.removeEventListener('keydown', this._handleEscClose);
         this._popup.removeEventListener('click', this._overlayClickModalClose);
     }
-    
+
     _handleEscClose(evt) {
         if (evt.key === 'Escape') {
-            // const popupOpenElement = document.querySelector('.popup_open'); ????????
             this.close()
         }
     }
-    
+
     _overlayClickModalClose(evt) {
         if (evt.target.classList.contains('popup_open')) {
             this.close()

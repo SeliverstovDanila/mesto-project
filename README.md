@@ -7,10 +7,14 @@
 **Используемые технологии:**
 1. FlexBox - верстка
 2. HTML, CSS.
-3. "Media" запросы для реализации адаптации сайта под устройства с меньшим разрешением: Работа выстраивалась с правила "desktop firs".
+3. "Media" запросы для реализации адаптации сайта под устройства с меньшим разрешением: Работа выстраивалась с правила "desktop first".
 4. Организация файловой структуры по методолгии БЭМ Nested.
 5. Grid Layout
 6. JavaScript ECMAScript 5.
-
+7. OOП
 **Здесь будет проект о путешествии кота по России.**
 [GitHub Pages](https://seliverstovdanila.github.io/mesto-project/)
+
+Работа выполенна студентами курса [Веб-разработчик плюс](https://practicum.yandex.ru/):
+[Николай Солоп](https://github.com/NikolaySolop)
+[Селиверстов Данила](https://github.com/SeliverstovDanila)

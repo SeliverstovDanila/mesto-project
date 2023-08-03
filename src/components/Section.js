@@ -1,7 +1,7 @@
 export class Section {
-    constructor( {render}, container) {
+    constructor({ render }, container) {
         this._render = render
-        this._selector = container // _selector взят из конструктора OOP_Card.js
+        this._selector = container
     }
 
     tagItem(item) {

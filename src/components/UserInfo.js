@@ -1,7 +1,7 @@
-import {profileElement} from '../components/utils.js'
+import { profileElement } from '../components/utils.js'
 
 export class UserInfo {
-    constructor() { // Есть другой способ сделать конструктор(искать элементы напрямую в конструкторе)
+    constructor() {
         this._title = document.querySelector(profileElement.profileName);
         this._about = document.querySelector(profileElement.profileAbout);
         this._avatar = document.querySelector(profileElement.profileAvatar);
@@ -12,16 +12,9 @@ export class UserInfo {
             id: this._id,
             title: this._title.textContent,
             about: this._about.textContent,
-            avatar: this._avatar.style.backgroundImage // уточнить
+            avatar: this._avatar.style.backgroundImage
         }
     }
-
-    // setUserInfo({ title, about, avatar, _id }) {
-    //     this._title.textContent = title;
-    //     this._about.textContent = about;
-    //     this._avatar.style.backgroundImage = avatar;
-    //     this._id = _id;
-    // }
 
     setUserInfo(userData) {
         this._title.textContent = userData.name;

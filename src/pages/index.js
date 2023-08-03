@@ -15,10 +15,10 @@ import {
 import { FormValidator } from '../components/FormValidator.js'
 import { PopupWithForm } from '../components/PopupWithForm.js'
 import { Section } from '../components/Section.js'
-import { Card } from '../components/OOP_Card.js'
+import { Card } from '../components/card.js'
 import { UserInfo } from '../components/UserInfo.js'
 
-let allUserId = null;
+export let allUserId = null;
 
 const cardItem = new Section({
   render: (data) => {
@@ -44,7 +44,6 @@ Promise.all([profileUserElement, cardUserElement])
 function addCards(cardUserElement, cardElement) {
   const fragmentUserCard = document.createDocumentFragment();
   cardUserElement.forEach(cardData => {
-    // const cardElement = addCard(card, allUserId);
     const card = new Card(cardData, '#elements');
     cardElement = card.createCard();
     container.append(cardElement);
@@ -61,10 +60,8 @@ const setValidation = {
   addErrorText: 'form__line_text-error_active'
 }
 
-// enableValidation(setValidation);
 const validation = new FormValidator(setValidation);
 validation.enableValidation();
-
 
 const popupProfile = new PopupWithForm(modalProfile, buttonEdit, (values) => {
   api.sendUserInfo(Object.values(values)[0], Object.values(values)[1])
@@ -77,7 +74,6 @@ const popupProfile = new PopupWithForm(modalProfile, buttonEdit, (values) => {
 })
 popupProfile.setEventListeners();
 
-
 const popupCardAdd = new PopupWithForm(modalAddFormNewCard, buttonOpenModalAddNewCard, (values) => {
   api.sendCard(Object.values(values)[0], Object.values(values)[1])
     .then(data => {
@@ -89,7 +85,6 @@ const popupCardAdd = new PopupWithForm(modalAddFormNewCard, buttonOpenModalAddNe
     });
 })
 popupCardAdd.setEventListeners();
-
 
 const popupAvatarEdit = new PopupWithForm(popupAvatar, avatarButtonOpenModalForm, (values) => {
   api.refreshAvatar(Object.values(values)[0])
