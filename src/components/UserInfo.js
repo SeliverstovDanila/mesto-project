@@ -1,7 +1,5 @@
-import { profileElement } from '../components/utils.js'
-
 export class UserInfo {
-    constructor() {
+    constructor(profileElement) {
         this._title = document.querySelector(profileElement.profileName);
         this._about = document.querySelector(profileElement.profileAbout);
         this._avatar = document.querySelector(profileElement.profileAvatar);

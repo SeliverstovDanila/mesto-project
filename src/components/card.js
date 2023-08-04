@@ -1,9 +1,5 @@
-import { api, popupZoom } from './utils.js'
-import { PopupWithImage } from './PopupWithImage.js'
-import { allUserId } from '../pages/index.js'
-
 export class Card {
-    constructor(data, selector, openPhoto) {
+    constructor(data, selector, PopupWithImageClass, api, userId, openPhoto) {
         this._selector = selector;
         this._title = data.name;
         this._photo = data.link;
@@ -11,6 +7,9 @@ export class Card {
         this._ownerId = data.owner._id;
         this._id = data._id
         this._openPhoto = openPhoto;
+        this._PopupWithImageClass = PopupWithImageClass;
+        this._api = api;
+        this._userId = userId;
     }
 
     _getElement() {
@@ -49,7 +48,8 @@ export class Card {
 
     _openZoomPhoto() {
         this._photoElement.addEventListener('click', () => {
-            const zoomPhoto = new PopupWithImage(popupZoom);
+            const popupZoom = document.querySelector('#photo-zoom');
+            const zoomPhoto = new this._PopupWithImageClass(popupZoom);
             zoomPhoto.openZoom(this._title, this._photo);
             const cross = document.querySelector('.popup__zoom .popup__button-close');
             cross.addEventListener('click', zoomPhoto.close.bind(zoomPhoto))
@@ -86,14 +86,14 @@ export class Card {
         this._likeButtonElement.addEventListener('click', () => {
             if (this._likeButtonElement.classList.contains('element__like_active')) {
                 this._likeButtonElement.classList.toggle('element__like_active');
-                api.deleteLikeCard(this._id).then(res => {
+                this._api.deleteLikeCard(this._id).then(res => {
                     this._likes = res.likes;
                     this._setlikeInfo();
                 });
 
             } else {
                 this._likeButtonElement.classList.toggle('element__like_active');
-                api.putLikeCard(this._id).then(res => {
+                this._api.putLikeCard(this._id).then(res => {
                     this._likes = res.likes;
                     this._setlikeInfo();
                 });
@@ -102,14 +102,14 @@ export class Card {
     }
 
     _removeCard(_element) {
-        api.deleteCard(this._id);
+        this._api.deleteCard(this._id);
         this._element.remove();
         this._element = null;
     }
 
     _showDeleteButton() {
         const trashButton = this._element.querySelector('.element__delite')
-        if (this._ownerId !== allUserId) {
+        if (this._ownerId !== this._userId) {
             trashButton.remove();
         }
     }
