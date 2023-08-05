@@ -63,7 +63,7 @@ import {
   handleSubmitAvatarUserProfile,
   handleSubmitUserProfile
 } from '../components/modal.js'
-import { addNewItem } from '../components/card.js'
+import { addNewItem, loadPage } from '../components/card.js'
 import { enableValidation } from '../components/validate.js'
 >>>>>>> parent of 3a92dcc (card and validation functionality)
 
@@ -75,6 +75,7 @@ const setValidation = {
   errorInputLineElement: 'form__line_type-error',
   addErrorText: 'form__line_text-error_active'
 }
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 const validation = new FormValidator(setValidation);
@@ -82,6 +83,10 @@ validation.enableValidation();
 =======
 enableValidation(setValidation);
 >>>>>>> parent of 3a92dcc (card and validation functionality)
+=======
+enableValidation(setValidation);
+loadPage();
+>>>>>>> parent of f9d04e3 (Исправления 1)
 
 const popupProfile = new PopupWithForm(modalProfile, buttonEdit, (values) => {
   api.sendUserInfo(Object.values(values)[0], Object.values(values)[1])

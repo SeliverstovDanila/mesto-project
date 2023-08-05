@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { api, popupZoom } from './utils.js'
 import { PopupWithImage } from './PopupWithImage.js'
 import { allUserId } from '../pages/index.js'
@@ -12,6 +13,18 @@ export class Card {
         this._id = data._id
         this._openPhoto = openPhoto;
     }
+=======
+import {
+  container,
+  template,
+  newCardName,
+  newPhotoLink,
+  buttonSubmitAddForm,
+  modalAddFormNewCards,
+} from '../components/utils.js'
+
+import { deleteCard, putLikeCard, deliteLikeCard, sendCard, profileUserInfo, getUserCards } from '../components/api.js'
+>>>>>>> parent of f9d04e3 (Исправления 1)
 
     _getElement() {
         const cardTemplateElement = document.querySelector(this._selector)
@@ -22,6 +35,7 @@ export class Card {
         this._likeButtonElement = cardTemplateElement.querySelector('.element__like');
         this._trashButtonElement = cardTemplateElement.querySelector('.element__delite');
 
+<<<<<<< HEAD
         return cardTemplateElement
     }
 
@@ -34,6 +48,50 @@ export class Card {
         this._photoElement.src = this._photo;
         this._photoElement.link = this._photoTitle;
         this._titleElement.textContent = this._title;
+=======
+// Загрузка страницы с карточками
+export function loadPage() {
+  const profileUserElements = profileUserInfo()
+  const cardsUserGetElements = getUserCards()
+  Promise.all([profileUserElements, cardsUserGetElements])
+    .then(results => {
+      const [profileData, cardsData] = results;
+      allUserId = profileData._id;
+      refreshProfileUserInfo(profileData);
+      addCards(cardsData);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+}
+// Добавить новую карточку
+export function addCard(cardsUserInfo, usersID) {
+  const cardParts = template.querySelector('.element__cards').cloneNode(true);
+  const cardPhoto = cardParts.querySelector('.element__photo');
+  const cardName = cardParts.querySelector('.element__title');
+  const deliteCardElement = cardParts.querySelector('.element__delite');
+  const likeButton = cardParts.querySelector('.element__like');
+  cardParts.setAttribute('data-id', cardsUserInfo._id);
+  cardPhoto.src = cardsUserInfo.link;
+  cardName.textContent = cardsUserInfo.name;
+  likeUsersInfo(cardParts, cardsUserInfo, usersID);
+  displayLike(cardParts, cardsUserInfo);
+  displayDeliteElement(cardParts, cardsUserInfo, usersID);
+  deliteCardElement.addEventListener('click', removeCard)
+  cardPhoto.addEventListener('click', openZoom)
+  likeButton.addEventListener('click', siftLike)
+  return cardParts
+}
+
+export function addCards(cardsUserGetElements) {
+  const fragmentUserCards = document.createDocumentFragment();
+  cardsUserGetElements.forEach(card => {
+    const cardParts = addCard(card, allUserId);
+    fragmentUserCards.append(cardParts);
+  })
+  container.append(fragmentUserCards);
+}
+>>>>>>> parent of f9d04e3 (Исправления 1)
 
         this._setlikeInfo();
         this._showLikeActive();
@@ -60,75 +118,92 @@ export class Card {
     }
 =======
 function findUsersCard(evt) {
-  const cardElement = evt.target.closest('.element__cards');
-  return cardElement.dataset.id;
+  const cardParts = evt.target.closest('.element__cards');
+  return cardParts.dataset.id;
 }
 // Реализация функций счетчика лайков и поставить лайк на карточку
-function likeUserInfo(cardElement, cardsUserInfo, userID) {
-  const likeCardElement = cardElement.querySelector('.element__like');
-  if (likeCardElement) {
-    const likeElement = cardsUserInfo.likes.some(user => user._id === userID)
-    if (likeElement) {
-      likeCardElement.classList.add('element__like_active')
+function displayLike(getCardsUserSubject, cardsUserInfo) {
+  let cardParts = document.querySelector(`[data-id="${cardsUserInfo._id}"]`);
+  if (!cardParts) {
+    cardParts = getCardsUserSubject;
+  }
+  const likePartsCounter = cardParts.querySelector('.element__like-counter');
+  if (cardsUserInfo.likes.length > 0) {
+    likePartsCounter.classList.add('element__like-counter_active');
+    likePartsCounter.textContent = cardsUserInfo.likes.length;
+  } else {
+    likePartsCounter.classList.remove('element__like-counter_active');
+  }
+}
+
+function likeUsersInfo(cardParts, cardsUserInfo, usersID) {
+  const likeCardParts = cardParts.querySelector('.element__like');
+  if (likeCardParts) {
+    const likes = cardsUserInfo.likes.some(user => user._id === usersID)
+    if (likes) {
+      likeCardParts.classList.add('element__like_active')
     }
   }
 }
 
-function displayLike(cardUserSubject, cardsUserInfo) {
-  let cardElement = document.querySelector(`[data-id="${cardsUserInfo._id}"]`);
-  if (!cardElement) {
-    cardElement = cardUserSubject;
-  }
-  const likeCounterElement = cardElement.querySelector('.element__like-counter');
-  if (cardsUserInfo.likes.length > 0) {
-    likeCounterElement.classList.add('element__like-counter_active');
-    likeCounterElement.textContent = cardsUserInfo.likes.length;
-  } else {
-    likeCounterElement.classList.remove('element__like-counter_active');
-  }
+function displayCounterLikes(userCardsId, userLikesNumber) {
+  const cardParts = document.querySelector(`[data-id="${userCardsId}"]`);
+  const likeCounter = cardParts.querySelector('.element__like-counter');
+  likeCounter.textContent = userLikesNumber;
 }
 
-function displayCounterLike(userCardId, likeNumber) {
-  const cardElement = document.querySelector(`[data-id="${userCardId}"]`);
-  const likeCounter = cardElement.querySelector('.element__like-counter');
-  likeCounter.textContent = likeNumber;
-}
-
-function showLike(cardsUserInfo) {
-  displayCounterLike(cardsUserInfo._id, cardsUserInfo.likes.length);
+function displayLikes(cardsUserInfo) {
+  displayCounterLikes(cardsUserInfo._id, cardsUserInfo.likes.length);
   displayLike(null, cardsUserInfo);
 }
 
 function siftLike(evt) {
   if (evt.target.classList.contains('element__like_active')) {
-    const userCardId = findUsersCard(evt);
+    const userCardsId = findUsersCard(evt);
     evt.target.classList.toggle('element__like_active');
+<<<<<<< HEAD
     return api.deleteLikeCard(userCardId)
       .then(data => showLike(data))
+=======
+    return deliteLikeCard(userCardsId)
+      .then(data => displayLikes(data))
+>>>>>>> parent of f9d04e3 (Исправления 1)
       .catch(err => console.log(err));
   } if (evt.target.classList.contains('element__like')) {
-    const userCardId = findUsersCard(evt);
+    const userCardsId = findUsersCard(evt);
     evt.target.classList.toggle('element__like_active');
+<<<<<<< HEAD
     return api.putLikeCard(userCardId)
       .then(data => showLike(data))
+=======
+    return putLikeCard(userCardsId)
+      .then(data => displayLikes(data))
+>>>>>>> parent of f9d04e3 (Исправления 1)
       .catch(error => {
         console.log(error);
       })
   }
 }
 // Функции скрыть кнопку "удалить" и удаление карточки
-function displayDeliteElement(cardElement, cardsUserInfo, allUserId) {
+function displayDeliteElement(cardParts, cardsUserInfo, allUserId) {
   if (cardsUserInfo.owner._id === allUserId) {
-    const deliteIconUserCard = cardElement.querySelector('.element__delite');
+    const deliteIconUserCard = cardParts.querySelector('.element__delite');
     deliteIconUserCard.classList.add('element__delite_active');
   }
 }
 
 function removeCard(evt) {
+<<<<<<< HEAD
   const userCard = evt.target.closest('.element__cards');
   const userCardId = userCard.dataset.id;
   api.deleteCard(userCardId)
     .then(() => { userCard.remove(); })
+=======
+  const removeUserCards = evt.target.closest('.element__cards');
+  const userCardsId = removeUserCards.dataset.id;
+  deleteCard(userCardsId)
+    .then(() => { removeUserCards.remove(); })
+>>>>>>> parent of f9d04e3 (Исправления 1)
     .catch(error => {
       console.log(error);
     })
@@ -144,7 +219,7 @@ export function addNewItem(evt) {
       container.prepend(newCard);
       evt.target.reset();
       buttonSubmitAddForm.disabled = true;
-      closeModal(modalAddFormNewCard);
+      closeModal(modalAddFormNewCards);
     })
     .catch(error => {
       console.log(error);
