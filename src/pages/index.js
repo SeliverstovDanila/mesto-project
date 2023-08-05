@@ -12,6 +12,7 @@ import {
   popupAvatar,
   avatarNewPhoto,
 } from '../components/utils.js'
+<<<<<<< HEAD
 import { FormValidator } from '../components/FormValidator.js'
 import { PopupWithForm } from '../components/PopupWithForm.js'
 import { Section } from '../components/Section.js'
@@ -50,6 +51,21 @@ function addCards(cardUserElement, cardElement) {
   })
   container.append(fragmentUserCard);
 }
+=======
+import {
+  openModalProfile,
+  closeModalProfile,
+  handleAddClose,
+  closeModalZoom,
+  avatarModalFormOpen,
+  avatarModalFormClose,
+  handleAddModal,
+  handleSubmitAvatarUserProfile,
+  handleSubmitUserProfile
+} from '../components/modal.js'
+import { addNewItem } from '../components/card.js'
+import { enableValidation } from '../components/validate.js'
+>>>>>>> parent of 3a92dcc (card and validation functionality)
 
 const setValidation = {
   modalForm: '.popup__form-container',
@@ -60,8 +76,12 @@ const setValidation = {
   addErrorText: 'form__line_text-error_active'
 }
 
+<<<<<<< HEAD
 const validation = new FormValidator(setValidation);
 validation.enableValidation();
+=======
+enableValidation(setValidation);
+>>>>>>> parent of 3a92dcc (card and validation functionality)
 
 const popupProfile = new PopupWithForm(modalProfile, buttonEdit, (values) => {
   api.sendUserInfo(Object.values(values)[0], Object.values(values)[1])
@@ -86,6 +106,7 @@ const popupCardAdd = new PopupWithForm(modalAddFormNewCard, buttonOpenModalAddNe
 })
 popupCardAdd.setEventListeners();
 
+<<<<<<< HEAD
 const popupAvatarEdit = new PopupWithForm(popupAvatar, avatarButtonOpenModalForm, (values) => {
   api.refreshAvatar(Object.values(values)[0])
     .then(data => {
@@ -95,3 +116,8 @@ const popupAvatarEdit = new PopupWithForm(popupAvatar, avatarButtonOpenModalForm
     });
 })
 popupAvatarEdit.setEventListeners();
+=======
+const zoomPhoto = new PopupWithImage(popupZoom)
+zoomPhoto.setEventListeners();
+export { setValidation }
+>>>>>>> parent of 3a92dcc (card and validation functionality)
