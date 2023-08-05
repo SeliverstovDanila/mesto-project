@@ -76,6 +76,7 @@ const setValidation = {
   addErrorText: 'form__line_text-error_active'
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 const validation = new FormValidator(setValidation);
@@ -83,6 +84,10 @@ validation.enableValidation();
 =======
 enableValidation(setValidation);
 >>>>>>> parent of 3a92dcc (card and validation functionality)
+=======
+enableValidation(setValidation);
+loadPage();
+>>>>>>> parent of f9d04e3 (Исправления 1)
 =======
 enableValidation(setValidation);
 loadPage();

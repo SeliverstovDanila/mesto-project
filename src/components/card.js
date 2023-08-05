@@ -24,6 +24,9 @@ import {
 } from '../components/utils.js'
 
 import { deleteCard, putLikeCard, deliteLikeCard, sendCard, profileUserInfo, getUserCards } from '../components/api.js'
+<<<<<<< HEAD
+>>>>>>> parent of f9d04e3 (Исправления 1)
+=======
 >>>>>>> parent of f9d04e3 (Исправления 1)
 
     _getElement() {
@@ -162,8 +165,13 @@ function siftLike(evt) {
     const userCardsId = findUsersCard(evt);
     evt.target.classList.toggle('element__like_active');
 <<<<<<< HEAD
+<<<<<<< HEAD
     return api.deleteLikeCard(userCardId)
       .then(data => showLike(data))
+=======
+    return deliteLikeCard(userCardsId)
+      .then(data => displayLikes(data))
+>>>>>>> parent of f9d04e3 (Исправления 1)
 =======
     return deliteLikeCard(userCardsId)
       .then(data => displayLikes(data))
@@ -173,8 +181,13 @@ function siftLike(evt) {
     const userCardsId = findUsersCard(evt);
     evt.target.classList.toggle('element__like_active');
 <<<<<<< HEAD
+<<<<<<< HEAD
     return api.putLikeCard(userCardId)
       .then(data => showLike(data))
+=======
+    return putLikeCard(userCardsId)
+      .then(data => displayLikes(data))
+>>>>>>> parent of f9d04e3 (Исправления 1)
 =======
     return putLikeCard(userCardsId)
       .then(data => displayLikes(data))
@@ -194,15 +207,21 @@ function displayDeliteElement(cardParts, cardsUserInfo, allUserId) {
 
 function removeCard(evt) {
 <<<<<<< HEAD
+<<<<<<< HEAD
   const userCard = evt.target.closest('.element__cards');
   const userCardId = userCard.dataset.id;
   api.deleteCard(userCardId)
     .then(() => { userCard.remove(); })
 =======
+=======
+>>>>>>> parent of f9d04e3 (Исправления 1)
   const removeUserCards = evt.target.closest('.element__cards');
   const userCardsId = removeUserCards.dataset.id;
   deleteCard(userCardsId)
     .then(() => { removeUserCards.remove(); })
+<<<<<<< HEAD
+>>>>>>> parent of f9d04e3 (Исправления 1)
+=======
 >>>>>>> parent of f9d04e3 (Исправления 1)
     .catch(error => {
       console.log(error);
