@@ -1,10 +1,13 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 export class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl
     this._headers = options.headers
 =======
+=======
+>>>>>>> parent of f9d04e3 (Исправления 1)
 =======
 >>>>>>> parent of f9d04e3 (Исправления 1)
 import { nameInput, jobInput } from '../components/utils.js'
