@@ -1,3 +1,18 @@
+export const profileElement = {
+  profileName: '.profile__title',
+  profileAbout: '.profile__subtitle',
+  profileAvatar: '.profile__avatar-photo'
+}
+
+export const setValidation = {
+  modalForm: '.popup__form-container',
+  inputFormLine: '.form__line',
+  formButtonSubmit: '.popup__button-sumbit',
+  modalForminactiveButtonSubmit: 'popup__button-sumbit_disabled',
+  errorInputLineElement: 'form__line_type-error',
+  addErrorText: 'form__line_text-error_active'
+}
+
 // Модальное окно "Добавить карточку"
 export const modalAddFormNewCard = document.querySelector('#modal-card');
 export const buttonOpenModalAddNewCard = document.querySelector('.profile__addbutton');
@@ -27,18 +42,3 @@ export const buttonSubmitUserProfile = modalProfile.querySelector('.popup__butto
 // Карточки
 export const container = document.querySelector('.element');
 export const template = document.querySelector('#elements').content;
-
-export const profileElement = {
-  profileName: '.profile__title',
-  profileAbout: '.profile__subtitle',
-  profileAvatar: '.profile__avatar-photo'
-}
-
-export const setValidation = {
-  modalForm: '.popup__form-container',
-  inputFormLine: '.form__line',
-  formButtonSubmit: '.popup__button-sumbit',
-  modalForminactiveButtonSubmit: 'popup__button-sumbit_disabled',
-  errorInputLineElement: 'form__line_type-error',
-  addErrorText: 'form__line_text-error_active'
-}
