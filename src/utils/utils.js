@@ -19,11 +19,6 @@ export const formAddNewCard = modalAddFormNewCard.querySelector('#add-form');
 export const newPhotoLink = modalAddFormNewCard.querySelector("#card__url");
 export const buttonCloseFormAddNewCard = modalAddFormNewCard.querySelector('.popup__button-close_addform');
 export const buttonSubmitAddForm = modalAddFormNewCard.querySelector('.popup__button-sumbit');
-// Модальное окно "Увеличить фото"
-export const popupZoom = document.querySelector('#photo-zoom');
-export const buttonCloseFormPhotoZoom = popupZoom.querySelector('.popup__button-close_zoomform');
-export const popupFullImage = popupZoom.querySelector('.popup__image');
-export const popupZoomImageHeading = popupZoom.querySelector('.popup__image-name');
 // Модальное окно "Обновить аватар"
 export const popupAvatar = document.querySelector('#modal-avatar');
 export const popupAvatarIdForm = popupAvatar.querySelector('#avatar-form');
@@ -32,3 +27,18 @@ export const avatarButtonOpenModalForm = document.querySelector('.profile__avata
 export const avatarNewPhoto = document.querySelector('.profile__avatar-photo');
 export const avatarButtonCloseModalForm = popupAvatar.querySelector('.popup__button-close_avatar');
 export const avatarInputId = popupAvatar.querySelector('#user__avatar');
+
+export const profileElement = {
+  profileName: '.profile__title',
+  profileAbout: '.profile__subtitle',
+  profileAvatar: '.profile__avatar-photo'
+}
+
+export const setValidation = {
+  modalForm: '.popup__form-container',
+  inputFormLine: '.form__line',
+  formButtonSubmit: '.popup__button-sumbit',
+  modalForminactiveButtonSubmit: 'popup__button-sumbit_disabled',
+  errorInputLineElement: 'form__line_type-error',
+  addErrorText: 'form__line_text-error_active'
+}
