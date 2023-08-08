@@ -10,7 +10,8 @@ import {
   modalAddFormNewCard,
   popupAvatar,
   avatarNewPhoto,
-  setValidation
+  setValidation,
+  popupZoom
 } from '../utils/utils.js'
 import { FormValidator } from '../components/FormValidator.js'
 import { PopupWithForm } from '../components/PopupWithForm.js'
@@ -56,8 +57,8 @@ Promise.all([profileUserElement, cardUserElement])
 function addCards(cardUserElement, cardElement) {
   const fragmentUserCard = document.createDocumentFragment();
   cardUserElement.forEach(cardData => {
-    const card = new Card(cardData, '#elements', PopupWithImage, api, userId);
-    cardElement = card.createCard();
+    const card = new Card(cardData, '#elements', handleCardClick, api, userId);
+    cardElement = card.generateCard();
     container.append(cardElement);
   })
   container.append(fragmentUserCard);
@@ -81,7 +82,7 @@ const popupCardAdd = new PopupWithForm(modalAddFormNewCard, buttonOpenModalAddNe
   api.sendCard(Object.values(values)[0], Object.values(values)[1])
     .then(data => {
       const card = new Card(data, '#elements', PopupWithImage, api, userId);
-      const cardElement = card.createCard();
+      const cardElement = card.generateCard();
       container.prepend(cardElement);
     }).finally(() => {
       popupCardAdd.saveLoading(false);
@@ -98,3 +99,9 @@ const popupAvatarEdit = new PopupWithForm(popupAvatar, avatarButtonOpenModalForm
     });
 })
 popupAvatarEdit.setEventListeners();
+
+function handleCardClick(title, src) {
+  zoomPhoto.open(title, src);
+}
+const zoomPhoto = new PopupWithImage(popupZoom)
+zoomPhoto.setEventListeners();

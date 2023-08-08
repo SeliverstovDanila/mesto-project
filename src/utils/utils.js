@@ -12,7 +12,8 @@ export const setValidation = {
   errorInputLineElement: 'form__line_type-error',
   addErrorText: 'form__line_text-error_active'
 }
-
+//Модальное окно "Увеличить фото"
+export const popupZoom = document.querySelector('#photo-zoom')
 // Модальное окно "Добавить карточку"
 export const modalAddFormNewCard = document.querySelector('#modal-card');
 export const buttonOpenModalAddNewCard = document.querySelector('.profile__addbutton');

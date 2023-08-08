@@ -1,5 +1,5 @@
 export class Card {
-    constructor(data, selector, PopupWithImageClass, api, userId, openPhoto) {
+    constructor(data, selector, PopupWithImageClass, api, userId, openPhoto, handleCardClick) {
         this._selector = selector;
         this._title = data.name;
         this._photo = data.link;
@@ -10,6 +10,7 @@ export class Card {
         this._PopupWithImageClass = PopupWithImageClass;
         this._api = api;
         this._userId = userId;
+        this._handleCardClick = handleCardClick;
     }
 
     _getElement() {
@@ -24,44 +25,47 @@ export class Card {
         return cardTemplateElement
     }
 
-    createCard() {
+    generateCard() {
         this._element = this._getElement();
 
         this._photoElement = this._element.querySelector('.element__photo');
         this._titleElement = this._element.querySelector('.element__title');
         this._photoElement.src = this._photo;
-        this._photoElement.link = this._photoTitle;
+        this._photoElement.alt = this._photoTitle; //new alt
         this._titleElement.textContent = this._title;
 
         this._setlikeInfo();
         this._showLikeActive();
         this._showDeleteButton();
         this._setEventListeners();
-        this._openZoomPhoto();
+        // this._openZoomPhoto();
         return this._element
     }
 
     _setEventListeners() {
-        this._setTrashButtonEventListeners();
-        this._handleLikeListener();
-    }
-
-    _openZoomPhoto() {
+        // this._setTrashButtonEventListeners();
+        // this._handleLikeListener();
         this._photoElement.addEventListener('click', () => {
-            const popupZoom = document.querySelector('#photo-zoom');
-            const zoomPhoto = new this._PopupWithImageClass(popupZoom);
-            zoomPhoto.openZoom(this._title, this._photo);
-            const cross = document.querySelector('.popup__zoom .popup__button-close');
-            cross.addEventListener('click', zoomPhoto.close.bind(zoomPhoto))
-        })
-
+            this._handleCardClick(this._title, this._photo)
+        });
     }
 
-    _setTrashButtonEventListeners() {
-        this._trashButtonElement.addEventListener('click', () => {
-            this._removeCard();
-        })
-    }
+    // _openZoomPhoto() {
+    //     this._photoElement.addEventListener('click', () => {
+    //         const popupZoom = document.querySelector('#photo-zoom');
+    //         const zoomPhoto = new this._PopupWithImageClass(popupZoom);
+    //         zoomPhoto.openZoom(this._title, this._photo);
+    //         const cross = document.querySelector('.popup__zoom .popup__button-close');
+    //         cross.addEventListener('click', zoomPhoto.close.bind(zoomPhoto))
+    //     })
+
+    // }
+
+    // _setTrashButtonEventListeners() {
+    //     this._trashButtonElement.addEventListener('click', () => {
+    //         this._removeCard();
+    //     })
+    // }
 
     _setlikeInfo() {
         const likesAmountElement = this._element.querySelector('.element__like-counter');
