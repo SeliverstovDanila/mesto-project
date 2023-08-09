@@ -22,6 +22,7 @@ export class Card {
         return cardTemplateElement
     }
 
+    
     generateCard() {
         this._element = this._getElement();
 

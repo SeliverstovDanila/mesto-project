@@ -38,3 +38,4 @@ export const validation = {
   errorInputLineElement: 'form__line_type-error',
   addErrorText: 'form__line_text-error_active'
 }
+

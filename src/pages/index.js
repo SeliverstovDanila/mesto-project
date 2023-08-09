@@ -112,6 +112,7 @@ async function submitNewAvatar(data) {
   }
 }
 
+
 avatarButtonOpenModalForm.addEventListener('click', () => {
   addNewAvatar.open();
   // avatarFormValidation.hideAllErrors();

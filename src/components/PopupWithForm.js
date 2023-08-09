@@ -23,6 +23,7 @@ export class PopupWithForm extends Popup {
         }
     }
 
+    
     _getInputValues() {
         this._inputFormElement = {};
         this._popupInput.forEach((inputElement) => {
