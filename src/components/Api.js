@@ -27,7 +27,7 @@ export class Api {
       .then(this._getCheckResponseData)
   }
 
-  profileUserInfo = () => {
+  getUserInfo = () => {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers
     })

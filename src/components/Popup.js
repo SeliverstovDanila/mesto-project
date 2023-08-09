@@ -1,7 +1,7 @@
 export class Popup {
-    constructor(popup, editButton) {
+    constructor(popup) {
         this._popup = popup;
-        this._editButton = editButton;
+        // this._editButton = editButton;
         this._handleEscClose = this._handleEscClose.bind(this)
         this._overlayClickModalClose = this._overlayClickModalClose.bind(this)
     }
@@ -31,15 +31,10 @@ export class Popup {
     }
 
     setEventListeners() {
-        this._editButton.addEventListener('mousedown', () => {
-            this.open()
-        })
-        const crossButton = this._popup.querySelector('.popup__button-close');
-        crossButton.addEventListener('mousedown', () => {
-            this.close()
-        })
-        this._popup.addEventListener('submit', () => {
-            this.close()
+        this._popup.addEventListener('click', (evt) => {
+            if (evt.target.classList.contains('popup_open') || evt.target.classList.contains('popup__button-close')) {
+                this.close();
+            }
         })
     }
 }

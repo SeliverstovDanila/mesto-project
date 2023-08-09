@@ -6,6 +6,8 @@ export const formAddNewCard = modalAddFormNewCard.querySelector('#add-form');
 export const newPhotoLink = modalAddFormNewCard.querySelector("#card__url");
 export const buttonCloseFormAddNewCard = modalAddFormNewCard.querySelector('.popup__button-close_addform');
 export const buttonSubmitAddForm = modalAddFormNewCard.querySelector('.popup__button-sumbit');
+// Модальное окно - увеличить фото
+export const zoomPhotoCard = document.querySelector('#photo-zoom')
 // Модальное окно "Обновить аватар"
 export const popupAvatar = document.querySelector('#modal-avatar');
 export const popupAvatarIdForm = popupAvatar.querySelector('#avatar-form');
@@ -28,13 +30,7 @@ export const buttonSubmitUserProfile = modalProfile.querySelector('.popup__butto
 export const container = document.querySelector('.element');
 export const template = document.querySelector('#elements').content;
 
-export const profileElement = {
-  profileName: '.profile__title',
-  profileAbout: '.profile__subtitle',
-  profileAvatar: '.profile__avatar-photo'
-}
-
-export const setValidation = {
+export const validation = {
   modalForm: '.popup__form-container',
   inputFormLine: '.form__line',
   formButtonSubmit: '.popup__button-sumbit',

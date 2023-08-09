@@ -10,7 +10,13 @@ import {
   modalAddFormNewCard,
   popupAvatar,
   avatarNewPhoto,
-  setValidation
+  validation,
+  zoomPhotoCard,
+  modalFormProfile,
+  nameInput,
+  jobInput,
+  popupAvatarIdForm,
+  formAddNewCard
 } from '../utils/utils.js'
 import { FormValidator } from '../components/FormValidator.js'
 import { PopupWithForm } from '../components/PopupWithForm.js'
@@ -18,10 +24,150 @@ import { Section } from '../components/Section.js'
 import { Card } from '../components/Card.js'
 import { UserInfo } from '../components/UserInfo.js'
 import { PopupWithImage } from '../components/PopupWithImage.js'
-import { profileElement } from '../utils/utils.js'
+// import { profileElement } from '../utils/utils.js'
 import { Api } from '../components/Api.js'
 
-export let userId = null;
+let userId;
+
+// Добавить карточку
+const popupCardAdd = new PopupWithForm(modalAddFormNewCard, submitModalAddFormNewCard)
+popupCardAdd.setEventListeners();
+
+async function submitModalAddFormNewCard(data) {
+  popupCardAdd.saveLoading(true, 'Сохранение...');
+  try {
+    const result = await api.sendCard(data);
+    const card = addCard(result);
+    cardItem.tagItem(card);
+    popupCardAdd.close();
+  } catch (error) {
+    console.log(error)
+  } finally {
+    popupCardAdd.saveLoading(false);
+  }
+}
+
+buttonOpenModalAddNewCard.addEventListener('click', () => {
+  popupCardAdd.open();
+  // addFormValidation.hideAllErrors();
+});
+
+const addCardFormValidation = new FormValidator(formAddNewCard, validation);
+addCardFormValidation.enableValidation();
+
+// Обновить информацию профиля
+const popupProfile = new PopupWithForm(modalProfile, submitPopupProfile)
+popupProfile.setEventListeners();
+
+const profileElement = new UserInfo({
+  profileName: '.profile__title',
+  profileAbout: '.profile__subtitle',
+  profileAvatar: '.profile__avatar-photo'
+})
+
+async function submitPopupProfile(data) {
+  popupProfile.saveLoading(true, 'Сохранение...')
+  try {
+    console.log(data)
+    const result = await api.sendUserInfo(data);
+    profileElement.setUserInfo(result);
+    popupProfile.close();
+  } catch (error) {
+    console.log(error)
+  } finally {
+    popupProfile.saveLoading(false);
+  }
+}
+
+buttonEdit.addEventListener('click', () => {
+  const info = profileElement.getUserInfo();
+  popupProfile.setInputValue(info);
+  popupProfile.open();
+  renderProfileInput();
+  // editFormValidation.enableValidation();
+});
+
+function renderProfileInput() {
+  nameInput.value = profileTitle.textContent;
+  jobInput.value = profileSubtitle.textContent;
+}
+
+const editFormValidation = new FormValidator(modalFormProfile, validation);
+editFormValidation.enableValidation();
+
+// Обновить аватар
+const addNewAvatar = new PopupWithForm(popupAvatar, submitNewAvatar)
+addNewAvatar.setEventListeners();
+
+async function submitNewAvatar(data) {
+  addNewAvatar.saveLoading(true, 'Сохранение...')
+  try {
+    const result = await api.refreshAvatar(data);
+    profileElement.setUserInfo(result);
+    addNewAvatar.close();
+  } catch (error) {
+    console.log(error)
+  } finally {
+    addNewAvatar.saveLoading(false);
+  }
+}
+
+avatarButtonOpenModalForm.addEventListener('click', () => {
+  addNewAvatar.open();
+  // avatarFormValidation.hideAllErrors();
+})
+
+const avatarFormValidation = new FormValidator(popupAvatarIdForm, validation);
+avatarFormValidation.enableValidation();
+
+// Увеличить фото
+const zoomPhoto = new PopupWithImage(zoomPhotoCard);
+
+function handleCardClick(title, photo) {
+  zoomPhoto.open(title, photo)
+}
+
+// Добавить карточку, поставить лайк, убрать лайк
+function addCard(data) {
+  const card = new Card({
+    userId,
+    ownerId: data.owner._id,
+    id: data._id,
+    name: data.name,
+    link: data.link,
+    likes: data.likes
+  },
+    '#elements',
+    handleCardClick,
+    async () => {
+      try {
+        const result = await api.putLikeCard(data._id);
+        card.addLikeCard();
+        card._setlikeInfo(result);
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async () => {
+      try {
+        const result = await api.deleteLikeCard(data._id);
+        card.removeLikeCard();
+        card._setlikeInfo(result);
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async () => {
+      try {
+        const result = await api.deleteCard(data._id)
+        card.handleDeleteCard(result);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  )
+  return card.generateCard();
+}
 
 const api = new Api({
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-26',
@@ -33,68 +179,20 @@ const api = new Api({
 
 const cardItem = new Section({
   render: (data) => {
-    const newCard = addCards(data);
+    const newCard = addCard(data);
     cardItem.tagItem(newCard)
   }
 }, container);
 
-const profileUserElement = api.profileUserInfo()
-const cardUserElement = api.getUserCard()
+const profileUserElement = api.getUserInfo();
+const cardUserElement = api.getUserCard();
 
-Promise.all([profileUserElement, cardUserElement])
-  .then(results => {
-    const [profileData, cardsData] = results;
-    userId = profileData._id;
-    const user = new UserInfo(profileElement)
-    user.setUserInfo(profileData);
-    addCards(cardsData);
-  })
-  .catch(error => {
-    console.log(error);
-  })
-
-function addCards(cardUserElement, cardElement) {
-  const fragmentUserCard = document.createDocumentFragment();
-  cardUserElement.forEach(cardData => {
-    const card = new Card(cardData, '#elements', PopupWithImage, api, userId);
-    cardElement = card.createCard();
-    container.append(cardElement);
-  })
-  container.append(fragmentUserCard);
-}
-
-const validation = new FormValidator(setValidation);
-validation.enableValidation();
-
-const popupProfile = new PopupWithForm(modalProfile, buttonEdit, (values) => {
-  api.sendUserInfo(Object.values(values)[0], Object.values(values)[1])
-    .then(data => {
-      profileTitle.textContent = data.name;
-      profileSubtitle.textContent = data.about;
-    }).finally(() => {
-      popupProfile.saveLoading(false);
-    });
-})
-popupProfile.setEventListeners();
-
-const popupCardAdd = new PopupWithForm(modalAddFormNewCard, buttonOpenModalAddNewCard, (values) => {
-  api.sendCard(Object.values(values)[0], Object.values(values)[1])
-    .then(data => {
-      const card = new Card(data, '#elements', PopupWithImage, api, userId);
-      const cardElement = card.createCard();
-      container.prepend(cardElement);
-    }).finally(() => {
-      popupCardAdd.saveLoading(false);
-    });
-})
-popupCardAdd.setEventListeners();
-
-const popupAvatarEdit = new PopupWithForm(popupAvatar, avatarButtonOpenModalForm, (values) => {
-  api.refreshAvatar(Object.values(values)[0])
-    .then(data => {
-      avatarNewPhoto.style.backgroundImage = `url("${data.avatar}")`;
-    }).finally(() => {
-      popupAvatarEdit.saveLoading(false);
-    });
-})
-popupAvatarEdit.setEventListeners();
+  Promise.all([profileUserElement, cardUserElement])
+    .then(([profileData, cardsData]) => {
+        userId = profileData._id;
+        profileElement.setUserInfo(profileData);
+        cardItem.createItems(cardsData.reverse());
+    })
+    .catch(error => {
+      console.log(error);
+    })

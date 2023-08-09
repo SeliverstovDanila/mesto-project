@@ -1,11 +1,11 @@
 export class UserInfo {
-    constructor(profileElement) {
-        this._title = document.querySelector(profileElement.profileName);
-        this._about = document.querySelector(profileElement.profileAbout);
-        this._avatar = document.querySelector(profileElement.profileAvatar);
+    constructor({profileName, profileAbout, profileAvatar}) {
+        this._title = document.querySelector(profileName);
+        this._about = document.querySelector(profileAbout);
+        this._avatar = document.querySelector(profileAvatar);
     }
 
-    profileUserInfo() {
+    getUserInfo() {
         return {
             id: this._id,
             title: this._title.textContent,
