@@ -1,11 +1,12 @@
 export class FormValidator {
-    constructor(validationParametrs) {
+    constructor(form, validationParametrs) {
         this._modalForm = validationParametrs.modalForm;
         this._inputFormLine = validationParametrs.inputFormLine;
         this._formButtonSubmit = validationParametrs.formButtonSubmit;
         this._modalForminactiveButtonSubmit = validationParametrs.modalForminactiveButtonSubmit;
         this._errorInputLineElement = validationParametrs.errorInputLineElement;
         this._addErrorText = validationParametrs.addErrorText;
+        this._form = form;
     }
 
     _displayInputError = (formElement, inputElement, errorMessage, errorInputLineElement, addErrorText) => {
@@ -76,20 +77,17 @@ export class FormValidator {
         });
     };
 
-    
-    enableValidation = () => {
-        const formList = Array.from(document.querySelectorAll(this._modalForm));
 
-        formList.forEach((formElement) => {
-            this._setEventListeners(
-                formElement,
-                this._modalForm,
-                this._inputFormLine,
-                this._formButtonSubmit,
-                this._modalForminactiveButtonSubmit,
-                this._errorInputLineElement,
-                this._addErrorText
-            );
-        });
+    enableValidation = () => {
+        this._setEventListeners(
+            this._form,
+            this._modalForm,
+            this._inputFormLine,
+            this._formButtonSubmit,
+            this._modalForminactiveButtonSubmit,
+            this._errorInputLineElement,
+            this._addErrorText
+        );
+
     };
 }
