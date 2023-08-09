@@ -22,7 +22,6 @@ export class Card {
         return cardTemplateElement
     }
 
-    
     generateCard() {
         this._element = this._getElement();
 
@@ -60,8 +59,8 @@ export class Card {
         });
     }
 
-    _setlikeInfo(result) { // result - в index.js обявленная константа с названием result для запроса на сервер, setlikeInfo - используется в index.js
-        this._likesAmountElement.textContent = `${result.likes.length}`;
+    setlikeInfo(result) { // result - в index.js обявленная константа с названием result для запроса на сервер, setlikeInfo - используется в index.js
+        this._likesAmountElement.textContent = `${result._likes.length}`;
     }
 
     _showDeleteButton() {
@@ -82,9 +81,9 @@ export class Card {
         });
         this._likeButtonElement.addEventListener('click', () => {
             if (this._likeButtonElement.classList.contains('element__like_active')) {
-                this._removeLikeCard();
+                this.removeLikeCard();
             } else {
-                this._addLikeCard();
+                this.addLikeCard();
             }
         });
         this._trashButton.addEventListener('click', () => {

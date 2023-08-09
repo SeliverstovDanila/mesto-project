@@ -1,8 +1,8 @@
 import { Popup } from "./Popup.js";
 
 export class PopupWithForm extends Popup {
-    constructor(popup, editButton, submitForm) {
-        super(popup, editButton);
+    constructor(popup, submitForm) {
+        super(popup);
         this._popupForm = this._popup.querySelector('.popup__form-container')
         this._popupInput = this._popup.querySelectorAll('.form__line')
         this._saveButton = this._popup.querySelector('.popup__button-sumbit')
@@ -23,7 +23,7 @@ export class PopupWithForm extends Popup {
         }
     }
 
-    
+
     _getInputValues() {
         this._inputFormElement = {};
         this._popupInput.forEach((inputElement) => {
@@ -40,8 +40,7 @@ export class PopupWithForm extends Popup {
 
     setEventListeners() {
         super.setEventListeners();
-        this._popupForm.addEventListener('submit', (evt) => {
-            this.saveLoading(true);
+        this._popup.addEventListener('submit', (evt) => {
             evt.preventDefault();
             this._submitForm(this._getInputValues());
         })

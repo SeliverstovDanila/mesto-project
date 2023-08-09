@@ -36,7 +36,7 @@ popupCardAdd.setEventListeners();
 async function submitModalAddFormNewCard(data) {
   popupCardAdd.saveLoading(true, 'Сохранение...');
   try {
-    const result = await api.sendCard(data);
+    const result = await api.getUserCard(data);
     const card = addCard(result);
     cardItem.tagItem(card);
     popupCardAdd.close();
@@ -112,7 +112,6 @@ async function submitNewAvatar(data) {
   }
 }
 
-
 avatarButtonOpenModalForm.addEventListener('click', () => {
   addNewAvatar.open();
   // avatarFormValidation.hideAllErrors();
@@ -132,7 +131,7 @@ function handleCardClick(title, photo) {
 function addCard(data) {
   const card = new Card({
     userId,
-    ownerId: data.owner._id,
+    ownerId: data._ownerId,
     id: data._id,
     name: data.name,
     link: data.link,
@@ -144,7 +143,7 @@ function addCard(data) {
       try {
         const result = await api.putLikeCard(data._id);
         card.addLikeCard();
-        card._setlikeInfo(result);
+        card.setlikeInfo(result);
       } catch (error) {
         console.log(error)
       }
@@ -153,7 +152,7 @@ function addCard(data) {
       try {
         const result = await api.deleteLikeCard(data._id);
         card.removeLikeCard();
-        card._setlikeInfo(result);
+        card.setlikeInfo(result);
       } catch (error) {
         console.log(error)
       }
