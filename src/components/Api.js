@@ -59,11 +59,14 @@ export class Api {
       .then(this._getCheckResponseData)
   };
 
-  sendCard(data) {
+  sendCard(name, link) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        name: name,
+        link: link
+      }),
     })
       .then(this._getCheckResponseData)
   }

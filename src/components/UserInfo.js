@@ -20,7 +20,6 @@ export class UserInfo {
     }
 
     setUserAvatar(data) {
-        if (data.avatar) this._avatar.src = data.avatar;
-        if (data.name) this._avatar.alt = data.name;
+        if (data.avatar) this._avatar.style.backgroundImage = `url("${data.avatar}")`;
     }
 }

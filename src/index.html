@@ -65,14 +65,14 @@
             <form class="popup__form-container" id="add-form" name="userprofile" novalidate>
                 <fieldset class="form">
                     <label class="form__label">
-                        <input type="text" name="usersname" placeholder="Название"
+                        <input type="text" name="name" placeholder="Название"
                             class="form__line popup__line_user_name" id="card__addname" minlength="2" maxlength="40"
                             pattern="^[a-z A-Z а-я А-Я \-]+$"
                             data-error-message="Поле может содержать только буквы, знаки дефиса и пробелы." required>
                         <span class="form__line_text-error card__addname-error">Добавьте название для фото</span>
                     </label>
                     <label class="form__label">
-                        <input type="url" name="usersinfo" placeholder="Ссылка на картинку"
+                        <input type="url" name="link" placeholder="Ссылка на картинку"
                             class="form__line popup__line_user_info" id="card__url" required>
                         <span class="form__line_text-error card__url-error">Введите адрес сайта</span>
                     </label>

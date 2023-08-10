@@ -27,27 +27,82 @@ import { Api } from '../components/Api.js'
 
 let userId;
 
+const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-26',
+  headers: {
+    authorization: 'c647b017-72a1-4b0d-aa7e-3955d3146485',
+    'Content-Type': 'application/json'
+  }
+});
+
+const cardItem = new Section({
+  render: (data, userId) => {
+    const newCard = addCard(data, userId);
+    cardItem.tagItem(newCard)
+  }
+}, container);
+
+const profileUserElement = api.getUserInfo();
+const cardUserElement = api.getUserCard();
+
+Promise.all([profileUserElement, cardUserElement])
+  .then(([profileData, cardsData]) => {
+    userId = profileData._id;
+    userInfo.setUserInfo(profileData);
+    cardItem.createItems(cardsData.reverse(), userId);
+  })
+  .catch(error => {
+    console.log(error);
+  })
+
+
+function addCard(data, userId) {
+  const card = new Card(data, '#elements', handleCardClick, userId,
+    () => {
+      api.deleteCard(data._id)
+        .then((result) => card.handleDeleteCard(result));
+    },
+    () => {
+      api.putLikeCard(data._id)
+        .then((result) => {
+          card.addLikeCard();
+          card.setlikeInfo(result.likes);
+        })
+    },
+    () => {
+      api.deleteLikeCard(data._id)
+        .then((result) => {
+          card.removeLikeCard();
+          card.setlikeInfo(result.likes);
+        })
+    }
+  )
+  return card.generateCard();
+}
+
 // Добавить карточку
 const popupCardAdd = new PopupWithForm(modalAddFormNewCard, submitModalAddFormNewCard)
 popupCardAdd.setEventListeners();
 
-async function submitModalAddFormNewCard(data) {
-  popupCardAdd.saveLoading(true, 'Сохранение...');
-  try {
-    const result = await api.getUserCard(data);
-    const card = addCard(result);
-    cardItem.tagItem(card);
-    popupCardAdd.close();
-  } catch (error) {
-    console.log(error)
-  } finally {
-    popupCardAdd.saveLoading(false);
-  }
+
+function submitModalAddFormNewCard(data) {
+  popupCardAdd.saveLoading(true);
+  api.sendCard(data.name, data.link)
+    .then(result => {
+      const card = addCard(result, userId);
+      cardItem.tagItem(card);
+      popupCardAdd.close();
+    })
+    .catch(error => {
+      console.log(error);
+    })
+    .finally(() => {
+      popupCardAdd.saveLoading(false);
+    })
 }
 
 buttonOpenModalAddNewCard.addEventListener('click', () => {
   popupCardAdd.open();
-  // addFormValidation.hideAllErrors();
 });
 
 const addCardFormValidation = new FormValidator(formAddNewCard, validation);
@@ -63,25 +118,28 @@ const userInfo = new UserInfo({
   profileAvatar: '.profile__avatar-photo'
 })
 
-async function submitPopupProfile(data) {
-  popupProfile.saveLoading(true, 'Сохранение...')
-  try {
-    const result = await api.getUserInfo(data);
-    userInfo.setUserInfo(result);
-    popupProfile.close();
-  } catch (error) {
-    console.log(error)
-  } finally {
-    popupProfile.saveLoading(false);
-  }
+
+function submitPopupProfile(data) {
+  popupProfile.saveLoading(true);
+  api.sendUserInfo(data.usersname, data.usersinfo)
+    .then(result => {
+      userInfo.setUserInfo(result);
+      popupProfile.close();
+    })
+    .catch(error => {
+      console.log(error);
+    })
+    .finally(() => {
+      popupProfile.saveLoading(false);
+    })
 }
+
 
 buttonEdit.addEventListener('click', () => {
   const info = userInfo.getUserInfo();
   popupProfile.setInputValue(info);
   popupProfile.open();
   renderProfileInput();
-  // editFormValidation.enableValidation();
 });
 
 function renderProfileInput() {
@@ -96,22 +154,23 @@ editFormValidation.enableValidation();
 const addNewAvatar = new PopupWithForm(popupAvatar, submitNewAvatar)
 addNewAvatar.setEventListeners();
 
-async function submitNewAvatar(data) {
-  addNewAvatar.saveLoading(true, 'Сохранение...')
-  try {
-    const result = await api.refreshAvatar(data);
-    userInfo.setUserAvatar(result);
-    addNewAvatar.close();
-  } catch (error) {
-    console.log(error)
-  } finally {
-    addNewAvatar.saveLoading(false);
-  }
+function submitNewAvatar(data) {
+  addNewAvatar.saveLoading(true);
+  api.refreshAvatar(data.usersavatar)
+    .then(result => {
+      userInfo.setUserAvatar(result);
+      addNewAvatar.close();
+    })
+    .catch(error => {
+      console.log(error);
+    })
+    .finally(() => {
+      addNewAvatar.saveLoading(false);
+    })
 }
 
 avatarButtonOpenModalForm.addEventListener('click', () => {
   addNewAvatar.open();
-  // avatarFormValidation.hideAllErrors();
 })
 
 const avatarFormValidation = new FormValidator(popupAvatarIdForm, validation);
@@ -122,75 +181,5 @@ const zoomPhoto = new PopupWithImage(zoomPhotoCard);
 zoomPhoto.setEventListeners();
 
 function handleCardClick(title, photo) {
-  zoomPhoto.open(title, photo)
+  zoomPhoto.open(title, photo);
 }
-
-// Поставить лайк, убрать лайк
-function addCard(data) {
-  const card = new Card({
-    userId,
-    ownerId: data._ownerId,
-    id: data._id,
-    name: data.name,
-    link: data.link,
-    likes: data.likes
-  },
-    '#elements',
-    handleCardClick,
-    async () => {
-      try {
-        const result = await api.putLikeCard(data._id);
-        card.addLikeCard();
-        card.setlikeInfo(result);
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    async () => {
-      try {
-        const result = await api.deleteLikeCard(data._id);
-        card.removeLikeCard();
-        card.setlikeInfo(result);
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    async () => {
-      try {
-        const result = await api.deleteCard(data._id)
-        card.handleDeleteCard(result);
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  )
-  return card.generateCard();
-}
-
-const api = new Api({
-  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-26',
-  headers: {
-    authorization: 'c647b017-72a1-4b0d-aa7e-3955d3146485',
-    'Content-Type': 'application/json'
-  }
-});
-
-const cardItem = new Section({
-  render: (data) => {
-    const newCard = addCard(data);
-    cardItem.tagItem(newCard)
-  }
-}, container);
-
-const profileUserElement = api.getUserInfo();
-const cardUserElement = api.getUserCard();
-
-Promise.all([profileUserElement, cardUserElement])
-  .then(([profileData, cardsData]) => {
-    userId = profileData._id;
-    userInfo.setUserInfo(profileData);
-    cardItem.createItems(cardsData.reverse());
-  })
-  .catch(error => {
-    console.log(error);
-  })

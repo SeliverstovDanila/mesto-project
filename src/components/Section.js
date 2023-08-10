@@ -8,9 +8,9 @@ export class Section {
         this._selector.prepend(item)
     }
 
-    createItems(items) {
+    createItems(items, userId) {
         items.forEach(element => {
-            this._render(element)
+            this._render(element, userId)
         })
     }
 }
