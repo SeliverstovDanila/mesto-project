@@ -7,7 +7,7 @@ export class UserInfo {
 
     getUserInfo() {
         return {
-            id: this._id,
+            // id: this._id,
             title: this._title.textContent,
             about: this._about.textContent,
             avatar: this._avatar.style.backgroundImage
@@ -15,8 +15,13 @@ export class UserInfo {
     }
 
     setUserInfo(userData) {
-        this._title.textContent = userData.name;
-        this._about.textContent = userData.about;
-        this._avatar.style.backgroundImage = `url("${userData.avatar}")`;
+        if (userData.name) this._title.textContent = userData.name;
+        if (userData.about) this._about.textContent = userData.about;
+        this.setUserAvatar(userData)
+    }
+
+    setUserAvatar(userData) {
+        if (userData.avatar) this._avatar.style.backgroundImage = userData.avatar;
+        if (userData.name) this._avatar.style.backgroundImage = userData.name;
     }
 }
