@@ -7,8 +7,9 @@ export class Api {
   _getCheckResponseData(res) {
     if (!res.ok) {
       return Promise.reject(`Ошибка: ${res.status}`);
+    } else {
+      return res.json();
     }
-    return res.json();
   }
 
   getUserCard = () => {
@@ -67,16 +68,16 @@ export class Api {
       .then(this._getCheckResponseData)
   }
 
-  putLikeCard = (userCardsId) => {
-    return fetch(`${this._baseUrl}/cards/likes/${userCardsId}`, {
+  putLikeCard = (id) => {
+    return fetch(`${this._baseUrl}/cards/likes/${id}`, {
       method: 'PUT',
       headers: this._headers
     })
       .then(this._getCheckResponseData)
   }
 
-  deleteLikeCard = (userCardsId) => {
-    return fetch(`${this._baseUrl}/cards/likes/${userCardsId}`, {
+  deleteLikeCard = (id) => {
+    return fetch(`${this._baseUrl}/cards/likes/${id}`, {
       method: 'DELETE',
       headers: this._headers
     })

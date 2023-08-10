@@ -9,7 +9,6 @@ import {
   profileSubtitle,
   modalAddFormNewCard,
   popupAvatar,
-  avatarNewPhoto,
   validation,
   zoomPhotoCard,
   modalFormProfile,
@@ -24,7 +23,6 @@ import { Section } from '../components/Section.js'
 import { Card } from '../components/Card.js'
 import { UserInfo } from '../components/UserInfo.js'
 import { PopupWithImage } from '../components/PopupWithImage.js'
-// import { profileElement } from '../utils/utils.js'
 import { Api } from '../components/Api.js'
 
 let userId;
@@ -36,7 +34,7 @@ popupCardAdd.setEventListeners();
 async function submitModalAddFormNewCard(data) {
   popupCardAdd.saveLoading(true, 'Сохранение...');
   try {
-    const result = await api.sendCard(data);
+    const result = await api.getUserCard(data);
     const card = addCard(result);
     cardItem.tagItem(card);
     popupCardAdd.close();
@@ -68,7 +66,6 @@ const profileElement = new UserInfo({
 async function submitPopupProfile(data) {
   popupProfile.saveLoading(true, 'Сохранение...')
   try {
-    console.log(data)
     const result = await api.sendUserInfo(data);
     profileElement.setUserInfo(result);
     popupProfile.close();
@@ -122,12 +119,13 @@ avatarFormValidation.enableValidation();
 
 // Увеличить фото
 const zoomPhoto = new PopupWithImage(zoomPhotoCard);
+zoomPhoto.setEventListeners();
 
 function handleCardClick(title, photo) {
   zoomPhoto.open(title, photo)
 }
 
-// Добавить карточку, поставить лайк, убрать лайк
+// Поставить лайк, убрать лайк
 function addCard(data) {
   const card = new Card({
     userId,
@@ -187,12 +185,12 @@ const cardItem = new Section({
 const profileUserElement = api.getUserInfo();
 const cardUserElement = api.getUserCard();
 
-  Promise.all([profileUserElement, cardUserElement])
-    .then(([profileData, cardsData]) => {
-        userId = profileData._id;
-        profileElement.setUserInfo(profileData);
-        cardItem.createItems(cardsData.reverse());
-    })
-    .catch(error => {
-      console.log(error);
-    })
+Promise.all([profileUserElement, cardUserElement])
+  .then(([profileData, cardsData]) => {
+    userId = profileData._id;
+    profileElement.setUserInfo(profileData);
+    cardItem.createItems(cardsData.reverse());
+  })
+  .catch(error => {
+    console.log(error);
+  })

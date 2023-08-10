@@ -6,8 +6,8 @@ export class Card {
         this._likes = data.likes;
         this._ownerId = data.ownerId;
         this._id = data.id
-        this._handleCardClick = handleCardClick;
         this._userId = data.userId;
+        this._handleCardClick = handleCardClick;
         this._addLikeCard = addLikeCard;
         this._removeLikeCard = removeLikeCard;
         this._deleteCard = deleteCard; // Взято из Api.js
@@ -72,7 +72,7 @@ export class Card {
 
     handleDeleteCard() {
         this._element.remove()
-        // this._element = null;
+        this._element = null;
     }
 
     _setEventListeners() {
