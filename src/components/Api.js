@@ -1,7 +1,7 @@
 export class Api {
-  constructor(options) {
-    this._baseUrl = options.baseUrl
-    this._headers = options.headers
+  constructor(data) {
+    this._baseUrl = data.baseUrl
+    this._headers = data.headers
   }
 
   _getCheckResponseData(res) {
@@ -19,7 +19,7 @@ export class Api {
       .then(this._getCheckResponseData)
   }
 
-  
+
   deleteCard = (userCardsId) => {
     return fetch(`${this._baseUrl}/cards/${userCardsId}`, {
       method: 'DELETE',
@@ -58,14 +58,11 @@ export class Api {
       .then(this._getCheckResponseData)
   };
 
-  sendCard = (name, link) => {
+  sendCard(data) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: this._headers,
-      body: JSON.stringify({
-        name: name,
-        link: link
-      })
+      body: JSON.stringify(data),
     })
       .then(this._getCheckResponseData)
   }

@@ -60,7 +60,7 @@ export class Card {
     }
 
     setlikeInfo(result) { // result - в index.js обявленная константа с названием result для запроса на сервер, setlikeInfo - используется в index.js
-        this._likesAmountElement.textContent = `${result._likes.length}`;
+        this._likesAmountElement.textContent = `${result.likes.length}`;
     }
 
     _showDeleteButton() {

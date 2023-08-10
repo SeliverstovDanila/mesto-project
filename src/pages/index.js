@@ -36,7 +36,7 @@ popupCardAdd.setEventListeners();
 async function submitModalAddFormNewCard(data) {
   popupCardAdd.saveLoading(true, 'Сохранение...');
   try {
-    const result = await api.getUserCard(data);
+    const result = await api.sendCard(data);
     const card = addCard(result);
     cardItem.tagItem(card);
     popupCardAdd.close();
