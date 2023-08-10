@@ -7,16 +7,20 @@ export class UserInfo {
 
     getUserInfo() {
         return {
-            id: this._id,
             title: this._title.textContent,
             about: this._about.textContent,
-            avatar: this._avatar.style.backgroundImage
+            avatar: this._avatar.style.backgroundImage,
         }
     }
 
-    setUserInfo(userData) {
-        this._title.textContent = userData.name;
-        this._about.textContent = userData.about;
-        this._avatar.style.backgroundImage = `url("${userData.avatar}")`;
+    setUserInfo(data) {
+        if (data.name) this._title.textContent = data.name;
+        if (data.about) this._about.textContent = data.about;
+        this.setUserAvatar(data)
+    }
+
+    setUserAvatar(data) {
+        if (data.avatar) this._avatar.src = data.avatar;
+        if (data.name) this._avatar.alt = data.name;
     }
 }

@@ -100,7 +100,7 @@ async function submitNewAvatar(data) {
   addNewAvatar.saveLoading(true, 'Сохранение...')
   try {
     const result = await api.refreshAvatar(data);
-    userInfo.getUserInfo(result);
+    userInfo.setUserAvatar(result);
     addNewAvatar.close();
   } catch (error) {
     console.log(error)
