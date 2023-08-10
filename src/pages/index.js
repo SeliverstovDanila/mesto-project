@@ -57,7 +57,7 @@ addCardFormValidation.enableValidation();
 const popupProfile = new PopupWithForm(modalProfile, submitPopupProfile)
 popupProfile.setEventListeners();
 
-const profileElement = new UserInfo({
+const userInfo = new UserInfo({
   profileName: '.profile__title',
   profileAbout: '.profile__subtitle',
   profileAvatar: '.profile__avatar-photo'
@@ -66,8 +66,8 @@ const profileElement = new UserInfo({
 async function submitPopupProfile(data) {
   popupProfile.saveLoading(true, 'Сохранение...')
   try {
-    const result = await api.sendUserInfo(data);
-    profileElement.setUserInfo(result);
+    const result = await api.getUserInfo(data);
+    userInfo.setUserInfo(result);
     popupProfile.close();
   } catch (error) {
     console.log(error)
@@ -77,7 +77,7 @@ async function submitPopupProfile(data) {
 }
 
 buttonEdit.addEventListener('click', () => {
-  const info = profileElement.getUserInfo();
+  const info = userInfo.getUserInfo();
   popupProfile.setInputValue(info);
   popupProfile.open();
   renderProfileInput();
@@ -100,7 +100,7 @@ async function submitNewAvatar(data) {
   addNewAvatar.saveLoading(true, 'Сохранение...')
   try {
     const result = await api.refreshAvatar(data);
-    profileElement.setUserAvatar(result);
+    userInfo.getUserInfo(result);
     addNewAvatar.close();
   } catch (error) {
     console.log(error)
@@ -188,7 +188,7 @@ const cardUserElement = api.getUserCard();
 Promise.all([profileUserElement, cardUserElement])
   .then(([profileData, cardsData]) => {
     userId = profileData._id;
-    profileElement.setUserInfo(profileData);
+    userInfo.setUserInfo(profileData);
     cardItem.createItems(cardsData.reverse());
   })
   .catch(error => {
