@@ -24,11 +24,11 @@ export class PopupWithForm extends Popup {
 
 
     _getInputValues() {
-        this._inputFormElement = {};
+        this._inputValues = {};
         this._popupInput.forEach((inputElement) => {
-            this._inputFormElement[inputElement.name] = inputElement.value;
+            this._inputValues[inputElement.name] = inputElement.value;
         })
-        return this._inputFormElement
+        return this._inputValues
     }
 
     setInputValue(data) {

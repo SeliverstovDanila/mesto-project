@@ -1,11 +1,11 @@
 export class Section {
     constructor({ render }, container) {
         this._render = render
-        this._selector = container
+        this._container = container
     }
 
-    tagItem(item) {
-        this._selector.prepend(item)
+    addItem(item) {
+        this._container.prepend(item)
     }
 
     createItems(items, userId) {

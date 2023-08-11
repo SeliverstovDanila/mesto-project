@@ -38,7 +38,7 @@ const api = new Api({
 const cardItem = new Section({
   render: (data, userId) => {
     const newCard = addCard(data, userId);
-    cardItem.tagItem(newCard)
+    cardItem.addItem(newCard)
   }
 }, container);
 
@@ -90,7 +90,7 @@ function submitModalAddFormNewCard(data) {
   api.sendCard(data.name, data.link)
     .then(result => {
       const card = addCard(result, userId);
-      cardItem.tagItem(card);
+      cardItem.addItem(card);
       popupCardAdd.close();
     })
     .catch(error => {
