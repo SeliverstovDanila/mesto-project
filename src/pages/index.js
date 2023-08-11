@@ -5,8 +5,6 @@ import {
   buttonEdit,
   container,
   modalProfile,
-  profileTitle,
-  profileSubtitle,
   modalAddFormNewCard,
   popupAvatar,
   validation,
@@ -55,18 +53,22 @@ Promise.all([profileUserElement, cardUserElement])
     console.log(error);
   })
 
-
 function addCard(data, userId) {
   const card = new Card(data, '#elements', handleCardClick, userId,
     () => {
       api.deleteCard(data._id)
-        .then((result) => card.handleDeleteCard(result));
+        .then((result) => card.handleDeleteCard(result))
+        .catch(error => {
+          console.log(error);
+        })
     },
     () => {
       api.putLikeCard(data._id)
         .then((result) => {
           card.addLikeCard();
           card.setlikeInfo(result.likes);
+        }).catch(error => {
+          console.log(error);
         })
     },
     () => {
@@ -74,16 +76,16 @@ function addCard(data, userId) {
         .then((result) => {
           card.removeLikeCard();
           card.setlikeInfo(result.likes);
+        }).catch(error => {
+          console.log(error);
         })
-    }
-  )
+    })
   return card.generateCard();
 }
 
 // Добавить карточку
 const popupCardAdd = new PopupWithForm(modalAddFormNewCard, submitModalAddFormNewCard)
 popupCardAdd.setEventListeners();
-
 
 function submitModalAddFormNewCard(data) {
   popupCardAdd.saveLoading(true);
@@ -118,7 +120,6 @@ const userInfo = new UserInfo({
   profileAvatar: '.profile__avatar-photo'
 })
 
-
 function submitPopupProfile(data) {
   popupProfile.saveLoading(true);
   api.sendUserInfo(data.usersname, data.usersinfo)
@@ -134,18 +135,13 @@ function submitPopupProfile(data) {
     })
 }
 
-
 buttonEdit.addEventListener('click', () => {
   const info = userInfo.getUserInfo();
   popupProfile.setInputValue(info);
   popupProfile.open();
-  renderProfileInput();
+  nameInput.value = info.title
+  jobInput.value = info.about
 });
-
-function renderProfileInput() {
-  nameInput.value = profileTitle.textContent;
-  jobInput.value = profileSubtitle.textContent;
-}
 
 const editFormValidation = new FormValidator(modalFormProfile, validation);
 editFormValidation.enableValidation();
