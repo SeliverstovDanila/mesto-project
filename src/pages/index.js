@@ -1,54 +1,181 @@
 import '../pages/index.css'
 import {
-  buttonEdit,
-  modalFormProfile,
-  profileClose,
   buttonOpenModalAddNewCard,
-  formAddNewCard,
-  buttonCloseFormAddNewCard,
-  buttonCloseFormPhotoZoom,
   avatarButtonOpenModalForm,
-  avatarButtonCloseModalForm,
+  buttonEdit,
+  container,
+  modalProfile,
+  modalAddFormNewCard,
+  popupAvatar,
+  validation,
+  zoomPhotoCard,
+  modalFormProfile,
+  nameInput,
+  jobInput,
   popupAvatarIdForm,
-} from '../components/utils.js'
-import {
-  openModalProfile,
-  closeModalProfile,
-  handleAddClose,
-  closeModalZoom,
-  avatarModalFormOpen,
-  avatarModalFormClose,
-  handleAddModal,
-  handleSubmitAvatarUserProfile,
-  handleSubmitUserProfile
-} from '../components/modal.js'
-import { addNewItem } from '../components/card.js'
-import { enableValidation } from '../components/validate.js'
+  formAddNewCard
+} from '../utils/utils.js'
+import { FormValidator } from '../components/FormValidator.js'
+import { PopupWithForm } from '../components/PopupWithForm.js'
+import { Section } from '../components/Section.js'
+import { Card } from '../components/Card.js'
+import { UserInfo } from '../components/UserInfo.js'
+import { PopupWithImage } from '../components/PopupWithImage.js'
+import { Api } from '../components/Api.js'
 
-const setValidation = {
-  modalForm: '.popup__form-container',
-  inputFormLine: '.form__line',
-  formButtonSubmit: '.popup__button-sumbit',
-  modalForminactiveButtonSubmit: 'popup__button-sumbit_disabled',
-  errorInputLineElement: 'form__line_type-error',
-  addErrorText: 'form__line_text-error_active'
+let userId;
+
+const api = new Api({
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-26',
+  headers: {
+    authorization: 'c647b017-72a1-4b0d-aa7e-3955d3146485',
+    'Content-Type': 'application/json'
+  }
+});
+
+const cardItem = new Section({
+  render: (data, userId) => {
+    const newCard = addCard(data, userId);
+    cardItem.addItem(newCard)
+  }
+}, container);
+
+const profileUserElement = api.getUserInfo();
+const cardUserElement = api.getUserCard();
+
+Promise.all([profileUserElement, cardUserElement])
+  .then(([profileData, cardsData]) => {
+    userId = profileData._id;
+    userInfo.setUserInfo(profileData);
+    cardItem.createItems(cardsData.reverse(), userId);
+  })
+  .catch(error => {
+    console.log(error);
+  })
+
+function addCard(data, userId) {
+  const card = new Card(data, '#elements', handleCardClick, userId,
+    () => {
+      api.deleteCard(data._id)
+        .then((result) => card.handleDeleteCard(result))
+        .catch(error => {
+          console.log(error);
+        })
+    },
+    () => {
+      api.putLikeCard(data._id)
+        .then((result) => {
+          card.addLikeCard();
+          card.setlikeInfo(result.likes);
+        }).catch(error => {
+          console.log(error);
+        })
+    },
+    () => {
+      api.deleteLikeCard(data._id)
+        .then((result) => {
+          card.removeLikeCard();
+          card.setlikeInfo(result.likes);
+        }).catch(error => {
+          console.log(error);
+        })
+    })
+  return card.generateCard();
 }
 
-enableValidation(setValidation);
+// Добавить карточку
+const popupCardAdd = new PopupWithForm(modalAddFormNewCard, submitModalAddFormNewCard)
+popupCardAdd.setEventListeners();
 
-// Модальное окно - профиль
-buttonEdit.addEventListener('click', openModalProfile);
-profileClose.addEventListener('click', closeModalProfile);
-modalFormProfile.addEventListener('submit', handleSubmitUserProfile);
-// Модальное окно - сохранить карточку
-buttonOpenModalAddNewCard.addEventListener('click', handleAddModal);
-buttonCloseFormAddNewCard.addEventListener('click', handleAddClose);
-formAddNewCard.addEventListener('submit', addNewItem);
-// Закрыть увеличение фото
-buttonCloseFormPhotoZoom.addEventListener('click', closeModalZoom);
-// Модальное окно - обновить аватар
-avatarButtonOpenModalForm.addEventListener('click', avatarModalFormOpen);
-avatarButtonCloseModalForm.addEventListener('click', avatarModalFormClose);
-popupAvatarIdForm.addEventListener('submit', handleSubmitAvatarUserProfile);
+function submitModalAddFormNewCard(data) {
+  popupCardAdd.saveLoading(true);
+  api.sendCard(data.name, data.link)
+    .then(result => {
+      const card = addCard(result, userId);
+      cardItem.addItem(card);
+      popupCardAdd.close();
+    })
+    .catch(error => {
+      console.log(error);
+    })
+    .finally(() => {
+      popupCardAdd.saveLoading(false);
+    })
+}
 
-export { setValidation }
+buttonOpenModalAddNewCard.addEventListener('click', () => {
+  popupCardAdd.open();
+});
+
+const addCardFormValidation = new FormValidator(formAddNewCard, validation);
+addCardFormValidation.enableValidation();
+
+// Обновить информацию профиля
+const popupProfile = new PopupWithForm(modalProfile, submitPopupProfile)
+popupProfile.setEventListeners();
+
+const userInfo = new UserInfo({
+  profileName: '.profile__title',
+  profileAbout: '.profile__subtitle',
+  profileAvatar: '.profile__avatar-photo'
+})
+
+function submitPopupProfile(data) {
+  popupProfile.saveLoading(true);
+  api.sendUserInfo(data.usersname, data.usersinfo)
+    .then(result => {
+      userInfo.setUserInfo(result);
+      popupProfile.close();
+    })
+    .catch(error => {
+      console.log(error);
+    })
+    .finally(() => {
+      popupProfile.saveLoading(false);
+    })
+}
+
+buttonEdit.addEventListener('click', () => {
+  const info = userInfo.getUserInfo();
+  popupProfile.setInputValue(info);
+  popupProfile.open();
+  nameInput.value = info.title
+  jobInput.value = info.about
+});
+
+const editFormValidation = new FormValidator(modalFormProfile, validation);
+editFormValidation.enableValidation();
+
+// Обновить аватар
+const addNewAvatar = new PopupWithForm(popupAvatar, submitNewAvatar)
+addNewAvatar.setEventListeners();
+
+function submitNewAvatar(data) {
+  addNewAvatar.saveLoading(true);
+  api.refreshAvatar(data.usersavatar)
+    .then(result => {
+      userInfo.setUserAvatar(result);
+      addNewAvatar.close();
+    })
+    .catch(error => {
+      console.log(error);
+    })
+    .finally(() => {
+      addNewAvatar.saveLoading(false);
+    })
+}
+
+avatarButtonOpenModalForm.addEventListener('click', () => {
+  addNewAvatar.open();
+})
+
+const avatarFormValidation = new FormValidator(popupAvatarIdForm, validation);
+avatarFormValidation.enableValidation();
+
+// Увеличить фото
+const zoomPhoto = new PopupWithImage(zoomPhotoCard);
+zoomPhoto.setEventListeners();
+
+function handleCardClick(title, photo) {
+  zoomPhoto.open(title, photo);
+}
